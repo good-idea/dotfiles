@@ -1,3 +1,4 @@
+ZSH_THEME="agnoster"
 # Vars
 	HISTFILE=~/.zsh_history
 	SAVEHIST=1000 
@@ -52,6 +53,8 @@ autoload -U compinit
 
 plugins=(
 	docker
+	git
+	nvm-auto
 )
 
 for plugin ($plugins); do
@@ -83,4 +86,24 @@ if [[ "${terminfo[kcud1]}" != "" ]]; then
 fi
 
 source ~/dotfiles/zsh/prompt.sh
+# Composer
+PATH=$PATH:$HOME/.composer/vendor/bin
+PATH=$PATH:/usr/local/opt/rbenv/shims:/usr/local/sbin
+
+PATH=$PATH:/Users/Joseph/.themekit
+
+unset GEM_HOME
+
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+
+# export MANPATH="/usr/local/man:$MANPATH"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+
+# Aliases
+alias la="exa -abghl --git --color=automatic"
+alias git=hub
+alias flushDNS="sudo killall -HUP mDNSResponder"
+
 export PATH=$PATH:$HOME/dotfiles/utils

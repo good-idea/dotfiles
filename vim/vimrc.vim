@@ -42,6 +42,11 @@
 	set mouse=a
 	set incsearch
 
+" Scroll behavior
+	set scrolloff=5 
+	nnoremap <C-e> 3<C-e>
+	nnoremap <C-y> 3<C-y>
+
 " Language Specific
 	" Tabs
 		so ~/dotfiles/vim/tabs.vim
@@ -116,4 +121,64 @@
 
 " Fix for: https://github.com/fatih/vim-go/issues/1509
 
-filetype plugin indent on
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugins
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+set rtp+=~/dotfiles/vim/Vundle.vim
+call vundle#begin('~/dotfiles/vim/plugins')
+
+
+
+Plugin 'ctrlpvim/ctrlp.vim' " fuzzy find files
+" map fuzzyfinder (CtrlP) plugin
+nmap <silent> <leader>p :CtrlP<cr>
+" nmap <silent> <leader>p :CtrlPBuffer<cr>
+let g:ctrlp_map='<leader>t'
+let g:ctrlp_dotfiles=1
+let g:ctrlp_working_path_mode = 'ra'
+
+" CtrlP ignore patterns
+let g:ctrlp_custom_ignore = {
+            \ 'dir': '\.git$\|node_modules$\|\.hg$\|\.svn$',
+            \ 'file': '\.exe$\|\.so$'
+            \ }
+
+" search the nearest ancestor that contains .git, .hg, .svn
+let g:ctrlp_working_path_mode = 2
+
+" NERD Tree
+Plugin 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
+" close NERDTree after a file is opened
+let g:NERDTreeQuitOnOpen=0
+" show hidden files in NERDTree
+let NERDTreeShowHidden=1
+" Toggle NERDTree
+nmap <silent> <leader>b :NERDTreeToggle<cr>
+" expand to the path of the file in the current buffer
+nmap <silent> <leader>B :NERDTreeFind<cr>
+
+Plugin 'benmills/vimux'
+Plugin 'tpope/vim-fugitive' " the ultimate git helper
+Plugin 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
+Plugin 'leafgarland/typescript-vim' " TS Syntax
+Plugin 'Quramy/tsuquyomi' " TS errors
+Plugin 'pangloss/vim-javascript' " JS Syntax
+Plugin 'mxw/vim-jsx' " JSX Syntax
+Plugin 'elzr/vim-json' " JSON syntax
+Plugin 'prettier/vim-prettier' " JS Prettier
+let g:prettier#quickfix_enabled = 0
+
+let g:prettier#autoformat = 0
+autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+
+
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+

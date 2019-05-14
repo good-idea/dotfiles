@@ -7,3 +7,9 @@
 [submodule "zsh/plugins/oh-my-zsh"]
 	path = zsh/plugins/oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
+[submodule "vim/Vundle.vim"]
+	path = vim/Vundle.vim
+	url = https://github.com/VundleVim/Vundle.vim.git
+[submodule "tmux/tpm"]
+	path = tmux/tpm
+	url = https://github.com/tmux-plugins/tpm
