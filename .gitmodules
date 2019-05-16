@@ -13,3 +13,6 @@
 [submodule "tmux/tpm"]
 	path = tmux/tpm
 	url = https://github.com/tmux-plugins/tpm
+[submodule "zsh/plugins/zsh-manydots-magic"]
+	path = zsh/plugins/zsh-manydots-magic
+	url = https://github.com/knu/zsh-manydots-magic

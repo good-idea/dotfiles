@@ -73,8 +73,8 @@
 		vnoremap <leader>out yOprintf(, <esc>pA);<esc>h%a
 
 	" Typescript
-		autocmd BufNewFile,BufRead *.ts set syntax=javascript
-		autocmd BufNewFile,BufRead *.tsx set syntax=javascript
+		autocmd BufNewFile,BufRead *.ts set syntax=typescript
+		autocmd BufNewFile,BufRead *.tsx set syntax=typescript
 
 	" Markup
 		inoremap <leader>< <esc>I<<esc>A><esc>yypa/<esc>O<tab>
@@ -121,6 +121,16 @@
 
 " Fix for: https://github.com/fatih/vim-go/issues/1509
 
+"""
+" Auto Reload vimrc
+"""
+
+if has ('autocmd') " Remain compatible with earlier versions
+	augroup vimrc     " Source vim configuration upon save
+		autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
+		autocmd! BufWritePost $MYGVIMRC if has('gui_running') | so % | echom "Reloaded " . $MYGVIMRC | endif | redraw
+	augroup END
+endif " has autocmd
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins
@@ -134,6 +144,7 @@ call vundle#begin('~/dotfiles/vim/plugins')
 
 
 
+Plugin 'zxqfl/tabnine-vim'
 Plugin 'ctrlpvim/ctrlp.vim' " fuzzy find files
 " map fuzzyfinder (CtrlP) plugin
 nmap <silent> <leader>p :CtrlP<cr>
@@ -143,6 +154,8 @@ let g:ctrlp_dotfiles=1
 let g:ctrlp_working_path_mode = 'ra'
 
 " CtrlP ignore patterns
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+
 let g:ctrlp_custom_ignore = {
             \ 'dir': '\.git$\|node_modules$\|\.hg$\|\.svn$',
             \ 'file': '\.exe$\|\.so$'
@@ -162,6 +175,24 @@ nmap <silent> <leader>b :NERDTreeToggle<cr>
 " expand to the path of the file in the current buffer
 nmap <silent> <leader>B :NERDTreeFind<cr>
 
+let NERDTreeIgnore=['node_modules']
+
+Plugin 'w0rp/ale'
+let g:ale_linters = {
+			\ 'typescript': ['tslint'],
+			\ 'javascript': ['eslint', 'flow-language-server']
+			\}
+let g:ale_fixers = {
+	\   'typescript': ['prettier'],
+	\   'javascript': ['prettier'],
+	\   'css': ['prettier'],
+	\}
+let g:ale_fix_on_save = 1
+
+
+
+
+
 Plugin 'benmills/vimux'
 Plugin 'tpope/vim-fugitive' " the ultimate git helper
 Plugin 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
@@ -170,11 +201,11 @@ Plugin 'Quramy/tsuquyomi' " TS errors
 Plugin 'pangloss/vim-javascript' " JS Syntax
 Plugin 'mxw/vim-jsx' " JSX Syntax
 Plugin 'elzr/vim-json' " JSON syntax
-Plugin 'prettier/vim-prettier' " JS Prettier
-let g:prettier#quickfix_enabled = 0
+" Plugin 'prettier/vim-prettier' " JS Prettier
+" let g:prettier#quickfix_enabled = 0
 
-let g:prettier#autoformat = 0
-autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+" let g:prettier#autoformat = 0
+" autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 
 

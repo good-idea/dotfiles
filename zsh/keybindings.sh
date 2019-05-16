@@ -42,7 +42,7 @@
 
 # LS
 	function ctrl_l() {
-		BUFFER="ls"
+		BUFFER="clear"
 		zle accept-line
 	}
 	zle -N ctrl_l
