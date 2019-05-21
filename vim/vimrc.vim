@@ -133,6 +133,16 @@ if has ('autocmd') " Remain compatible with earlier versions
 endif " has autocmd
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Misc Settings 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set wildignore+=**/node_modules/**
+set wildignore+=**/flow-typed/**
+set wildignore+=**/build/**
+set wildignore+=**/dist/**
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -143,7 +153,8 @@ set rtp+=~/dotfiles/vim/Vundle.vim
 call vundle#begin('~/dotfiles/vim/plugins')
 
 
-
+Plugin 'tpope/vim-unimpaired' " Vim bracket shortcuts 
+Plugin 'tpope/vim-obsession' " Vim session management
 Plugin 'zxqfl/tabnine-vim'
 Plugin 'ctrlpvim/ctrlp.vim' " fuzzy find files
 " map fuzzyfinder (CtrlP) plugin
@@ -155,15 +166,30 @@ let g:ctrlp_working_path_mode = 'ra'
 
 " CtrlP ignore patterns
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+" Open in tabs by default
+let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("e")': ['<c-t>'],
+    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
+	\}
 
 let g:ctrlp_custom_ignore = {
             \ 'dir': '\.git$\|node_modules$\|\.hg$\|\.svn$',
             \ 'file': '\.exe$\|\.so$'
             \ }
 
-" search the nearest ancestor that contains .git, .hg, .svn
-let g:ctrlp_working_path_mode = 2
+" let g:ctrlp_working_path_mode = '' 
+let g:ctrlp_working_path_mode = 'ra' 
+let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
 
+if executable('ag')
+	  " Use Ag over Grep
+	  set grepprg=ag\ --nogroup\ --nocolor
+	  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+	  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
+  
+  
+  "
 " NERD Tree
 Plugin 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
 " close NERDTree after a file is opened
@@ -179,37 +205,64 @@ let NERDTreeIgnore=['node_modules']
 
 Plugin 'w0rp/ale'
 let g:ale_linters = {
-			\ 'typescript': ['tslint'],
-			\ 'javascript': ['eslint', 'flow-language-server']
-			\}
+	\	'typescript': ['tslint', 'tsserver'],
+	\ 	'javascript': ['eslint', 'flow-language-server']
+	\}
+" Use typescript-tslint-plugin instead. (install in each package and add to
+" tsconfig.json)
+let g:ale_linters_ignore = {'typescript': ['tslint']}
+	
 let g:ale_fixers = {
 	\   'typescript': ['prettier'],
 	\   'javascript': ['prettier'],
 	\   'css': ['prettier'],
 	\}
 let g:ale_fix_on_save = 1
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_change = 'always'
+let g:ale_sign_error = "◉"
+let g:ale_sign_warning = "◉"
+let g:ale_sign_column_always = 1
+" "   ~always keep the signcolumn open!!
+set signcolumn=yes
+augroup LanguageClient_config
+  autocmd!
+  autocmd User LanguageClientStarted setlocal signcolumn=yes
+  autocmd User LanguageClientStopped setlocal signcolumn=yes
+augroup END
 
+" highlight ALEError ctermbg=15 cterm=underline guibg=#ED6237 guifg=#F5F5F5
+" highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500 guibg=#F5F5F5
+" highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237 guibg=#F5F5F5
+set rtp+=~/dotfiles/submodules/fzf
 
-
-
-
+Plugin 'junegunn/fzf.vim'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'liuchengxu/space-vim-dark'
 Plugin 'benmills/vimux'
 Plugin 'tpope/vim-fugitive' " the ultimate git helper
 Plugin 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
 Plugin 'leafgarland/typescript-vim' " TS Syntax
-Plugin 'Quramy/tsuquyomi' " TS errors
 Plugin 'pangloss/vim-javascript' " JS Syntax
 Plugin 'mxw/vim-jsx' " JSX Syntax
 Plugin 'elzr/vim-json' " JSON syntax
+let g:vim_json_syntax_conceal = 0 " Disable vim-json quote concealing
+
 " Plugin 'prettier/vim-prettier' " JS Prettier
 " let g:prettier#quickfix_enabled = 0
 
 " let g:prettier#autoformat = 0
 " autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Color Scheme 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+colorscheme space-vim-dark
+hi Comment cterm=italic
 

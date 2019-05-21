@@ -16,3 +16,6 @@
 [submodule "zsh/plugins/zsh-manydots-magic"]
 	path = zsh/plugins/zsh-manydots-magic
 	url = https://github.com/knu/zsh-manydots-magic
+[submodule "submodules/fzf"]
+	path = submodules/fzf
+	url = https://github.com/junegunn/fzf
