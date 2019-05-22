@@ -8,7 +8,8 @@ ZSH_THEME="agnoster"
 	git config --global push.default current
 
 # Aliases
-	alias v="vim -p"
+	alias vim="nvim"
+	alias v="nvim -p"
 	mkdir -p /tmp/log
 	
 	# This is currently causing problems (fails when you run it anywhere that isn't a git project's root directory)

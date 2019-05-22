@@ -4,7 +4,6 @@
 s  list sessions
 $  name session
 g - prompts for session name and switches to it. Performs 'kind-of' name completion.
-Faster than the built-in prefix + s prompt for long session lists.
 C (shift + c) - prompt for creating a new session by name.
 X (shift + x) - kill current session without detaching tmux.
 S (shift + s) - switches to the last session.
@@ -12,8 +11,8 @@ The same as built-in prefix + L that everyone seems to override with some other 
 @ - promote current pane into a new session.
 Analogous to how prefix + ! breaks current pane to a new window.
 
-
-
+Ctrl+s - Save Sessions (resurrection)
+Ctrl+r - Restore Sessions (resurrection)
 
 
 ## Windows (tabs)

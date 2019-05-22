@@ -143,20 +143,23 @@ set wildignore+=**/dist/**
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugins
+" => Plugs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-set rtp+=~/dotfiles/vim/Vundle.vim
-call vundle#begin('~/dotfiles/vim/plugins')
+call plug#begin('~/.local/share/nvim/plugged')
 
 
-Plugin 'tpope/vim-unimpaired' " Vim bracket shortcuts 
-Plugin 'tpope/vim-obsession' " Vim session management
-Plugin 'zxqfl/tabnine-vim'
-Plugin 'ctrlpvim/ctrlp.vim' " fuzzy find files
+" set rtp+=~/dotfiles/vim/Vundle.vim
+" call vundle#begin('~/dotfiles/vim/plugins')
+
+
+Plug 'tpope/vim-unimpaired' " Vim bracket shortcuts 
+Plug 'tpope/vim-obsession' " Vim session management
+Plug 'zxqfl/tabnine-vim'
+Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
 " map fuzzyfinder (CtrlP) plugin
 nmap <silent> <leader>p :CtrlP<cr>
 " nmap <silent> <leader>p :CtrlPBuffer<cr>
@@ -191,7 +194,7 @@ endif
   
   "
 " NERD Tree
-Plugin 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
+Plug 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
 " close NERDTree after a file is opened
 let g:NERDTreeQuitOnOpen=0
 " show hidden files in NERDTree
@@ -203,7 +206,7 @@ nmap <silent> <leader>B :NERDTreeFind<cr>
 
 let NERDTreeIgnore=['node_modules']
 
-Plugin 'w0rp/ale'
+Plug 'w0rp/ale'
 let g:ale_linters = {
 	\	'typescript': ['tslint', 'tsserver'],
 	\ 	'javascript': ['eslint', 'flow-language-server']
@@ -236,19 +239,32 @@ augroup END
 " highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237 guibg=#F5F5F5
 set rtp+=~/dotfiles/submodules/fzf
 
-Plugin 'junegunn/fzf.vim'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'liuchengxu/space-vim-dark'
-Plugin 'benmills/vimux'
-Plugin 'tpope/vim-fugitive' " the ultimate git helper
-Plugin 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
-Plugin 'leafgarland/typescript-vim' " TS Syntax
-Plugin 'pangloss/vim-javascript' " JS Syntax
-Plugin 'mxw/vim-jsx' " JSX Syntax
-Plugin 'elzr/vim-json' " JSON syntax
+Plug 'junegunn/fzf.vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'liuchengxu/space-vim-dark'
+Plug 'benmills/vimux'
+Plug 'tpope/vim-fugitive' " the ultimate git helper
+Plug 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
+Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/denite.nvim'
+
+
+" Enable deoplete at startup
+let g:deoplete#enable_at_startup = 1
+
+" let g:tsuquyomi_disable_quickfix = 1
+" Plug 'Quramy/tsuquyomi'
+" set ballooneval
+" autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
+
+Plug 'pangloss/vim-javascript' " JS Syntax
+Plug 'mxw/vim-jsx' " JSX Syntax
+Plug 'elzr/vim-json' " JSON syntax
 let g:vim_json_syntax_conceal = 0 " Disable vim-json quote concealing
 
-" Plugin 'prettier/vim-prettier' " JS Prettier
+" Plug 'prettier/vim-prettier' " JS Prettier
 " let g:prettier#quickfix_enabled = 0
 
 " let g:prettier#autoformat = 0
@@ -260,9 +276,11 @@ let g:vim_json_syntax_conceal = 0 " Disable vim-json quote concealing
 
 
 
-call vundle#end()            " required
+call plug#end()
+" call vundle#end()            " required
 filetype plugin indent on    " required
 
 colorscheme space-vim-dark
 hi Comment cterm=italic
+hi Comment guifg=#5C6370 ctermfg=59
 
