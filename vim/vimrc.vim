@@ -149,7 +149,7 @@ set wildignore+=**/dist/**
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-call plug#begin('~/.local/share/nvim/plugged')
+call plug#begin('~/dotfiles/vim/plugins')
 
 
 " set rtp+=~/dotfiles/vim/Vundle.vim
@@ -158,7 +158,8 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'tpope/vim-unimpaired' " Vim bracket shortcuts 
 Plug 'tpope/vim-obsession' " Vim session management
-Plug 'zxqfl/tabnine-vim'
+" Plug 'zxqfl/tabnine-vim'
+Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh'  }
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
 " map fuzzyfinder (CtrlP) plugin
 nmap <silent> <leader>p :CtrlP<cr>
