@@ -16,8 +16,29 @@
 
 	set hlsearch
 	nnoremap <C-l> :nohl<CR><C-l>:echo "Search Cleared"<CR>
-	nnoremap <C-c> :set norelativenumber<CR>:set nonumber<CR>:echo "Line numbers turned off."<CR>
-	nnoremap <C-n> :set relativenumber<CR>:set number<CR>:echo "Line numbers turned on."<CR>
+	
+	" Things from: https://items.sjbach.com/319/configuring-vim-right
+	set number     " Line numbers
+	set visualbell " No sounds
+	set autoread   " Reload files changed outside vim
+	nnoremap ' `
+    nnoremap ` '
+	set ignorecase 
+	set smartcase
+	set title
+
+" ================ Persistent Undo ==================
+" Keep undo history across sessions, by storing in file.
+" Only works all the time.
+if has('persistent_undo') && isdirectory(expand('~').'/.vim/backups')
+  silent !mkdir ~/.vim/backups > /dev/null 2>&1
+  set undodir=~/.vim/backups
+  set undofile
+endif
+
+set nowrap       "Don't wrap lines
+set linebreak    "Wrap lines at convenient points
+
 
 	nnoremap n nzzzv
 	nnoremap N Nzzzv
@@ -42,8 +63,86 @@
 	set mouse=a
 	set incsearch
 
+" AG Shortcuts
+nmap ,ag :Ag 
+nmap ,af :AgFile 
+
+
+" move up/down quickly by using Cmd-j, Cmd-k
+" which will move us around by functions
+nnoremap <silent> <D-j> }
+nnoremap <silent> <D-k> {
+autocmd FileType ruby map <buffer> <D-j> ]m
+autocmd FileType ruby map <buffer> <D-k> [m
+autocmd FileType rspec map <buffer> <D-j> }
+autocmd FileType rspec map <buffer> <D-k> {
+autocmd FileType javascript map <buffer> <D-k> }
+autocmd FileType javascript map <buffer> <D-j> {
+
+autocmd FileType typescript map <buffer> <D-k> }
+autocmd FileType typescript map <buffer> <D-j> {
+
+" Use numbers to pick the tab you want (like iTerm)
+
+map <silent> <D-1> :tabn 1<cr>
+map <silent> <D-2> :tabn 2<cr>
+map <silent> <D-3> :tabn 3<cr>
+map <silent> <D-4> :tabn 4<cr>
+map <silent> <D-5> :tabn 5<cr>
+map <silent> <D-6> :tabn 6<cr>
+map <silent> <D-7> :tabn 7<cr>
+map <silent> <D-8> :tabn 8<cr>
+map <silent> <D-9> :tabn 9<cr>
+
+
+" Command-/ to toggle comments
+map <D-/> :TComment<CR>
+imap <D-/> <Esc>:TComment<CR>i
+" gcc to comment a line, gcp to comment a paragraph
+nmap <silent> gcp <c-_>p
+
+" alias yw to yank the entire word 'yank inner word'
+" even if the cursor is halfway inside the word
+" FIXME: will not properly repeat when you use a dot (tie into repeat.vim)
+nnoremap ,yw yiww
+
+" ,ow = 'overwrite word', replace a word with what's in the yank buffer
+" FIXME: will not properly repeat when you use a dot (tie into repeat.vim)
+nnoremap ,ow "_diwhp
+
+" ," Surround a word with "quotes"
+map ," ysiw"
+vmap ," c"<C-R>""<ESC>
+
+" ,' Surround a word with 'single quotes'
+map ,' ysiw'
+vmap ,' c'<C-R>"'<ESC>
+
+" ,) or ,( Surround a word with (parens)
+" The difference is in whether a space is put in
+map ,( ysiw(
+map ,) ysiw)
+vmap ,( c( <C-R>" )<ESC>
+vmap ,) c(<C-R>")<ESC>
+
+" ,[ Surround a word with [brackets]
+map ,] ysiw]
+map ,[ ysiw[
+vmap ,[ c[ <C-R>" ]<ESC>
+vmap ,] c[<C-R>"]<ESC>
+
+" ,{ Surround a word with {braces}
+map ,} ysiw}
+map ,{ ysiw{
+vmap ,} c{ <C-R>" }<ESC>
+vmap ,{ c{<C-R>"}<ESC>
+
+"(v)im (r)eload
+nmap <silent> <leader>vr :so $MYVIMRC<CR>
+
+
 " Scroll behavior
-	set scrolloff=5 
+	set scrolloff=8 
 	nnoremap <C-e> 3<C-e>
 	nnoremap <C-y> 3<C-y>
 
@@ -54,7 +153,6 @@
 	" General
 		inoremap <leader>for <esc>Ifor (int i = 0; i < <esc>A; i++) {<enter>}<esc>O<tab>
 		inoremap <leader>if <esc>Iif (<esc>A) {<enter>}<esc>O<tab>
-		
 
 	" Java
 		inoremap <leader>sys <esc>ISystem.out.println(<esc>A);
@@ -115,17 +213,16 @@
 	autocmd FileChangedShellPost *
 	  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
-" Future stuff
-	"Swap line
-	"Insert blank below and above
-
-" Fix for: https://github.com/fatih/vim-go/issues/1509
-
 """
 " Auto Reload vimrc
 """
 
 if has ('autocmd') " Remain compatible with earlier versions
+	augroup myvimrc
+	    au!
+	    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+	augroup END
+
 	augroup vimrc     " Source vim configuration upon save
 		autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
 		autocmd! BufWritePost $MYGVIMRC if has('gui_running') | so % | echom "Reloaded " . $MYGVIMRC | endif | redraw
@@ -143,7 +240,7 @@ set wildignore+=**/dist/**
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugs
+" => Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set nocompatible              " be iMproved, required
@@ -151,51 +248,51 @@ filetype off                  " required
 
 call plug#begin('~/dotfiles/vim/plugins')
 
-
-" set rtp+=~/dotfiles/vim/Vundle.vim
-" call vundle#begin('~/dotfiles/vim/plugins')
-
-
+Plug 'bkad/CamelCaseMotion' " move camel-wise instead of word-wise
 Plug 'tpope/vim-unimpaired' " Vim bracket shortcuts 
 Plug 'tpope/vim-obsession' " Vim session management
-" Plug 'zxqfl/tabnine-vim'
 Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh'  }
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
-" map fuzzyfinder (CtrlP) plugin
-nmap <silent> <leader>p :CtrlP<cr>
-" nmap <silent> <leader>p :CtrlPBuffer<cr>
-let g:ctrlp_map='<leader>t'
-let g:ctrlp_dotfiles=1
-let g:ctrlp_working_path_mode = 'ra'
-
-" CtrlP ignore patterns
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-" Open in tabs by default
-let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<c-t>'],
-    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
-	\}
-
-let g:ctrlp_custom_ignore = {
-            \ 'dir': '\.git$\|node_modules$\|\.hg$\|\.svn$',
-            \ 'file': '\.exe$\|\.so$'
-            \ }
-
-" let g:ctrlp_working_path_mode = '' 
-let g:ctrlp_working_path_mode = 'ra' 
-let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
-
-if executable('ag')
-	  " Use Ag over Grep
-	  set grepprg=ag\ --nogroup\ --nocolor
-	  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-	  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-endif
-  
-  
-  "
-" NERD Tree
 Plug 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
+Plug 'w0rp/ale'
+Plug 'junegunn/fzf.vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'liuchengxu/space-vim-dark'
+Plug 'benmills/vimux'
+Plug 'tpope/vim-fugitive' " the ultimate git helper
+Plug 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
+Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/denite.nvim'
+Plug 'pangloss/vim-javascript' " JS Syntax
+Plug 'mxw/vim-jsx' " JSX Syntax
+Plug 'elzr/vim-json' " JSON syntax
+
+call plug#end()
+filetype plugin indent on    " required
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Misc Settings 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set rtp+=~/dotfiles/submodules/fzf " Enable fzf
+let g:deoplete#enable_at_startup = 1 " Enable deoplete at startup
+let g:vim_json_syntax_conceal = 0 " Disable vim-json quote concealing
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Camel Case Motion 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map w <Plug>CamelCaseMotion_w
+map b <Plug>CamelCaseMotion_b
+map e <Plug>CamelCaseMotion_e
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => NERDTree Settings 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " close NERDTree after a file is opened
 let g:NERDTreeQuitOnOpen=0
 " show hidden files in NERDTree
@@ -207,7 +304,10 @@ nmap <silent> <leader>B :NERDTreeFind<cr>
 
 let NERDTreeIgnore=['node_modules']
 
-Plug 'w0rp/ale'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => ALE Settings 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 let g:ale_linters = {
 	\	'typescript': ['tslint', 'tsserver'],
 	\ 	'javascript': ['eslint', 'flow-language-server']
@@ -235,51 +335,44 @@ augroup LanguageClient_config
   autocmd User LanguageClientStopped setlocal signcolumn=yes
 augroup END
 
-" highlight ALEError ctermbg=15 cterm=underline guibg=#ED6237 guifg=#F5F5F5
-" highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500 guibg=#F5F5F5
-" highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237 guibg=#F5F5F5
-set rtp+=~/dotfiles/submodules/fzf
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => CtrlP Settings 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-Plug 'junegunn/fzf.vim'
-Plug 'jiangmiao/auto-pairs'
-Plug 'liuchengxu/space-vim-dark'
-Plug 'benmills/vimux'
-Plug 'tpope/vim-fugitive' " the ultimate git helper
-Plug 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
-Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-Plug 'Shougo/deoplete.nvim'
-Plug 'Shougo/denite.nvim'
+if executable('ag')
+	  " Use Ag over Grep
+	  set grepprg=ag\ --nogroup\ --nocolor
+	  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+	  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
+ 
+nmap <silent> <leader>p :CtrlP<cr>
+let g:ctrlp_dotfiles=1
+let g:ctrlp_working_path_mode = 'ra'
 
+" CtrlP ignore patterns
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+" Open in tabs by default
+let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("e")': ['<c-t>'],
+    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
+	\}
 
-" Enable deoplete at startup
-let g:deoplete#enable_at_startup = 1
+let g:ctrlp_custom_ignore = {
+            \ 'dir': '\.git$\|node_modules$\|\.hg$\|\.svn$',
+            \ 'file': '\.exe$\|\.so$'
+            \ }
 
-" let g:tsuquyomi_disable_quickfix = 1
-" Plug 'Quramy/tsuquyomi'
-" set ballooneval
-" autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
+" let g:ctrlp_working_path_mode = '' 
+let g:ctrlp_working_path_mode = 'ra' 
+let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
 
-Plug 'pangloss/vim-javascript' " JS Syntax
-Plug 'mxw/vim-jsx' " JSX Syntax
-Plug 'elzr/vim-json' " JSON syntax
-let g:vim_json_syntax_conceal = 0 " Disable vim-json quote concealing
-
-" Plug 'prettier/vim-prettier' " JS Prettier
-" let g:prettier#quickfix_enabled = 0
-
-" let g:prettier#autoformat = 0
-" autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Color Scheme 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
-
-call plug#end()
-" call vundle#end()            " required
-filetype plugin indent on    " required
 
 colorscheme space-vim-dark
 hi Comment cterm=italic
