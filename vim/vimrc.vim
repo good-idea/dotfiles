@@ -1,15 +1,25 @@
 " General Vim settings
 	syntax on
 	let mapleader=","
-	set autoindent
-	set tabstop=4
-	set shiftwidth=4
 	set dir=/tmp/
 	set relativenumber 
 	set number
 
+" ============= Tab Stuff ============
+
+filetype plugin indent on
+" On pressing tab, insert 2 spaces
+set expandtab
+" show existing tab with 2 spaces width
+set tabstop=2
+" set softtabstop=2
+" when indenting with '>', use 2 spaces width
+set shiftwidth=0
+" set autoindent
+
+
 	autocmd Filetype html setlocal sw=2 expandtab
-	autocmd Filetype javascript setlocal sw=4 expandtab
+	" autocmd Filetype javascript setlocal sw=4 expandtab
 
 	set cursorline
 	hi Cursor ctermfg=White ctermbg=Yellow cterm=bold guifg=white guibg=yellow gui=bold
@@ -36,6 +46,10 @@ if has('persistent_undo') && isdirectory(expand('~').'/.vim/backups')
   set undofile
 endif
 
+" Redo with U instead of Ctrl+R
+noremap U <C-R>
+
+
 set nowrap       "Don't wrap lines
 set linebreak    "Wrap lines at convenient points
 
@@ -50,6 +64,7 @@ set linebreak    "Wrap lines at convenient points
 
 	map <tab> %
 
+
 	set backspace=indent,eol,start
 
 	nnoremap <Space> za
@@ -59,6 +74,8 @@ set linebreak    "Wrap lines at convenient points
 
 	set listchars=tab:\|\ 
 	nnoremap <leader><tab> :set list!<cr>
+	set clipboard=unnamed
+
 	set pastetoggle=<F2>
 	set mouse=a
 	set incsearch
@@ -146,6 +163,18 @@ nmap <silent> <leader>vr :so $MYVIMRC<CR>
 	nnoremap <C-e> 3<C-e>
 	nnoremap <C-y> 3<C-y>
 
+" This mapping makes macros even easier to remember: hit qq to record, q to stop recording, and Q to apply.
+nnoremap Q @q
+vnoremap Q :norm @q<cr>
+
+" Shift + L / H to switch tabs
+noremap <S-l> gt
+noremap <S-h> gT
+
+noremap <S-j> 10j
+noremap <S-k> 10k
+
+
 " Language Specific
 	" Tabs
 		so ~/dotfiles/vim/tabs.vim
@@ -179,12 +208,6 @@ nmap <silent> <leader>vr :so $MYVIMRC<CR>
 
 
 " File and Window Management 
-	inoremap <leader>w <Esc>:w<CR>
-	nnoremap <leader>w :w<CR>
-
-	inoremap <leader>q <ESC>:q<CR>
-	nnoremap <leader>q :q<CR>
-
 	inoremap <leader>x <ESC>:x<CR>
 	nnoremap <leader>x :x<CR>
 
@@ -192,6 +215,18 @@ nmap <silent> <leader>vr :so $MYVIMRC<CR>
 	nnoremap <leader>t :tabnew<CR>:Ex<CR>
 	nnoremap <leader>v :vsplit<CR>:w<CR>:Ex<CR>
 	nnoremap <leader>s :split<CR>:w<CR>:Ex<CR>
+
+" Open new split panes to right and bottom, which feels more natural than Vim’s default
+set splitbelow
+set splitright
+
+
+	" Use Ctrl+[direction] to navigate split panes
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 
 " Return to the same line you left off at
 	augroup line_return
@@ -248,7 +283,7 @@ filetype off                  " required
 
 call plug#begin('~/dotfiles/vim/plugins')
 
-Plug 'bkad/CamelCaseMotion' " move camel-wise instead of word-wise
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-unimpaired' " Vim bracket shortcuts 
 Plug 'tpope/vim-obsession' " Vim session management
 Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh'  }
@@ -258,17 +293,25 @@ Plug 'w0rp/ale'
 Plug 'junegunn/fzf.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'liuchengxu/space-vim-dark'
-Plug 'benmills/vimux'
 Plug 'tpope/vim-fugitive' " the ultimate git helper
 Plug 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-Plug 'Shougo/deoplete.nvim'
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/denite.nvim'
 Plug 'pangloss/vim-javascript' " JS Syntax
 Plug 'mxw/vim-jsx' " JSX Syntax
+Plug 'mattn/emmet-vim' " Emmet for HTML, CSS, and JSX
 Plug 'elzr/vim-json' " JSON syntax
 
+Plug 'reedes/vim-pencil'
 call plug#end()
 filetype plugin indent on    " required
 
@@ -280,13 +323,40 @@ set rtp+=~/dotfiles/submodules/fzf " Enable fzf
 let g:deoplete#enable_at_startup = 1 " Enable deoplete at startup
 let g:vim_json_syntax_conceal = 0 " Disable vim-json quote concealing
 
+" " map T to open terminal in horizontal split
+" DOESN'T WORK
+" noremap <silent> <leader>t :terminal 
+" " use ESC to quit terminal
+" noremap <Esc> <C-\><C-n>
+" " auto-insert mode on new terminal buffer
+" au BufEnter * if &buftype == 'terminal' | :startinsert | endif
+
+let g:user_emmet_leader_key='<C-e>'
+let g:user_emmet_settings = {
+\ 'javascript.jsx': {
+\   'extends': 'jsx',
+\ },
+\}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Markdown Editing 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:pencil#wrapModeDefault = 'soft'   " default is 'hard'
+let g:pencil#textwidth = 80
+
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd call pencil#init()
+  autocmd FileType text         call pencil#init()
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Camel Case Motion 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map w <Plug>CamelCaseMotion_w
-map b <Plug>CamelCaseMotion_b
-map e <Plug>CamelCaseMotion_e
+" map w <Plug>CamelCaseMotion_w
+" map b <Plug>CamelCaseMotion_b
+" map e <Plug>CamelCaseMotion_e
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -301,16 +371,21 @@ let NERDTreeShowHidden=1
 nmap <silent> <leader>b :NERDTreeToggle<cr>
 " expand to the path of the file in the current buffer
 nmap <silent> <leader>B :NERDTreeFind<cr>
-
-let NERDTreeIgnore=['node_modules']
+let NERDTreeIgnore=['node_modules', 'dist', 'build', '_working']
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ALE Settings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Set Quickfix window to wrap words
+augroup quickfix
+    autocmd!
+    autocmd FileType qf setlocal wrap
+augroup END
+
 let g:ale_linters = {
 	\	'typescript': ['tslint', 'tsserver'],
-	\ 	'javascript': ['eslint', 'flow-language-server']
+	\ 'javascript': ['eslint', 'flow-language-server']
 	\}
 " Use typescript-tslint-plugin instead. (install in each package and add to
 " tsconfig.json)
@@ -327,6 +402,8 @@ let g:ale_lint_on_change = 'always'
 let g:ale_sign_error = "◉"
 let g:ale_sign_warning = "◉"
 let g:ale_sign_column_always = 1
+let g:ale_javascript_prettier_use_local_config = 1
+
 " "   ~always keep the signcolumn open!!
 set signcolumn=yes
 augroup LanguageClient_config
@@ -335,6 +412,10 @@ augroup LanguageClient_config
   autocmd User LanguageClientStopped setlocal signcolumn=yes
 augroup END
 
+nmap <silent> <leader>ak <Plug>(ale_previous_wrap)
+nmap <silent> <leader>aj <Plug>(ale_next_wrap)
+nmap <silent> <leader>af <Plug>(ale_fix)
+nmap <leader>ad <Plug>(ale_detail)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => CtrlP Settings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -352,11 +433,12 @@ let g:ctrlp_working_path_mode = 'ra'
 
 " CtrlP ignore patterns
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+
 " Open in tabs by default
-let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<c-t>'],
-    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
-	\}
+" let g:ctrlp_prompt_mappings = {
+"     \ 'AcceptSelection("e")': ['<c-t>'],
+"     \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
+" 	\}
 
 let g:ctrlp_custom_ignore = {
             \ 'dir': '\.git$\|node_modules$\|\.hg$\|\.svn$',
@@ -367,12 +449,41 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_working_path_mode = 'ra' 
 let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Deoplete Snippets 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#max_list = 15
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-e>     <Plug>(neosnippet_expand_or_jump)
+smap <C-e>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-e>     <Plug>(neosnippet_expand_target)
+"
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <expr><TAB>
+ \ pumvisible() ? "\<C-n>" :
+ \ neosnippet#expandable_or_jumpable() ?
+ \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" For conceal markers,.
+if has('conceal')
+set conceallevel=2 concealcursor=niv
+endif
+
+let g:neosnippet#disable_runtime_snippets = {
+\   '_' : 1,
+\ }
+
+let g:neosnippet#snippets_directory = '~/dotfiles/vim/snippets'
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Color Scheme 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
 
 colorscheme space-vim-dark
 hi Comment cterm=italic

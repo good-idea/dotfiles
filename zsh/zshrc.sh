@@ -10,8 +10,16 @@ ZSH_THEME="agnoster"
 # Aliases
 	alias vim="nvim"
 	alias v="nvim -p"
+	alias :q="exit"
 	mkdir -p /tmp/log
 	
+# Convert simplified wildcard pattern to regex and grep a file listing using
+# Silver Searcher (`brew install the_silver_searcher`)
+lsgrep ()
+{
+    NEEDLE="$(echo $@|sed -E 's/\.([a-z0-9]+)$/\\.\1/'|sed -E 's/\?/./'| sed -E 's/[ *]/.*?/g')";
+	  ag -l --nocolor -g "$NEEDLE"
+}
 	# This is currently causing problems (fails when you run it anywhere that isn't a git project's root directory)
 	# alias vs="v `git status --porcelain | sed -ne 's/^ M //p'`"
 

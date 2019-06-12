@@ -1,0 +1,60 @@
+snippet     rfcomp
+abbr        React Function Component
+options     head
+  import * as React from 'react'
+
+  interface ${1:NAME}Props {
+    /* */
+  }
+
+  export const $1 = (props: $1Props) => {
+    return <div>...</div>
+  }
+
+
+snippet   rconp
+abbr      React Context Provider
+options   head
+  import * as React from 'react'
+
+  interface ${1:Title}ContextValue {
+    /* */
+  }
+
+  const $1Context = React.createContext<$1ContextValue | undefined>(undefined)
+
+  export const $1Consumer = $1Context.Consumer
+
+  export const use$1 = () => {
+    const ctx = React.useContext($1Context)
+    if (!ctx) throw new Error('use$1Context must be used within a $1Provider')
+    return ctx
+  }
+
+  interface $1Props {
+    children: React.ReactNode
+  }
+
+  export const $1Provider = ({ children }: $1Props) => {
+    const value = {
+      /* */
+    }
+
+    return <$1Context.Provider value={value}>{children}</$1Context.Provider>
+  }
+
+snippet   rtestfile
+abbr      React Test File
+options head
+  import * as React from 'react'
+  import { render, fireEvent } from 'react-testing-library'
+  import { ${1:Component} } from '../$1'
+  
+  describe('$1', () => {
+    it('should ...', async () => {
+      const { container } = render(<$1 />)
+      /* */
+    })
+  })
+
+

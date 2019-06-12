@@ -1,5 +1,4 @@
 
-
 ## Tabs
 
 `gt` - go to next tab
@@ -10,3 +9,14 @@
 
 `TSType` - view current definition
 `TSDef` - view symbol definition 
+
+## ALE
+
+`,aj` - Next ALE Error
+`,ak` - Previous ALE Error
+`,ad` - ALE Details
+`,af` - ALE Fix
+
+## TSLint
+
+...
