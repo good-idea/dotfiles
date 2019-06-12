@@ -26,7 +26,7 @@ lsgrep ()
 # Settings
 	export VISUAL=vim
 
-source ~/dotfiles/zsh/plugins/fixls.zsh
+source ~/.dotfiles/zsh/plugins/fixls.zsh
 
 #Functions
 	# Loop a command and show the output in vim
@@ -68,19 +68,19 @@ plugins=(
 )
 
 for plugin ($plugins); do
-    fpath=(~/dotfiles/zsh/plugins/oh-my-zsh/plugins/$plugin $fpath)
+    fpath=(~/.dotfiles/zsh/plugins/oh-my-zsh/plugins/$plugin $fpath)
 done
 
 compinit
 
-source ~/dotfiles/zsh/plugins/oh-my-zsh/lib/history.zsh
-source ~/dotfiles/zsh/plugins/oh-my-zsh/lib/key-bindings.zsh
-source ~/dotfiles/zsh/plugins/oh-my-zsh/lib/completion.zsh
-source ~/dotfiles/zsh/plugins/vi-mode.plugin.zsh
-source ~/dotfiles/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/dotfiles/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/dotfiles/zsh/plugins/zsh-manydots-magic/manydots-magic
-source ~/dotfiles/zsh/keybindings.sh
+source ~/.dotfiles/zsh/plugins/oh-my-zsh/lib/history.zsh
+source ~/.dotfiles/zsh/plugins/oh-my-zsh/lib/key-bindings.zsh
+source ~/.dotfiles/zsh/plugins/oh-my-zsh/lib/completion.zsh
+source ~/.dotfiles/zsh/plugins/vi-mode.plugin.zsh
+source ~/.dotfiles/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.dotfiles/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.dotfiles/zsh/plugins/zsh-manydots-magic/manydots-magic
+source ~/.dotfiles/zsh/keybindings.sh
 
 # Fix for arrow-key searching
 # start typing + [Up-Arrow] - fuzzy find history forward
@@ -96,7 +96,7 @@ if [[ "${terminfo[kcud1]}" != "" ]]; then
 	bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
 fi
 
-source ~/dotfiles/zsh/prompt.sh
+source ~/.dotfiles/zsh/prompt.sh
 # Composer
 PATH=$PATH:$HOME/.composer/vendor/bin
 PATH=$PATH:/usr/local/opt/rbenv/shims:/usr/local/sbin
@@ -117,4 +117,4 @@ alias la="exa -abghl --git --color=automatic"
 alias git=hub
 alias flushDNS="sudo killall -HUP mDNSResponder"
 
-export PATH=$PATH:$HOME/dotfiles/utils
+export PATH=$PATH:$HOME/.dotfiles/utils

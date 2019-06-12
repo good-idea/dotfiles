@@ -177,7 +177,7 @@ noremap <S-k> 10k
 
 " Language Specific
 	" Tabs
-		so ~/dotfiles/vim/tabs.vim
+		so ~/.dotfiles/vim/tabs.vim
 
 	" General
 		inoremap <leader>for <esc>Ifor (int i = 0; i < <esc>A; i++) {<enter>}<esc>O<tab>
@@ -281,7 +281,7 @@ set wildignore+=**/dist/**
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-call plug#begin('~/dotfiles/vim/plugins')
+call plug#begin('~/.dotfiles/vim/plugins')
 
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-unimpaired' " Vim bracket shortcuts 
@@ -319,7 +319,7 @@ filetype plugin indent on    " required
 " => Misc Settings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-set rtp+=~/dotfiles/submodules/fzf " Enable fzf
+set rtp+=~/.dotfiles/submodules/fzf " Enable fzf
 let g:deoplete#enable_at_startup = 1 " Enable deoplete at startup
 let g:vim_json_syntax_conceal = 0 " Disable vim-json quote concealing
 
@@ -478,7 +478,7 @@ let g:neosnippet#disable_runtime_snippets = {
 \   '_' : 1,
 \ }
 
-let g:neosnippet#snippets_directory = '~/dotfiles/vim/snippets'
+let g:neosnippet#snippets_directory = '~/.dotfiles/vim/snippets'
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
