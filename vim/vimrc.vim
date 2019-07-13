@@ -286,6 +286,9 @@ call plug#begin('~/.dotfiles/vim/plugins')
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-unimpaired' " Vim bracket shortcuts 
 Plug 'tpope/vim-obsession' " Vim session management
+Plug 'tpope/vim-surround' " Vim session management
+Plug 'tpope/vim-fugitive' " the ultimate git helper
+Plug 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
 Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh'  }
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
 Plug 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
@@ -293,8 +296,6 @@ Plug 'w0rp/ale'
 Plug 'junegunn/fzf.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'liuchengxu/space-vim-dark'
-Plug 'tpope/vim-fugitive' " the ultimate git helper
-Plug 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 if has('nvim')
@@ -307,7 +308,7 @@ endif
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/denite.nvim'
 Plug 'pangloss/vim-javascript' " JS Syntax
-Plug 'mxw/vim-jsx' " JSX Syntax
+" Plug 'mxw/vim-jsx' " JSX Syntax
 Plug 'mattn/emmet-vim' " Emmet for HTML, CSS, and JSX
 Plug 'elzr/vim-json' " JSON syntax
 
@@ -321,7 +322,8 @@ filetype plugin indent on    " required
 
 set rtp+=~/.dotfiles/submodules/fzf " Enable fzf
 let g:deoplete#enable_at_startup = 1 " Enable deoplete at startup
-let g:vim_json_syntax_conceal = 0 " Disable vim-json quote concealing
+" let g:vim_json_syntax_conceal = 0 " Disable vim-json quote concealing
+let g:jsx_ext_required = 0 " Fix for deoplete + jsx
 
 " " map T to open terminal in horizontal split
 " DOESN'T WORK
@@ -374,6 +376,28 @@ nmap <silent> <leader>B :NERDTreeFind<cr>
 let NERDTreeIgnore=['node_modules', 'dist', 'build', '_working']
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => NVIM-Typescript Settings 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+function! VimTSCConfig()
+    let g:nvim_typescript#javascript_support=1
+    let g:nvim_typescript#vue_support=1
+    let g:nvim_typescript#type_info_on_hold=1
+    let g:nvim_typescript#diagnosticsEnable=0
+    autocmd BufNewFile,BufRead *.tsx set filetype=typescript
+
+    no <Leader>td   :TSDoc<cr>
+    no <Leader>tt   :TSType<cr>
+    " no <Leader>ttd   :TSTypeDef<cr>
+    no <Leader>tD   :mark 1<cr>:TSDef<cr>
+    no <Leader>tp   :TSDefPreview<cr>
+    no <Leader>tr   :TSRefs<cr>
+    no <Leader>tR   :TSRename<cr>
+endfunction
+call VimTSCConfig()
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ALE Settings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -416,6 +440,7 @@ nmap <silent> <leader>ak <Plug>(ale_previous_wrap)
 nmap <silent> <leader>aj <Plug>(ale_next_wrap)
 nmap <silent> <leader>af <Plug>(ale_fix)
 nmap <leader>ad <Plug>(ale_detail)
+"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => CtrlP Settings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
