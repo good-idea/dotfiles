@@ -63,8 +63,7 @@ autoload -U compinit
 plugins=(
 	docker
 	git
-	nvm-auto
-
+	# nvm-auto
 )
 
 for plugin ($plugins); do
@@ -106,11 +105,6 @@ PATH=$PATH:/Users/Joseph/.themekit
 unset GEM_HOME
 
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-
-# export MANPATH="/usr/local/man:$MANPATH"
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-
 
 # Aliases
 alias la="exa -abghl --git --color=automatic"
