@@ -22,7 +22,6 @@ set shiftwidth=0
 	" autocmd Filetype javascript setlocal sw=4 expandtab
 
 	set cursorline
-	hi Cursor ctermfg=White ctermbg=Yellow cterm=bold guifg=white guibg=yellow gui=bold
 
 	set hlsearch
 	nnoremap <C-l> :nohl<CR><C-l>:echo "Search Cleared"<CR>
@@ -295,26 +294,38 @@ Plug 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
 Plug 'w0rp/ale'
 Plug 'junegunn/fzf.vim'
 Plug 'jiangmiao/auto-pairs'
-Plug 'liuchengxu/space-vim-dark'
-Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
+" Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
+Plug 'leafgarland/typescript-vim' " TS Syntax
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+" if has('nvim')
+"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"   Plug 'Shougo/deoplete.nvim'
+"   Plug 'roxma/nvim-yarp'
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/denite.nvim'
-Plug 'pangloss/vim-javascript' " JS Syntax
+" Plug 'pangloss/vim-javascript' " JS Syntax
 " Plug 'mxw/vim-jsx' " JSX Syntax
+" Plug 'maxmellon/vim-jsx-pretty' " JSX Syntax
+
+Plug 'peitalin/vim-jsx-typescript'
 Plug 'mattn/emmet-vim' " Emmet for HTML, CSS, and JSX
 Plug 'elzr/vim-json' " JSON syntax
+Plug 'reedes/vim-pencil' " Markdown
 
-Plug 'reedes/vim-pencil'
+" Theme
+"Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'liuchengxu/space-vim-dark'
+
 call plug#end()
 filetype plugin indent on    " required
+syntax on
+
+" color dracula 
+
+color space-vim-dark
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc Settings 
@@ -322,16 +333,8 @@ filetype plugin indent on    " required
 
 set rtp+=~/.dotfiles/submodules/fzf " Enable fzf
 let g:deoplete#enable_at_startup = 1 " Enable deoplete at startup
-" let g:vim_json_syntax_conceal = 0 " Disable vim-json quote concealing
+let g:vim_json_syntax_conceal = 0 " Disable vim-json quote concealing
 let g:jsx_ext_required = 0 " Fix for deoplete + jsx
-
-" " map T to open terminal in horizontal split
-" DOESN'T WORK
-" noremap <silent> <leader>t :terminal 
-" " use ESC to quit terminal
-" noremap <Esc> <C-\><C-n>
-" " auto-insert mode on new terminal buffer
-" au BufEnter * if &buftype == 'terminal' | :startinsert | endif
 
 let g:user_emmet_leader_key='<C-e>'
 let g:user_emmet_settings = {
@@ -379,12 +382,13 @@ let NERDTreeIgnore=['node_modules', 'dist', 'build', '_working']
 " => NVIM-Typescript Settings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx
+
 function! VimTSCConfig()
     let g:nvim_typescript#javascript_support=1
     let g:nvim_typescript#vue_support=1
     let g:nvim_typescript#type_info_on_hold=1
     let g:nvim_typescript#diagnosticsEnable=0
-    autocmd BufNewFile,BufRead *.tsx set filetype=typescript
 
     no <Leader>td   :TSDoc<cr>
     no <Leader>tt   :TSType<cr>
@@ -507,10 +511,109 @@ let g:neosnippet#snippets_directory = '~/.dotfiles/vim/snippets'
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Color Scheme 
+" => Color Scheme Mods
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-colorscheme space-vim-dark
-hi Comment cterm=italic
-hi Comment guifg=#5C6370 ctermfg=59
+set termguicolors
 
+" Background & Current Line
+hi Normal ctermfg=231 ctermbg=235 cterm=NONE guifg=#e6e1dc guibg=#222222 gui=NONE
+hi CursorLine cterm=NONE ctermbg=236 guibg=#2f2f2f
+
+" Comment Colors
+hi Comment cterm=italic
+hi Comment guifg=#5f5f87 ctermfg=60
+
+" JS Syntax Types
+hi StorageClass guifg=#f26299
+" hi Operator guifg=#FFFFFF
+" hi Number guifg=#E5C07B
+" hi Special guifg=#E5C07B
+" hi Boolean guifg=#E5C07B
+
+" TSX Stuff
+hi tsxTagName guifg=#f63ea0
+hi tsxCloseString guifg=#f63ea0
+hi tsxTag guifg=#07929e
+hi tsxCloseTag guifg=#006C75
+hi tsxAttributeBraces guifg=#809cdb
+hi tsxEqual guifg=#809cdb
+hi tsxTypeBraces guifg=#999999
+hi tsxTypes guifg=#18a8b4
+
+
+"
+""""""""""""" Color Schemes """"""""""""""""
+
+" highlight Normal guibg=#21242a
+" highlight MatchParen guifg=#C678DD guibg=#504066
+" highlight LineNr    guifg=#151822
+" highlight CursorLineNr guifg=#56B6C2
+" highlight Error guifg=#f57373 guibg=#804040
+" highlight vimError guifg=#f57373 guibg=#804040
+
+" hi IndentGuidesEven guibg=#21242a guifg=#1f1f28
+" hi IndentGuidesOdd guibg=#262a36 guifg=#1f1f28
+" hi Comment cterm=italic guifg=#4a5158
+" hi String guifg=#98C379 guibg=#2a2e34
+
+" """ browns
+" " function params: numbers and constants
+" hi Statement guifg=#907161
+" hi Conditional guifg=#907161
+" hi Keyword guifg=#56B6C2
+" hi Function guifg=#56B6C2
+
+" " Yellows
+"
+"
+" " purple
+" hi CtrlPMatch guifg=#ba9ef7
+" hi Visual guibg=#364652
+
+" " medium red: if else operators
+" hi Preproc guifg=#e86868
+" hi Type guifg=#e86868
+
+
+
+" """""" vim-jsx ONLY
+" hi Identifier cterm=italic
+
+" " Blues
+" " light blues
+" hi xmlTagName guifg=#59ACE5
+" hi xmlTag guifg=#59ACE5
+
+" " dark blues
+" hi xmlEndTag guifg=#2974a1
+" hi jsxCloseString guifg=#2974a1
+" hi htmlTag guifg=#2974a1
+" hi htmlEndTag guifg=#2974a1
+" hi htmlTagName guifg=#59ACE5
+" hi jsxAttrib guifg=#1BD1C1
+
+" " cyan
+" hi Constant guifg=#56B6C2
+" hi typescriptBraces guifg=#56B6C2
+" hi typescriptEndColons guifg=#56B6C2
+" hi typescriptRef guifg=#56B6C2
+" hi typescriptPropietaryMethods guifg=#56B6C2
+" hi typescriptEventListenerMethods guifg=#56B6C2
+" hi typescriptFunction guifg=#56B6C2
+" hi typescriptVars guifg=#56B6C2
+" hi typescriptParen guifg=#56B6C2
+" hi typescriptDotNotation guifg=#56B6C2
+" hi typescriptBracket guifg=#56B6C2
+" hi typescriptBlock guifg=#56B6C2
+" hi typescriptJFunctions guifg=#56B6C2
+" hi typescriptSFunctions guifg=#56B6C2
+" hi typescriptInterpolationDelimiter guifg=#56B6C2
+" hi typescriptIdentifier guifg=#907161 cterm=italic
+
+" " javascript
+" hi jsParens guifg=#56B6C2
+" hi jsObjectBraces guifg=#C678DD
+" hi jsFuncBraces guifg=#56B6C2
+" hi jsObjectFuncName guifg=#D19A66
+" hi jsObjectKey guifg=#56B6C2
