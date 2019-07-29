@@ -200,6 +200,7 @@ noremap <S-k> 10k
 
 	" Typescript
 		autocmd BufNewFile,BufRead *.ts set syntax=typescript
+		autocmd BufNewFile,BufRead *.js set syntax=typescript
 		autocmd BufNewFile,BufRead *.tsx set syntax=typescript
 
 	" Markup
@@ -294,22 +295,23 @@ Plug 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
 Plug 'w0rp/ale'
 Plug 'junegunn/fzf.vim'
 Plug 'jiangmiao/auto-pairs'
-" Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
-Plug 'leafgarland/typescript-vim' " TS Syntax
+Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
+" Plug 'leafgarland/typescript-vim' " TS Syntax - not as thorough as yats
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-" if has('nvim')
-"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-"   Plug 'Shougo/deoplete.nvim'
-"   Plug 'roxma/nvim-yarp'
-"   Plug 'roxma/vim-hug-neovim-rpc'
-" endif
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/denite.nvim'
-" Plug 'pangloss/vim-javascript' " JS Syntax
+Plug 'pangloss/vim-javascript' " JS Syntax
 " Plug 'mxw/vim-jsx' " JSX Syntax
 " Plug 'maxmellon/vim-jsx-pretty' " JSX Syntax
 
+Plug 'jparise/vim-graphql'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'mattn/emmet-vim' " Emmet for HTML, CSS, and JSX
 Plug 'elzr/vim-json' " JSON syntax
@@ -382,7 +384,6 @@ let NERDTreeIgnore=['node_modules', 'dist', 'build', '_working']
 " => NVIM-Typescript Settings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx
 
 function! VimTSCConfig()
     let g:nvim_typescript#javascript_support=1
@@ -517,25 +518,25 @@ let g:neosnippet#snippets_directory = '~/.dotfiles/vim/snippets'
 set termguicolors
 
 " Background & Current Line
-hi Normal ctermfg=231 ctermbg=235 cterm=NONE guifg=#e6e1dc guibg=#222222 gui=NONE
+hi Normal ctermfg=231 ctermbg=235 cterm=NONE guifg=#e6e1dc guibg=#242424 gui=NONE
 hi CursorLine cterm=NONE ctermbg=236 guibg=#2f2f2f
 
 " Comment Colors
 hi Comment cterm=italic
 hi Comment guifg=#5f5f87 ctermfg=60
 
-" JS Syntax Types
-hi StorageClass guifg=#f26299
+" JS/TS Syntax Types
+" hi StorageClass guifg=#f26299
 " hi Operator guifg=#FFFFFF
 " hi Number guifg=#E5C07B
 " hi Special guifg=#E5C07B
 " hi Boolean guifg=#E5C07B
 
-" TSX Stuff
-hi tsxTagName guifg=#f63ea0
-hi tsxCloseString guifg=#f63ea0
+" JSX/TSX 
+hi tsxTagName guifg=#e63682
+hi tsxCloseString guifg=#e63682
 hi tsxTag guifg=#07929e
-hi tsxCloseTag guifg=#006C75
+hi tsxCloseTag guifg=#07929e
 hi tsxAttributeBraces guifg=#809cdb
 hi tsxEqual guifg=#809cdb
 hi tsxTypeBraces guifg=#999999
