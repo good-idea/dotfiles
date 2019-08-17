@@ -288,11 +288,12 @@ Plug 'tpope/vim-unimpaired' " Vim bracket shortcuts
 Plug 'tpope/vim-obsession' " Vim session management
 Plug 'tpope/vim-surround' " Vim session management
 Plug 'tpope/vim-fugitive' " the ultimate git helper
-Plug 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
+" Plug 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
+Plug 'tomtom/tcomment_vim' " alternative to vim-commentary
 Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh'  }
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
 Plug 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'junegunn/fzf.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
@@ -310,7 +311,6 @@ Plug 'Shougo/denite.nvim'
 Plug 'pangloss/vim-javascript' " JS Syntax
 " Plug 'mxw/vim-jsx' " JSX Syntax
 " Plug 'maxmellon/vim-jsx-pretty' " JSX Syntax
-
 Plug 'jparise/vim-graphql'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'mattn/emmet-vim' " Emmet for HTML, CSS, and JSX
@@ -384,13 +384,21 @@ let NERDTreeIgnore=['node_modules', 'dist', 'build', '_working']
 " => NVIM-Typescript Settings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" autocmd FileType typescript.tsx setlocal commentstring=//\ %s
+" let g:context#commentstring#table['typescript.jsx'] = {
+" 			\ 'jsComment' : '// %s',
+" 			\ 'jsImport' : '// %s',
+" 			\ 'jsxStatment' : '// %s',
+" 			\ 'jsxRegion' : '{/*%s*/}',
+" \}
 
 function! VimTSCConfig()
     let g:nvim_typescript#javascript_support=1
     let g:nvim_typescript#vue_support=1
     let g:nvim_typescript#type_info_on_hold=1
     let g:nvim_typescript#diagnosticsEnable=0
-
+    " Let ALE do linting
+    let g:nvim_typescript#diagnostics_enable=0
     no <Leader>td   :TSDoc<cr>
     no <Leader>tt   :TSType<cr>
     " no <Leader>ttd   :TSTypeDef<cr>
@@ -425,6 +433,8 @@ let g:ale_fixers = {
 	\   'javascript': ['prettier'],
 	\   'css': ['prettier'],
 	\}
+
+
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_change = 'always'
@@ -484,7 +494,10 @@ let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#max_list = 15
+let g:deoplete#max_list = 12
+" let g:deoplete#on_text_changed_i = v:false
+let g:deoplete#prev_completion_mode = 'filter' 
+
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
 imap <C-e>     <Plug>(neosnippet_expand_or_jump)

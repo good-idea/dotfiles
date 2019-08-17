@@ -1,7 +1,7 @@
 snippet   itshould
 abbr      Jest test
 options head
-  it('${2:#:FunctionName }should ${1:Description}', async () => {
+  it.skip('should ${1:Description}', async () => {
     // expect(a).toBe(b)
   })
 
@@ -19,7 +19,7 @@ options     head
   }
 
 
-snippet   rconp
+snippet   rcontext
 abbr      React Context Provider
 options   head
   import * as React from 'react'
@@ -55,7 +55,7 @@ abbr      React Test File
 options head
   import * as React from 'react'
   import { render, fireEvent } from 'react-testing-library'
-  import { ${1:Component} } from '../$1'
+  import { ${1:Component} } from '../${2}'
   
   describe('$1', () => {
     it('should ...', async () => {
