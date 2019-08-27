@@ -283,22 +283,23 @@ filetype off                  " required
 
 call plug#begin('~/.dotfiles/vim/plugins')
 
+
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-unimpaired' " Vim bracket shortcuts 
 Plug 'tpope/vim-obsession' " Vim session management
 Plug 'tpope/vim-surround' " Vim session management
 Plug 'tpope/vim-fugitive' " the ultimate git helper
-" Plug 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
 Plug 'tomtom/tcomment_vim' " alternative to vim-commentary
-Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh'  }
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
 Plug 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
 Plug 'dense-analysis/ale'
 Plug 'junegunn/fzf.vim'
 Plug 'jiangmiao/auto-pairs'
-Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
-" Plug 'leafgarland/typescript-vim' " TS Syntax - not as thorough as yats
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+
+" --------------------
+" Autocomplete Plugins
+" --------------------
+Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh'  }
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -308,20 +309,43 @@ else
 endif
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/denite.nvim'
+Plug 'mattn/emmet-vim' " Emmet for HTML, CSS, and JSX
+
+" --------------------
+" Syntax Plugins
+" --------------------
+Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
+" Plug 'leafgarland/typescript-vim' " TS Syntax - not as thorough as yats
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 Plug 'pangloss/vim-javascript' " JS Syntax
 " Plug 'mxw/vim-jsx' " JSX Syntax
+Plug 'peitalin/vim-jsx-typescript' " The least buggy of the three
 " Plug 'maxmellon/vim-jsx-pretty' " JSX Syntax
+
+" TODO: styled-components + vim-css3 is looking weird
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'hail2u/vim-css3-syntax'
 Plug 'jparise/vim-graphql'
-Plug 'peitalin/vim-jsx-typescript'
-Plug 'mattn/emmet-vim' " Emmet for HTML, CSS, and JSX
 Plug 'elzr/vim-json' " JSON syntax
+
+" --------------------
+" Filetype Plugins
+" --------------------
 Plug 'reedes/vim-pencil' " Markdown
 
-" Theme
-"Plug 'dracula/vim', { 'as': 'dracula' }
+" --------------------
+" Theme Plugins
+" --------------------
+" Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'liuchengxu/space-vim-dark'
 
 call plug#end()
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Theme & Syntax Settings 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 filetype plugin indent on    " required
 syntax on
 
@@ -329,14 +353,19 @@ syntax on
 
 color space-vim-dark
 
+
+augroup VimCSS3Syntax
+  autocmd!
+
+  autocmd FileType css setlocal iskeyword+=-
+augroup END
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc Settings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set rtp+=~/.dotfiles/submodules/fzf " Enable fzf
-let g:deoplete#enable_at_startup = 1 " Enable deoplete at startup
 let g:vim_json_syntax_conceal = 0 " Disable vim-json quote concealing
-let g:jsx_ext_required = 0 " Fix for deoplete + jsx
 
 let g:user_emmet_leader_key='<C-e>'
 let g:user_emmet_settings = {
@@ -490,13 +519,19 @@ let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Deoplete Snippets 
+" => Deoplete Settings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#max_list = 12
+let g:deoplete#enable_at_startup = 1 " Enable deoplete at startup
+let g:jsx_ext_required = 0 " Fix for deoplete + jsx
+let g:deoplete#auto_complete = v:false
+let g:deoplete#max_list = 16
 " let g:deoplete#on_text_changed_i = v:false
-let g:deoplete#prev_completion_mode = 'filter' 
+let g:deoplete#prev_completion_mode = 'mirror' 
+
+call deoplete#custom#option({
+      \ 'auto_complete': v:false
+      \ })
 
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
@@ -514,7 +549,7 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 " For conceal markers,.
 if has('conceal')
-set conceallevel=2 concealcursor=niv
+  set conceallevel=2 concealcursor=niv
 endif
 
 let g:neosnippet#disable_runtime_snippets = {
@@ -556,78 +591,3 @@ hi tsxTypeBraces guifg=#999999
 hi tsxTypes guifg=#18a8b4
 
 
-"
-""""""""""""" Color Schemes """"""""""""""""
-
-" highlight Normal guibg=#21242a
-" highlight MatchParen guifg=#C678DD guibg=#504066
-" highlight LineNr    guifg=#151822
-" highlight CursorLineNr guifg=#56B6C2
-" highlight Error guifg=#f57373 guibg=#804040
-" highlight vimError guifg=#f57373 guibg=#804040
-
-" hi IndentGuidesEven guibg=#21242a guifg=#1f1f28
-" hi IndentGuidesOdd guibg=#262a36 guifg=#1f1f28
-" hi Comment cterm=italic guifg=#4a5158
-" hi String guifg=#98C379 guibg=#2a2e34
-
-" """ browns
-" " function params: numbers and constants
-" hi Statement guifg=#907161
-" hi Conditional guifg=#907161
-" hi Keyword guifg=#56B6C2
-" hi Function guifg=#56B6C2
-
-" " Yellows
-"
-"
-" " purple
-" hi CtrlPMatch guifg=#ba9ef7
-" hi Visual guibg=#364652
-
-" " medium red: if else operators
-" hi Preproc guifg=#e86868
-" hi Type guifg=#e86868
-
-
-
-" """""" vim-jsx ONLY
-" hi Identifier cterm=italic
-
-" " Blues
-" " light blues
-" hi xmlTagName guifg=#59ACE5
-" hi xmlTag guifg=#59ACE5
-
-" " dark blues
-" hi xmlEndTag guifg=#2974a1
-" hi jsxCloseString guifg=#2974a1
-" hi htmlTag guifg=#2974a1
-" hi htmlEndTag guifg=#2974a1
-" hi htmlTagName guifg=#59ACE5
-" hi jsxAttrib guifg=#1BD1C1
-
-" " cyan
-" hi Constant guifg=#56B6C2
-" hi typescriptBraces guifg=#56B6C2
-" hi typescriptEndColons guifg=#56B6C2
-" hi typescriptRef guifg=#56B6C2
-" hi typescriptPropietaryMethods guifg=#56B6C2
-" hi typescriptEventListenerMethods guifg=#56B6C2
-" hi typescriptFunction guifg=#56B6C2
-" hi typescriptVars guifg=#56B6C2
-" hi typescriptParen guifg=#56B6C2
-" hi typescriptDotNotation guifg=#56B6C2
-" hi typescriptBracket guifg=#56B6C2
-" hi typescriptBlock guifg=#56B6C2
-" hi typescriptJFunctions guifg=#56B6C2
-" hi typescriptSFunctions guifg=#56B6C2
-" hi typescriptInterpolationDelimiter guifg=#56B6C2
-" hi typescriptIdentifier guifg=#907161 cterm=italic
-
-" " javascript
-" hi jsParens guifg=#56B6C2
-" hi jsObjectBraces guifg=#C678DD
-" hi jsFuncBraces guifg=#56B6C2
-" hi jsObjectFuncName guifg=#D19A66
-" hi jsObjectKey guifg=#56B6C2
