@@ -200,7 +200,7 @@ noremap <S-k> 10k
 
 	" Typescript
 		autocmd BufNewFile,BufRead *.ts set syntax=typescript
-		autocmd BufNewFile,BufRead *.js set syntax=typescript
+		" autocmd BufNewFile,BufRead *.js set syntax=typescript
 		autocmd BufNewFile,BufRead *.tsx set syntax=typescript
 
 	" Markup
@@ -299,7 +299,6 @@ Plug 'jiangmiao/auto-pairs'
 " --------------------
 " Autocomplete Plugins
 " --------------------
-Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh'  }
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -309,6 +308,7 @@ else
 endif
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/denite.nvim'
+Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh'  }
 Plug 'mattn/emmet-vim' " Emmet for HTML, CSS, and JSX
 
 " --------------------
@@ -422,7 +422,6 @@ let NERDTreeIgnore=['node_modules', 'dist', 'build', '_working']
 " \}
 
 function! VimTSCConfig()
-    let g:nvim_typescript#javascript_support=1
     let g:nvim_typescript#vue_support=1
     let g:nvim_typescript#type_info_on_hold=1
     let g:nvim_typescript#diagnosticsEnable=0
@@ -451,7 +450,7 @@ augroup END
 
 let g:ale_linters = {
 	\	'typescript': ['tslint', 'tsserver'],
-	\ 'javascript': ['eslint', 'flow-language-server']
+	\ 'javascript': ['eslint']
 	\}
 " Use typescript-tslint-plugin instead. (install in each package and add to
 " tsconfig.json)
@@ -524,15 +523,15 @@ let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
 
 let g:deoplete#enable_at_startup = 1 " Enable deoplete at startup
 let g:jsx_ext_required = 0 " Fix for deoplete + jsx
-let g:deoplete#auto_complete = v:false
+" let g:deoplete#auto_complete = v:false
 let g:deoplete#max_list = 16
 " let g:deoplete#on_text_changed_i = v:false
 let g:deoplete#prev_completion_mode = 'mirror' 
 
-call deoplete#custom#option({
-      \ 'auto_complete': v:false
-      \ })
-
+" call deoplete#custom#option({
+"       \ 'auto_complete': v:false
+"       \ })
+"
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
 imap <C-e>     <Plug>(neosnippet_expand_or_jump)
