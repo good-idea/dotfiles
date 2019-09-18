@@ -11,7 +11,9 @@ ZSH_THEME="agnoster"
 	alias vim="nvim"
 	alias v="nvim -p"
 	alias :q="exit"
-	mkdir -p /tmp/log
+	alias q="exit"
+	alias c="clear"
+	# mkdir -p /tmp/log
 	
 # Convert simplified wildcard pattern to regex and grep a file listing using
 # Silver Searcher (`brew install the_silver_searcher`)
@@ -43,11 +45,11 @@ source ~/.dotfiles/zsh/plugins/fixls.zsh
 	}
 
  	# Custom cd
- 	c() {
+ 	customcd() {
  		cd $1;
  		ls;
  	}
- 	alias cd="c"
+ 	alias cd="customcd"
 
 # For vim mappings: 
 	stty -ixon
