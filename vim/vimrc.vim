@@ -298,6 +298,8 @@ Plug 'tpope/vim-fugitive' " the ultimate git helper
 Plug 'tomtom/tcomment_vim' " alternative to vim-commentary
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
 Plug 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
+" Plug 'Xuyuanp/nerdtree-git-plugin' " A better fork that supports highlighting
+Plug 'tsony-tsonev/nerdtree-git-plugin' " A better fork that supports highlighting
 Plug 'dense-analysis/ale'
 Plug 'junegunn/fzf.vim'
 Plug 'jiangmiao/auto-pairs'
@@ -342,7 +344,7 @@ Plug 'reedes/vim-pencil' " Markdown
 " --------------------
 " Theme Plugins
 " --------------------
-" Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'liuchengxu/space-vim-dark'
 
 call plug#end()
@@ -414,6 +416,55 @@ nmap <silent> <leader>b :NERDTreeToggle<cr>
 " expand to the path of the file in the current buffer
 nmap <silent> <leader>B :NERDTreeFind<cr>
 let NERDTreeIgnore=['node_modules', 'dist', 'build', '_working']
+
+
+" Open in vertical split
+let g:NERDTreeMapOpenVSplit="v"
+" Open in vertical split (keep focus in Nerdtree)
+let g:NERDTreeMapPreviewVSplit="gv"
+
+" Open in horizontal split
+let g:NERDTreeMapOpenSplit="x"
+"Open in horizontal split (keep focus in Nerdtree)
+let g:NERDTreeMapPreviewSplit="gx"
+
+"
+let g:NERDTreeGitStatusWithFlags = 0
+" Disabled: Prefer highlighting over icons
+" let g:NERDTreeIndicatorMapCustom = {
+"     \ "Modified"  : "◉ ",
+"     \ "Staged"    : "● ",
+"     \ "Untracked" : "○ ",
+"     \ "Renamed"   : "→ ",
+"     \ "Unmerged"  : "═ ",
+"     \ "Deleted"   : "ⅹ ",
+"     \ "Dirty"     : "⦿ ",
+"     \ "Clean"     : "✔︎ ",
+"     \ "Unknown"   : "? "
+"     \ }
+"
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:NERDTreeGitStatusNodeColorization = 1
+
+let g:NERDTreeColorMapCustom = {
+    \ "Staged"    : "#0ee375",  
+    \ "Modified"  : "#FFBD61",  
+    \ "Renamed"   : "#51C9FC",  
+    \ "Untracked" : "#FCE77C",  
+    \ "Unmerged"  : "#FC51E6",  
+    \ "Dirty"     : "#FFBD61",  
+    \ "Clean"     : "#87939A",   
+    \ "Ignored"   : "#808080"   
+    \ }                         
+
+augroup nerdtreeconcealbrackets
+      autocmd!
+      autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\]" contained conceal containedin=ALL cchar= 
+      autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\[" contained conceal containedin=ALL
+      autocmd FileType nerdtree setlocal conceallevel=3
+      autocmd FileType nerdtree setlocal concealcursor=nvic
+augroup END
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => NVIM-Typescript Settings 
@@ -532,7 +583,7 @@ let g:jsx_ext_required = 0 " Fix for deoplete + jsx
 " let g:deoplete#auto_complete = v:false
 let g:deoplete#max_list = 16
 " let g:deoplete#on_text_changed_i = v:false
-let g:deoplete#prev_completion_mode = 'mirror' 
+" let g:deoplete#prev_completion_mode = 'mirror' 
 
 " call deoplete#custom#option({
 "       \ 'auto_complete': v:false
@@ -576,7 +627,8 @@ hi CursorLine cterm=NONE ctermbg=236 guibg=#2f2f2f
 
 " Comment Colors
 hi Comment cterm=italic
-hi Comment guifg=#5f5f87 ctermfg=60
+" hi Comment guifg=#244424 guibg=#747474
+hi Comment guifg=#747474 
 
 " JS/TS Syntax Types
 " hi StorageClass guifg=#f26299
