@@ -16,3 +16,9 @@
 [submodule "submodules/fzf"]
 	path = submodules/fzf
 	url = https://github.com/junegunn/fzf
+[submodule "zsh/plugins/nvm-auto"]
+	path = zsh/plugins/nvm-auto
+	url = https://github.com/dijitalmunky/nvm-auto
+[submodule "zsh/plugins/zsh-nvm"]
+	path = zsh/plugins/zsh-nvm
+	url = https://github.com/lukechilds/zsh-nvm

@@ -65,15 +65,19 @@ autoload -U compinit
 plugins=(
 	docker
 	git
-	# nvm-auto
+  # nvm-auto
 )
 
-for plugin ($plugins); do
-    fpath=(~/.dotfiles/zsh/plugins/oh-my-zsh/plugins/$plugin $fpath)
-done
+# This isn't actually working? Just gonna source them manually below :shrug:
+# for plugin ($plugins); do
+#   echo "$plugin"
+#     fpath=(~/.dotfiles/zsh/plugins/oh-my-zsh/plugins/$plugin $fpath)
+# done
 
 compinit
 
+source ~/.dotfiles/zsh/plugins/zsh-nvm/zsh-nvm.plugin.zsh
+source ~/.dotfiles/zsh/plugins/nvm-auto/nvm-auto.plugin.zsh
 source ~/.dotfiles/zsh/plugins/oh-my-zsh/lib/history.zsh
 source ~/.dotfiles/zsh/plugins/oh-my-zsh/lib/key-bindings.zsh
 source ~/.dotfiles/zsh/plugins/oh-my-zsh/lib/completion.zsh
@@ -112,5 +116,7 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 alias la="exa -abghl --git --color=automatic"
 alias git=hub
 alias flushDNS="sudo killall -HUP mDNSResponder"
+
+nvm_auto_switch
 
 export PATH=$PATH:$HOME/.dotfiles/utils

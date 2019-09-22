@@ -583,7 +583,10 @@ let g:jsx_ext_required = 0 " Fix for deoplete + jsx
 " let g:deoplete#auto_complete = v:false
 let g:deoplete#max_list = 16
 " let g:deoplete#on_text_changed_i = v:false
-" let g:deoplete#prev_completion_mode = 'mirror' 
+let g:deoplete#prev_completion_mode = 'mirror' 
+
+" let g:deoplete#enable_profile = 1
+" call deoplete#enable_logging('DEBUG', 'deoplete.log')
 
 " call deoplete#custom#option({
 "       \ 'auto_complete': v:false
@@ -594,7 +597,7 @@ let g:deoplete#max_list = 16
 imap <C-e>     <Plug>(neosnippet_expand_or_jump)
 smap <C-e>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-e>     <Plug>(neosnippet_expand_target)
-"
+
 " SuperTab like snippets behavior.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
 imap <expr><TAB>
