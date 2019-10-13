@@ -329,6 +329,7 @@ Plug 'pangloss/vim-javascript' " JS Syntax
 " Plug 'mxw/vim-jsx' " JSX Syntax
 Plug 'peitalin/vim-jsx-typescript' " The least buggy of the three
 " Plug 'maxmellon/vim-jsx-pretty' " JSX Syntax
+Plug 'jxnblk/vim-mdx-js' " MDX
 
 " TODO: styled-components + vim-css3 is looking weird
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
@@ -391,17 +392,9 @@ let g:pencil#textwidth = 80
 
 augroup pencil
   autocmd!
-  autocmd FileType markdown,mkd call pencil#init()
+  autocmd FileType markdown,mkd,markdown.mdx call pencil#init()
   autocmd FileType text         call pencil#init()
 augroup END
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Camel Case Motion 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" map w <Plug>CamelCaseMotion_w
-" map b <Plug>CamelCaseMotion_b
-" map e <Plug>CamelCaseMotion_e
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => NERDTree Settings 
@@ -514,6 +507,8 @@ let g:ale_linters = {
 let g:ale_linters_ignore = {'typescript': ['tslint']}
 	
 let g:ale_fixers = {
+	\   'markdown': ['prettier'],
+  \   'graphql': ['prettier'],
 	\   'typescript': ['prettier'],
 	\   'javascript': ['prettier'],
 	\   'css': ['prettier'],
