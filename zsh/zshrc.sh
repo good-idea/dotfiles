@@ -7,12 +7,8 @@ ZSH_THEME="agnoster"
 
 	git config --global push.default current
 
+
 # Aliases
-	alias vim="nvim"
-	alias v="nvim -p"
-	alias :q="exit"
-	alias q="exit"
-	alias c="clear"
 	# mkdir -p /tmp/log
 	
 # Convert simplified wildcard pattern to regex and grep a file listing using
@@ -86,6 +82,7 @@ source ~/.dotfiles/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.dotfiles/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.dotfiles/zsh/plugins/zsh-manydots-magic/manydots-magic
 source ~/.dotfiles/zsh/keybindings.sh
+source ~/.dotfiles/zsh/aliases.sh
 
 # Fix for arrow-key searching
 # start typing + [Up-Arrow] - fuzzy find history forward
@@ -113,9 +110,6 @@ unset GEM_HOME
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 # Aliases
-alias la="exa -abghl --git --color=automatic"
-alias git=hub
-alias flushDNS="sudo killall -HUP mDNSResponder"
 
 nvm_auto_switch
 
