@@ -154,7 +154,7 @@ vmap ,} c{ <C-R>" }<ESC>
 vmap ,{ c{<C-R>"}<ESC>
 
 "(v)im (r)eload
-nmap <silent> <leader>vr :so $MYVIMRC<CR>
+nmap <silent> <leader>vR :so $MYVIMRC<CR>
 
 
 " Scroll behavior
@@ -289,7 +289,6 @@ filetype off                  " required
 
 call plug#begin('~/.dotfiles/vim/plugins')
 
-
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-unimpaired' " Vim bracket shortcuts 
 Plug 'tpope/vim-obsession' " Vim session management
@@ -298,36 +297,32 @@ Plug 'tpope/vim-fugitive' " the ultimate git helper
 Plug 'tomtom/tcomment_vim' " alternative to vim-commentary
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
 Plug 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
-" Plug 'Xuyuanp/nerdtree-git-plugin' " A better fork that supports highlighting
-Plug 'tsony-tsonev/nerdtree-git-plugin' " A better fork that supports highlighting
-Plug 'dense-analysis/ale'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tsony-tsonev/nerdtree-git-plugin' " A better fork of the above that supports color highlighting
 Plug 'junegunn/fzf.vim'
-Plug 'jiangmiao/auto-pairs'
+" Plug 'rstacruz/vim-closer' " Close paren & bracket pairs on enter
 
+"--------------------
+" Intellisense Plugins
 " --------------------
-" Autocomplete Plugins
-" --------------------
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+
+Plug 'neoclide/coc.nvim', {
+      \ 'branch': 'release',
+      \ 'do': { -> coc#util#install()}
+      \ }
+Plug 'Shougo/echodoc.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/denite.nvim'
-Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh'  }
 Plug 'mattn/emmet-vim' " Emmet for HTML, CSS, and JSX
 
 " --------------------
 " Syntax Plugins
 " --------------------
+Plug 'airblade/vim-gitgutter' 
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
-" Plug 'leafgarland/typescript-vim' " TS Syntax - not as thorough as yats
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 Plug 'pangloss/vim-javascript' " JS Syntax
 " Plug 'mxw/vim-jsx' " JSX Syntax
-Plug 'peitalin/vim-jsx-typescript' " The least buggy of the three
+Plug 'peitalin/vim-jsx-typescript' " The least buggy of the three JSX highlighters
 " Plug 'maxmellon/vim-jsx-pretty' " JSX Syntax
 Plug 'jxnblk/vim-mdx-js' " MDX
 
@@ -458,84 +453,6 @@ augroup nerdtreeconcealbrackets
       autocmd FileType nerdtree setlocal concealcursor=nvic
 augroup END
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => NVIM-Typescript Settings 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" autocmd FileType typescript.tsx setlocal commentstring=//\ %s
-" let g:context#commentstring#table['typescript.jsx'] = {
-" 			\ 'jsComment' : '// %s',
-" 			\ 'jsImport' : '// %s',
-" 			\ 'jsxStatment' : '// %s',
-" 			\ 'jsxRegion' : '{/*%s*/}',
-" \}
-
-function! VimTSCConfig()
-    let g:nvim_typescript#vue_support=1
-    let g:nvim_typescript#type_info_on_hold=1
-    let g:nvim_typescript#diagnosticsEnable=0
-    " Let ALE do linting
-    let g:nvim_typescript#diagnostics_enable=0
-    no <Leader>td   :TSDoc<cr>
-    no <Leader>tt   :TSType<cr>
-    " no <Leader>ttd   :TSTypeDef<cr>
-    no <Leader>tD   :mark 1<cr>:TSDef<cr>
-    no <Leader>tp   :TSDefPreview<cr>
-    no <Leader>tr   :TSRefs<cr>
-    no <Leader>tR   :TSRename<cr>
-endfunction
-call VimTSCConfig()
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => ALE Settings 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Set Quickfix window to wrap words
-augroup quickfix
-    autocmd!
-    autocmd FileType qf setlocal wrap
-augroup END
-
-let g:ale_linters = {
-	\	'typescript': ['tslint', 'tsserver'],
-	\ 'javascript': ['eslint']
-	\}
-" Use typescript-tslint-plugin instead. (install in each package and add to
-" tsconfig.json)
-let g:ale_linters_ignore = {'typescript': ['tslint']}
-	
-let g:ale_fixers = {
-	\   'markdown': ['prettier'],
-  \   'graphql': ['prettier'],
-	\   'typescript': ['prettier'],
-	\   'javascript': ['prettier'],
-	\   'css': ['prettier'],
-	\}
-
-
-let g:ale_fix_on_save = 1
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_change = 'always'
-let g:ale_sign_error = "◉"
-let g:ale_sign_warning = "◉"
-let g:ale_sign_column_always = 1
-let g:ale_javascript_prettier_use_local_config = 1
-
-" "   ~always keep the signcolumn open!!
-set signcolumn=yes
-augroup LanguageClient_config
-  autocmd!
-  autocmd User LanguageClientStarted setlocal signcolumn=yes
-  autocmd User LanguageClientStopped setlocal signcolumn=yes
-augroup END
-
-nmap <silent> <leader>ak <Plug>(ale_previous_wrap)
-nmap <silent> <leader>aj <Plug>(ale_next_wrap)
-nmap <silent> <leader>af <Plug>(ale_fix)
-nmap <leader>ad <Plug>(ale_detail)
-"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => CtrlP Settings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -570,23 +487,160 @@ let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Deoplete Settings 
+" => Intellisense Settings 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set cmdheight=2
+let g:echodoc_enable_at_startup = 1
+" Automatically install servers
+let g:coc_global_extensions = [
+  \ 'coc-tsserver',
+  \ 'coc-flow',
+  \ 'coc-pairs', 
+  \ 'coc-css', 
+  \ 'coc-tabnine', 
+  \ 'coc-eslint', 
+  \ 'coc-prettier', 
+  \ 'coc-json', 
+  \ 'coc-highlight',
+  \ 'coc-inline-jest',
+  \ 'coc-github',
+  \ 'coc-neosnippet',
+  \ 'coc-styled-components',
+  \ ]
+
+" Better handling of returns with coc-pairs TODO this still isn't perfect
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Recommended settings from coc.nvim Readme
+
+" Better display for messages
+set cmdheight=2
+
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" Use K to show documentation in preview window
+nnoremap <silent> gh :call <SID>show_documentation()<CR>
+
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+nmap <silent> <C-d> <Plug>(coc-range-select)
+xmap <silent> <C-d> <Plug>(coc-range-select)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+" set statusline+=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Using CocList
+" Diagnostics
+" (d)iagnostics (a)ll
+nmap <silent> <leader>da  :<C-u>CocList diagnostics<cr>
+" (d)iagnostic next (down)
+nmap <silent> <leader>dj  <Plug>(coc-diagnostic-next)
+" (d)iagnostic prev (up)
+nmap <silent> <leader>dk  <Plug>(coc-diagnostic-prev)
+
+" Definitions 
+" View Definition
+nmap <silent> <leader>vd <Plug>(coc-definition) 
+" View Type 
+nmap <silent> <leader>vt <Plug>(coc-type-definition)
+" View Implementation 
+nmap <silent> <leader>vi <Plug>(coc-implementation)
+" View References 
+nmap <silent> <leader>vr <Plug>(coc-references)
+
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => NeoSnippetSettings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:deoplete#enable_at_startup = 1 " Enable deoplete at startup
-let g:jsx_ext_required = 0 " Fix for deoplete + jsx
-" let g:deoplete#auto_complete = v:false
-let g:deoplete#max_list = 16
-" let g:deoplete#on_text_changed_i = v:false
-let g:deoplete#prev_completion_mode = 'mirror' 
-
-" let g:deoplete#enable_profile = 1
-" call deoplete#enable_logging('DEBUG', 'deoplete.log')
-
-" call deoplete#custom#option({
-"       \ 'auto_complete': v:false
-"       \ })
-"
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
 imap <C-e>     <Plug>(neosnippet_expand_or_jump)

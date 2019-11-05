@@ -1,0 +1,28 @@
+{
+  "suggest.echodocSupport": true,
+  "suggest.maxCompleteItemCount": 20,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "json",
+    "javascriptreact",
+    "typescript.tsx"
+  ],
+  "coc.preferences.hoverTarget": "echo",
+  "signature.target": "echo",
+  "signature.enable": true,
+  "eslint.filetypes": [
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "javascriptreact",
+    "typescript.tsx"
+  ],
+  "list.maxHeight": 20,
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic.maxWindowHeight": 45,
+  "typescript.showUnused": false,
+  "tsserver.enableJavascript": false
+}
+
