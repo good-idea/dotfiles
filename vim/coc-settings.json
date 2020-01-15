@@ -7,9 +7,10 @@
     "typescriptreact",
     "json",
     "javascriptreact",
-    "typescript.tsx"
+    "typescript.tsx",
+    "css",
+    "scss"
   ],
-  "coc.preferences.hoverTarget": "echo",
   "signature.target": "echo",
   "signature.enable": true,
   "eslint.filetypes": [
@@ -23,6 +24,7 @@
   "diagnostic.checkCurrentLine": true,
   "diagnostic.maxWindowHeight": 45,
   "typescript.showUnused": false,
-  "tsserver.enableJavascript": false
+  "tsserver.enableJavascript": false,
+  "typescript.updateImportsOnFileMove.enable": false
 }
 

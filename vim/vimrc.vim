@@ -241,7 +241,7 @@ nnoremap <C-H> <C-W><C-H>
 	" Triger `autoread` when files changes on disk
 	" https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
 	" https://vi.stackexchange.com/questions/13692/prevent-focusgained-autocmd-running-in-command-line-editing-mode
-	autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+	" autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
 	set autoread 
 	" Notification after file change
 	" https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
@@ -467,29 +467,34 @@ endif
 nmap <silent> <leader>p :CtrlP<cr>
 let g:ctrlp_dotfiles=1
 let g:ctrlp_working_path_mode = 'ra'
+" Select and open multiple files in tabs
+"   <c-z> to select files by default
+let g:ctrlp_open_multiple_files = 'tjr'
+let g:ctrlp_open_new_file = 't'
+let g:ctrlp_arg_map = 0
 
 " CtrlP ignore patterns
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 " Open in tabs by default
-" let g:ctrlp_prompt_mappings = {
-"     \ 'AcceptSelection("e")': ['<c-t>'],
-"     \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
-" 	\}
+ let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("e")': ['<2-LeftMouse>'],
+    \ 'PrtExpandDir()':       ['<c-p>'],
+    \ 'MarkToOpen()':         ['<tab>'],
+    \ 'OpenMulti()':          ['<cr>'],
+ 	\}
 
 let g:ctrlp_custom_ignore = {
             \ 'dir': '\.git$\|node_modules$\|\.hg$\|\.svn$',
             \ 'file': '\.exe$\|\.so$'
             \ }
 
-" let g:ctrlp_working_path_mode = '' 
 let g:ctrlp_working_path_mode = 'ra' 
 let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Intellisense Settings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set cmdheight=2
 let g:echodoc_enable_at_startup = 1
 " Automatically install servers
 let g:coc_global_extensions = [
@@ -501,7 +506,6 @@ let g:coc_global_extensions = [
   \ 'coc-eslint', 
   \ 'coc-prettier', 
   \ 'coc-json', 
-  \ 'coc-highlight',
   \ 'coc-inline-jest',
   \ 'coc-github',
   \ 'coc-neosnippet',
@@ -548,8 +552,6 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
-" Use K to show documentation in preview window
-nnoremap <silent> gh :call <SID>show_documentation()<CR>
 
 
 function! s:show_documentation()
@@ -560,8 +562,8 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" Show definition for symbol under cursor on CursorMoved 
+" autocmd CursorHold * silent call CocActionAsync('doHover') 
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
@@ -615,8 +617,10 @@ nmap <silent> <leader>dj  <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>dk  <Plug>(coc-diagnostic-prev)
 
 " Definitions 
-" View Definition
-nmap <silent> <leader>vd <Plug>(coc-definition) 
+" (g)o to Definition
+nmap <silent> <leader>gd <Plug>(coc-definition) 
+" (v)iew documentation 
+nnoremap <silent> <leader>vd :call <SID>show_documentation()<CR>
 " View Type 
 nmap <silent> <leader>vt <Plug>(coc-type-definition)
 " View Implementation 
@@ -676,6 +680,7 @@ set termguicolors
 " Background & Current Line
 hi Normal ctermfg=231 ctermbg=235 cterm=NONE guifg=#e6e1dc guibg=#242424 gui=NONE
 hi CursorLine cterm=NONE ctermbg=236 guibg=#2f2f2f
+highlight CocHoverRange ctermfg=Red guifg=#f26299
 
 " Comment Colors
 hi Comment cterm=italic
