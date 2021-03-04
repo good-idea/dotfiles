@@ -1,6 +1,4 @@
 {
-  "suggest.echodocSupport": true,
-  "suggest.maxCompleteItemCount": 20,
   "coc.preferences.formatOnSaveFiletypes": [
     "javascript",
     "typescript",
@@ -11,20 +9,19 @@
     "css",
     "scss"
   ],
-  "signature.target": "echo",
-  "signature.enable": true,
-  "eslint.filetypes": [
-    "javascript",
-    "typescript",
-    "typescriptreact",
-    "javascriptreact",
-    "typescript.tsx"
-  ],
-  "list.maxHeight": 20,
   "diagnostic.checkCurrentLine": true,
   "diagnostic.maxWindowHeight": 45,
+  "signature.target": "echo",
+  "signature.enable": true,
+  "snippets.textmateSnippetsRoots": ["~/.dotfiles/vim/snippets"],
+  "snippets.extends": {
+    "typescriptreact": ["typescript"]
+  },
+  "suggest.echodocSupport": true,
+  "suggest.maxCompleteItemCount": 20,
+  "suggest.timeout": 5000,
   "typescript.showUnused": false,
   "tsserver.enableJavascript": false,
+  "tsserver.log": "verbose",
   "typescript.updateImportsOnFileMove.enable": false
 }
-

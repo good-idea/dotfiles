@@ -1,0 +1,51 @@
+{
+  "React Function Component": {
+    "prefix": "rfcomp",
+    "body": [
+      "import * as React from 'react'",
+      "",
+      "interface ${1:NAME}Props {",
+      "  /* */",
+      "}",
+      "",
+      "export const $1: React.FC<$1Props> = (props) => {",
+      "  return <div>...</div>",
+      "}",
+      ""
+    ],
+    "description": "React Function Component"
+  },
+  "React Context Provider": {
+    "prefix": "rcontext",
+    "body": [
+      "import * as React from 'react'",
+      "",
+      "interface ${1:Title}ContextValue {",
+      "  /* */",
+      "}",
+      "",
+      "const ${1:Title}Context = React.createContext<${1:Title}ContextValue | undefined>(undefined)",
+      "",
+      "export const ${1:Title}Consumer = ${1:Title}Context.Consumer",
+      "",
+      "export const use${1:Title} = () => {",
+      "  const ctx = React.useContext(${1:Title}Context)",
+      "  if (!ctx) throw new Error('use$1Context must be used within a $1Provider')",
+      "  return ctx",
+      "}",
+      "",
+      "interface ${1:Title}Props {",
+      "  children: React.ReactNode",
+      "}",
+      "",
+      "export const ${1:Title}Provider = ({ children }: ${1:Title}Props) => {",
+      "  const value = {",
+      "    /* */",
+      "  }",
+      "",
+      "  return <${1:Title}Context.Provider value={value}>{children}</${1:Title}Context.Provider>",
+      "}"
+    ],
+    "description": "React Context Provider"
+  }
+}

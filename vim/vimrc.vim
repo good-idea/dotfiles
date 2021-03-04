@@ -1,4 +1,5 @@
-" General Vim settings
+"m/vimrc.vim
+"General Vim settings
 	syntax on
 	let mapleader=","
 	set dir=/tmp/
@@ -169,6 +170,7 @@ vnoremap Q :norm @q<cr>
 " Shift + L / H to switch tabs
 noremap <S-l> gt
 noremap <S-h> gT
+cmap qt :tabclose
 
 noremap <S-j> 10j
 noremap <S-k> 10k
@@ -289,6 +291,8 @@ filetype off                  " required
 
 call plug#begin('~/.dotfiles/vim/plugins')
 
+Plug 'git-time-metric/gtm-vim-plugin'
+Plug 'heavenshell/vim-jsdoc' " Generate JsDoc comments
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-unimpaired' " Vim bracket shortcuts 
 Plug 'tpope/vim-obsession' " Vim session management
@@ -296,28 +300,28 @@ Plug 'tpope/vim-surround' " Vim session management
 Plug 'tpope/vim-fugitive' " the ultimate git helper
 Plug 'tomtom/tcomment_vim' " alternative to vim-commentary
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
-Plug 'scrooloose/nerdtree' " file drawer, open with :NERDTreeToggle
+Plug 'preservim/nerdtree' " file drawer, open with :NERDTreeToggle
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tsony-tsonev/nerdtree-git-plugin' " A better fork of the above that supports color highlighting
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Plug 'rstacruz/vim-closer' " Close paren & bracket pairs on enter
+
 
 "--------------------
 " Intellisense Plugins
 " --------------------
 
-Plug 'neoclide/coc.nvim', {
-      \ 'branch': 'release',
-      \ 'do': { -> coc#util#install()}
-      \ }
-Plug 'Shougo/echodoc.vim'
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/denite.nvim'
-Plug 'mattn/emmet-vim' " Emmet for HTML, CSS, and JSX
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+" Plug 'Shougo/echodoc.vim'
+" Plug 'Shougo/denite.nvim'
+" Plug 'mattn/emmet-vim' " Emmet for HTML, CSS, and JSX
 
 " --------------------
 " Syntax Plugins
 " --------------------
+
+
 Plug 'airblade/vim-gitgutter' 
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 Plug 'pangloss/vim-javascript' " JS Syntax
@@ -325,6 +329,7 @@ Plug 'pangloss/vim-javascript' " JS Syntax
 Plug 'peitalin/vim-jsx-typescript' " The least buggy of the three JSX highlighters
 " Plug 'maxmellon/vim-jsx-pretty' " JSX Syntax
 Plug 'jxnblk/vim-mdx-js' " MDX
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 " TODO: styled-components + vim-css3 is looking weird
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
@@ -342,20 +347,31 @@ Plug 'reedes/vim-pencil' " Markdown
 " --------------------
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'liuchengxu/space-vim-dark'
+Plug 'romainl/flattened'
+Plug 'wadackel/vim-dogrun'
+Plug 'tyrannicaltoucan/vim-deep-space'
+Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep-theme' }
+Plug 'nightsense/carbonized'
 
 call plug#end()
 
+" color dracula 
+" color space-vim-dark
+" color dogrun
+" color carbonized-dark
+" color flattened_dark
+" color deep-space
+color challenger_deep
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Theme & Syntax Settings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-filetype plugin indent on    " required
+let g:jsdoc_enable_es6 = 1
+
 syntax on
+filetype plugin indent on    " required
 
-" color dracula 
-
-color space-vim-dark
 
 
 augroup VimCSS3Syntax
@@ -364,9 +380,36 @@ augroup VimCSS3Syntax
   autocmd FileType css setlocal iskeyword+=-
 augroup END
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Snippet Settings 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+" Use <leader>x for convert visual selected code to snippet
+" xmap <leader>x  <Plug>(coc-convert-snippet)
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc Settings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" enable time tracker in status bar
+let g:gtm_plugin_status_enabled = 1
+set statusline=%{exists('*GTMStatusline')?'['.GTMStatusline().']':''}\ %<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 set rtp+=~/.dotfiles/submodules/fzf " Enable fzf
 let g:vim_json_syntax_conceal = 0 " Disable vim-json quote concealing
@@ -378,9 +421,31 @@ let g:user_emmet_settings = {
 \ },
 \}
 
+"" Folding
+set foldmethod=syntax
+set nofoldenable
+set foldlevel=99
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Documentation Generation
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+let g:jsdoc_lehre_path = '/usr/local/bin/lehre'
+" nmap <silent> <C-l> ?function<cr>:noh<cr><Plug>(jsdoc)
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Markdown Editing 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+" Refresh preview only on buffer writes (no live preview)
+let g:mkdp_refresh_slow = 0
+" Start a markdown preview with `, mp`
+"
+nmap <silent> <leader>mp <Plug>MarkdownPreview
+" nmap <silent> <leader>mp :call Vim_Markdown_Preview()<CR>
+au BufRead,BufNewFile *.md setlocal wrap
 
 let g:pencil#wrapModeDefault = 'soft'   " default is 'hard'
 let g:pencil#textwidth = 80
@@ -403,7 +468,7 @@ let NERDTreeShowHidden=1
 nmap <silent> <leader>b :NERDTreeToggle<cr>
 " expand to the path of the file in the current buffer
 nmap <silent> <leader>B :NERDTreeFind<cr>
-let NERDTreeIgnore=['node_modules', 'dist', 'build', '_working']
+let NERDTreeIgnore=['node_modules', 'dist', '_working']
 
 
 " Open in vertical split
@@ -464,7 +529,7 @@ if executable('ag')
 	  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
  
-nmap <silent> <leader>p :CtrlP<cr>
+map <silent> <leader>p :CtrlP<cr>
 let g:ctrlp_dotfiles=1
 let g:ctrlp_working_path_mode = 'ra'
 " Select and open multiple files in tabs
@@ -499,7 +564,6 @@ let g:echodoc_enable_at_startup = 1
 " Automatically install servers
 let g:coc_global_extensions = [
   \ 'coc-tsserver',
-  \ 'coc-flow',
   \ 'coc-pairs', 
   \ 'coc-css', 
   \ 'coc-tabnine', 
@@ -508,7 +572,7 @@ let g:coc_global_extensions = [
   \ 'coc-json', 
   \ 'coc-inline-jest',
   \ 'coc-github',
-  \ 'coc-neosnippet',
+  \ 'coc-snippets',
   \ 'coc-styled-components',
   \ ]
 
@@ -641,35 +705,8 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => NeoSnippetSettings 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Plugin key-mappings.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <C-e>     <Plug>(neosnippet_expand_or_jump)
-smap <C-e>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-e>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <expr><TAB>
- \ pumvisible() ? "\<C-n>" :
- \ neosnippet#expandable_or_jumpable() ?
- \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-" For conceal markers,.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
-
-let g:neosnippet#disable_runtime_snippets = {
-\   '_' : 1,
-\ }
-
-let g:neosnippet#snippets_directory = '~/.dotfiles/vim/snippets'
-
+" " Reload vimr configuration file
+nnoremap <Leader>Vr :source $MYVIMRC<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Color Scheme Mods

@@ -114,3 +114,13 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 nvm_auto_switch
 
 export PATH=$PATH:$HOME/.dotfiles/utils
+export PATH=$PATH:$HOME/.dotfiles/bin
+
+# ASDF
+
+. $HOME/.asdf/asdf.sh
+# append completions to fpath
+fpath=(${ASDF_DIR}/completions $fpath)
+# initialise completions with ZSH's compinit
+autoload -Uz compinit
+compinit

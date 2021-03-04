@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+# Opens the current github repository in the default browser
+remotes = `git remote`
+hasNoRemotes = remotes.size < 2
+if hasNoRemotes then 
+  return
+end
+repolink = `git remote get-url origin`
+if repolink.include?("git@github.com:") then 
+  # Converts from ssh format to https format if necessary
+
+  # git@github.com:benwinding/dotfiles
+  # https://github.com/benwinding/dotfiles
+  repolink = repolink.gsub("git@github.com:", "https://github.com/")
+end
+
+`open #{repolink}`
