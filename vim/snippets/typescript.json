@@ -1,0 +1,20 @@
+{
+  "A new Jest test file": {
+    "prefix": "jtestfile",
+    "body": [
+      "import { ${1:function} } from '../${1:example}'",
+      "",
+      "describe('${1:example}', () => {",
+      "  it.skip('should ...', async () => {",
+      "",
+      "  })",
+      "})"
+    ],
+    "description": "A new Jest test file"
+  },
+  "A new Jest assertion": {
+    "prefix": "itshould",
+    "body": ["it.skip('should ${1:dosomething}', () => {", "  //", "})"],
+    "description": "A new Jest assertion"
+  }
+}

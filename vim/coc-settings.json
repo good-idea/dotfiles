@@ -23,5 +23,10 @@
   "typescript.showUnused": false,
   "tsserver.enableJavascript": false,
   "tsserver.log": "verbose",
-  "typescript.updateImportsOnFileMove.enable": false
+  "typescript.updateImportsOnFileMove.enable": false,
+  "typescript.suggestionActions.enabled": false,
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "wxss.validate": false
 }

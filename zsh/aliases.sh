@@ -7,6 +7,7 @@ alias la="exa -abghl --git --color=automatic"
 alias flushDNS="sudo killall -HUP mDNSResponder"
 alias flushdns="sudo killall -HUP mDNSResponder"
 alias y="yarn"
+alias ys="yarn start"
 alias now="vercel"
 alias v="vercel"
 

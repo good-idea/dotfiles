@@ -114,7 +114,7 @@ map <silent> <D-9> :tabn 9<cr>
 
 " Command-/ to toggle comments
 map <D-/> :TComment<CR>
-imap <D-/> <Esc>:TComment<CR>i
+" imap <D-/> <Esc>:TComment<CR>i
 " gcc to comment a line, gcp to comment a paragraph
 nmap <silent> gcp <c-_>p
 
@@ -322,6 +322,9 @@ Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 " --------------------
 
 
+Plug 'eloyesp/vim-liquid'
+
+" Plug 'tpope/vim-liquid' " Liquid syntax
 Plug 'airblade/vim-gitgutter' 
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 Plug 'pangloss/vim-javascript' " JS Syntax
@@ -336,6 +339,7 @@ Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'hail2u/vim-css3-syntax'
 Plug 'jparise/vim-graphql'
 Plug 'elzr/vim-json' " JSON syntax
+Plug 'elixir-editors/vim-elixir' " Elixir syntax
 
 " --------------------
 " Filetype Plugins
@@ -345,13 +349,13 @@ Plug 'reedes/vim-pencil' " Markdown
 " --------------------
 " Theme Plugins
 " --------------------
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'liuchengxu/space-vim-dark'
-Plug 'romainl/flattened'
-Plug 'wadackel/vim-dogrun'
-Plug 'tyrannicaltoucan/vim-deep-space'
+" Plug 'dracula/vim', { 'as': 'dracula' }
+" Plug 'liuchengxu/space-vim-dark'
+" Plug 'romainl/flattened'
+" Plug 'wadackel/vim-dogrun'
+" Plug 'tyrannicaltoucan/vim-deep-space'
 Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep-theme' }
-Plug 'nightsense/carbonized'
+" Plug 'nightsense/carbonized'
 
 call plug#end()
 

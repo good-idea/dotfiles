@@ -47,5 +47,53 @@
       "}"
     ],
     "description": "React Context Provider"
+  },
+  "A new Jest test file": {
+    "prefix": "jtestfilereact",
+    "body": [
+      "import * as React from 'react'",
+      "import { render } from '@testing-library/react'",
+      "import { ${1:Component} } from '../${1:example}'",
+      "",
+      "describe('${1:Component}', () => {",
+      "  it.skip('should ...', async () => {",
+      "    const { getByText } = render(<${1:Component} />)",
+      "  })",
+      "})"
+    ],
+    "description": "A new Jest test file"
+  },
+  "A new Jest assertion": {
+    "prefix": "itshould",
+    "body": ["it.skip('should ${1:dosomething}', () => {", "  //", "})"],
+    "description": "A new Jest assertion"
+  },
+  "Next.js Page with GetServerSideProps": {
+    "prefix": "nextserverpage",
+    "body": [
+      "import * as React from 'react';",
+      "import { GetServerSideProps } from 'next';",
+      "import { ${1:Page}View } from '../views/${1:Page}View';",
+      "",
+      "interface ${1:Page}Props {",
+      "  //",
+      "}",
+      "",
+      "const ${1:Page}: React.FC<${1:Page}Props> = (props) => {",
+      "  return <${1:Page}View />;",
+      "};",
+      "",
+      "export const getServerSideProps: GetServerSideProps<${1:Page}Props> = async (",
+      "  ctx",
+      ") => {",
+      "  //",
+      "  return {",
+      "    props: {},",
+      "  };",
+      "};"
+      "",
+      "export default ${1:Page}"
+    ],
+    "description": "Next.js Page with GetServerSideProps"
   }
 }
