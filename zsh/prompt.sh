@@ -2,7 +2,7 @@
 
 autoload -U colors && colors
 
-setopt PROMPT_SUBST
+setopt prompt_subst
 
 set_prompt() {
 
@@ -32,11 +32,6 @@ set_prompt() {
 		PS1+="%{$fg[magenta]%}$_elapsed[-1]s%{$reset_color%}"
 	fi
 
-	# PID
-	if [[ $! -ne 0 ]]; then
-		PS1+=', '
-		PS1+="%{$fg[yellow]%}PID:$!%{$reset_color%}"
-	fi
 
 	# Sudo: https://superuser.com/questions/195781/sudo-is-there-a-command-to-check-if-i-have-sudo-and-or-how-much-time-is-left
 	CAN_I_RUN_SUDO=$(sudo -n uptime 2>&1|grep "load"|wc -l)
@@ -49,7 +44,7 @@ set_prompt() {
 	PS1+="%{$fg[white]%}]: %{$reset_color%}% "
 }
 
-precmd_functions+=set_prompt
+precmd_functions+=(set_prompt)
 
 preexec () {
    (( ${#_elapsed[@]} > 1000 )) && _elapsed=(${_elapsed[@]: -1000})
@@ -60,3 +55,4 @@ precmd () {
    (( _start >= 0 )) && _elapsed+=($(( SECONDS-_start )))
    _start=-1 
 }
+

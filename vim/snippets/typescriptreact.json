@@ -1,4 +1,22 @@
 {
+  "React Native Function Component": {
+    "prefix": "rnfcomp",
+    "body": [
+      "import * as React from 'react'",
+      "import { View } from 'react-native'",
+      "",
+      "interface ${1:NAME}Props {",
+      "  /* */",
+      "}",
+      "",
+      "export const $1: React.FC<$1Props> = (props) => {",
+      "  return <View>...</View>",
+      "}",
+      ""
+    ],
+    "description": "React Function Component"
+  },
+
   "React Function Component": {
     "prefix": "rfcomp",
     "body": [
@@ -90,10 +108,11 @@
       "  return {",
       "    props: {},",
       "  };",
-      "};"
+      "};",
       "",
       "export default ${1:Page}"
     ],
+
     "description": "Next.js Page with GetServerSideProps"
   }
 }
