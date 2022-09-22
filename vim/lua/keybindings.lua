@@ -25,12 +25,26 @@ map("n", "<tab>", "%", opts) -- use Tab to go to next bracket/paren pair
 map("v", "<tab>", "%", opts) -- use Tab to go to next bracket/paren pair
 map("o", "<tab>", "%", opts) -- use Tab to go to next bracket/paren pair
 
+-- Diagnostics
+-- view code actions ,va
+map("n", "<leader>va", "<cmd>CodeActionMenu<CR>", opts)
+-- view signature with ,vs
+map("n", "<leader>vs", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+-- view diagnostics for line with ,vs
+map("n", "<leader>vd", "<cmd>lua vim.diagnostic.open_float(nil, { focusable = true, max_height = 20 })<CR>", opts)
+-- View diagnostics for entire buffer with ,vD
+map(
+  "n",
+  "<leader>vD",
+  "<cmd>lua vim.diagnostic.open_float(0, { focusable = true, max_height = 20, scope = 'buffer' })<CR>",
+  opts
+)
+
 -- File search & navigation
-map("n", "<leader>vs", "<cmd>lua vim.lsp.buf.hover()<CR>", opts) -- view signature with ,vs
+map("n", "<Leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts) -- go to definition with ,gd
 map("n", "<leader>vg", "<cmd>Telescope git_files<CR>", opts) -- view changed git files with ,vg
 map("n", "<leader>vr", "<cmd>Telescope lsp_references<CR>", opts) -- view file references with ,vr
-map("n", "<Leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts) -- go to definition with ,gd
-map("n", "<leader>p", "<cmd>Telescope find_files<CR>", opts) -- "ctrl-p" file finding with ,p
+map("n", "<leader>p", "<cmd>Telescope find_files hidden=true<CR>", opts) -- "ctrl-p" file finding with ,p
 map("n", "<leader>ag", "<cmd>Telescope live_grep<CR>", opts) -- "ag" like live grep with ,ag
 map("n", "<leader>b", "<cmd>NvimTreeToggle<CR>", opts) -- open nvim-tree explorer
 map("n", "<leader>B", "<cmd>NvimTreeFindFile<CR>", opts) -- open nvim-tree explorer

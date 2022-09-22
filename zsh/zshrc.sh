@@ -2,19 +2,29 @@ source /opt/homebrew/share/antigen/antigen.zsh
 # General Config
 ZSH_THEME="agnoster"
 HISTFILE=~/.zsh_history
-SAVEHIST=1000 
-setopt inc_append_history # To save every command before it is executed 
+SAVEHIST=1000
+setopt inc_append_history # To save every command before it is executed
 setopt share_history # setopt inc_append_history
 
 git config --global push.default current
 
 
-	
+# XCode & Android Studio
+
+export SDKROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk
+export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+
 # Settings
 export VISUAL=vim
 
 
-# # For vim mappings: 
+# # For vim mappings:
 # 	stty -ixon
 
 

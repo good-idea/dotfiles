@@ -90,11 +90,12 @@ augroup END
 ]]
 )
 
+-- auto formatting. Add extensions below
 vim.cmd(
   [[
   augroup FormatAutogroup
     autocmd!
-    autocmd BufWritePost *.ts,*.tsx,*.json,*.md,*.js,*.rs,*.lua FormatWrite
+    autocmd BufWritePost *.ts,*.tsx,*.json,*.md,*.js,*.rs,*.lua,*.css,*.scss,*.sass FormatWrite
   augroup END
 ]],
   true

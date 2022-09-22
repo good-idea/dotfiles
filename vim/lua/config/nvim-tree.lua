@@ -1,8 +1,31 @@
 local tree_cb = require "nvim-tree.config".nvim_tree_callback
 
 require "nvim-tree".setup {
+  actions = {
+    open_file = {
+      window_picker = {
+        enable = true
+      }
+    }
+  },
+  renderer = {
+    add_trailing = true,
+    highlight_opened_files = "name",
+    highlight_git = true,
+    icons = {
+      show = {
+        file = false,
+        folder = false,
+        folder_arrow = false,
+        git = false
+      }
+    },
+    indent_markers = {
+      enable = true
+    }
+  },
   diagnostics = {
-    enable = "true",
+    enable = true,
     icons = {
       warning = "●",
       error = "●",
@@ -11,12 +34,12 @@ require "nvim-tree".setup {
     }
   },
   git = {
-    enable = "true"
+    enable = true
   },
   filters = {
-    custom = {
-      ".git",
-      "!.env"
+    exclude = {
+      ".env",
+      ".env."
     }
   },
   view = {

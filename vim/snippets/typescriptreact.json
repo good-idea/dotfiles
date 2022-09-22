@@ -3,14 +3,14 @@
     "prefix": "rnfcomp",
     "body": [
       "import * as React from 'react'",
-      "import { View } from 'react-native'",
+      "import { Text } from 'react-native'",
       "",
       "interface ${1:NAME}Props {",
       "  /* */",
       "}",
       "",
       "export const $1: React.FC<$1Props> = (props) => {",
-      "  return <View>...</View>",
+      "  return <Text>...</Text>",
       "}",
       ""
     ],
@@ -83,11 +83,11 @@
   },
   "A new Jest assertion": {
     "prefix": "itshould",
-    "body": ["it.skip('should ${1:dosomething}', () => {", "  //", "})"],
+    "body": ["it.skip('should ${1:dosomething}', async () => {", "  //", "})"],
     "description": "A new Jest assertion"
   },
-  "Next.js Page with GetServerSideProps": {
-    "prefix": "nextserverpage",
+  "Next.js Route with GetServerSideProps": {
+    "prefix": "nextroute",
     "body": [
       "import * as React from 'react';",
       "import { GetServerSideProps } from 'next';",
@@ -95,6 +95,10 @@
       "",
       "interface ${1:Page}Props {",
       "  //",
+      "}",
+      "",
+      "interface ${1:Page}Params{",
+      "  param: string",
       "}",
       "",
       "const ${1:Page}: React.FC<${1:Page}Props> = (props) => {",
@@ -110,9 +114,16 @@
       "  };",
       "};",
       "",
+      "export const getStaticProps: GetStaticProps<${1:Page}Params> = async (",
+      "  ctx",
+      ") => {",
+      "  return {",
+      "    paths",
+      "  }",
+      "}",
+      "",
       "export default ${1:Page}"
     ],
-
     "description": "Next.js Page with GetServerSideProps"
   }
 }

@@ -5,7 +5,7 @@
 	syntax on
 	let mapleader=","
 	set dir=/tmp/
-	set relativenumber 
+	set relativenumber
 	set number
 
 " ============= Tab Stuff ============
@@ -28,14 +28,14 @@ set shiftwidth=0
 
 	set hlsearch
 	nnoremap <C-l> :nohl<CR><C-l>:echo "Search Cleared"<CR>
-	
+
 	" Things from: https://items.sjbach.com/319/configuring-vim-right
 	set number     " Line numbers
 	set visualbell " No sounds
 	set autoread   " Reload files changed outside vim
 	nnoremap ' `
     nnoremap ` '
-	set ignorecase 
+	set ignorecase
 	set smartcase
 	set title
 
@@ -75,7 +75,7 @@ set linebreak    "Wrap lines at convenient points
 
 	nnoremap vv 0v$
 
-	set listchars=tab:\|\ 
+	set listchars=tab:\|\
 	nnoremap <leader><tab> :set list!<cr>
 	set clipboard=unnamed
 
@@ -84,8 +84,8 @@ set linebreak    "Wrap lines at convenient points
 	set incsearch
 
 " AG Shortcuts
-nmap ,ag :Ag 
-nmap ,af :AgFile 
+nmap ,ag :Ag
+nmap ,af :AgFile
 
 
 " move up/down quickly by using Cmd-j, Cmd-k
@@ -162,7 +162,7 @@ nmap <silent> <leader>vR :so $MYVIMRC<CR>
 
 
 " Scroll behavior
-	set scrolloff=8 
+	set scrolloff=8
 	nnoremap <C-e> 3<C-e>
 	nnoremap <C-y> 3<C-y>
 
@@ -212,7 +212,7 @@ noremap <S-k> 10k
 		inoremap <leader>< <esc>I<<esc>A><esc>yypa/<esc>O<tab>
 
 
-" File and Window Management 
+" File and Window Management
 	inoremap <leader>x <ESC>:x<CR>
 	nnoremap <leader>x :x<CR>
 
@@ -247,7 +247,7 @@ nnoremap <C-H> <C-W><C-H>
 	" https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
 	" https://vi.stackexchange.com/questions/13692/prevent-focusgained-autocmd-running-in-command-line-editing-mode
 	" autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
-	set autoread 
+	set autoread
 	" Notification after file change
 	" https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
 	autocmd FileChangedShellPost *
@@ -270,7 +270,7 @@ if has ('autocmd') " Remain compatible with earlier versions
 endif " has autocmd
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Misc Settings 
+" => Misc Settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set wildignore+=**/node_modules/**
@@ -296,9 +296,13 @@ call plug#begin('~/.dotfiles/vim/plugins')
 
 Plug 'nvim-lua/completion-nvim'
 Plug 'svermeulen/vimpeccable'
-Plug 'heavenshell/vim-jsdoc' " Generate JsDoc comments
+" Generate JsDoc comments
+Plug 'heavenshell/vim-jsdoc', {
+  \ 'for': ['javascript', 'javascript.jsx','typescript'],
+  \ 'do': 'make install'
+}
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'tpope/vim-unimpaired' " Vim bracket shortcuts 
+Plug 'tpope/vim-unimpaired' " Vim bracket shortcuts
 Plug 'tpope/vim-obsession' " Vim session management
 Plug 'tpope/vim-surround' " Vim session management
 Plug 'tpope/vim-fugitive' " the ultimate git helper
@@ -329,7 +333,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'eloyesp/vim-liquid'
 
 " Plug 'tpope/vim-liquid' " Liquid syntax
-Plug 'airblade/vim-gitgutter' 
+Plug 'airblade/vim-gitgutter'
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 Plug 'pangloss/vim-javascript' " JS Syntax
 " Plug 'mxw/vim-jsx' " JSX Syntax
@@ -363,7 +367,7 @@ Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep-theme' }
 
 call plug#end()
 
-" color dracula 
+" color dracula
 " color space-vim-dark
 " color dogrun
 " color carbonized-dark
@@ -372,7 +376,7 @@ call plug#end()
 color challenger_deep
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Theme & Syntax Settings 
+" => Theme & Syntax Settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:jsdoc_enable_es6 = 1
@@ -390,7 +394,7 @@ augroup END
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Snippet Settings 
+" => Snippet Settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use <C-l> for trigger snippet expand.
 imap <C-l> <Plug>(coc-snippets-expand)
@@ -412,7 +416,7 @@ imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Misc Settings 
+" => Misc Settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " enable time tracker in status bar
@@ -437,11 +441,11 @@ set foldlevel=99
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
-let g:jsdoc_lehre_path = '/usr/local/bin/lehre'
+" let g:jsdoc_lehre_path = '/usr/local/bin/lehre'
 " nmap <silent> <C-l> ?function<cr>:noh<cr><Plug>(jsdoc)
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Markdown Editing 
+" => Markdown Editing
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
@@ -463,7 +467,7 @@ augroup pencil
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => NERDTree Settings 
+" => NERDTree Settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " close NERDTree after a file is opened
@@ -506,26 +510,26 @@ let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:NERDTreeGitStatusNodeColorization = 1
 
 let g:NERDTreeColorMapCustom = {
-    \ "Staged"    : "#0ee375",  
-    \ "Modified"  : "#FFBD61",  
-    \ "Renamed"   : "#51C9FC",  
-    \ "Untracked" : "#FCE77C",  
-    \ "Unmerged"  : "#FC51E6",  
-    \ "Dirty"     : "#FFBD61",  
-    \ "Clean"     : "#87939A",   
-    \ "Ignored"   : "#808080"   
-    \ }                         
+    \ "Staged"    : "#0ee375",
+    \ "Modified"  : "#FFBD61",
+    \ "Renamed"   : "#51C9FC",
+    \ "Untracked" : "#FCE77C",
+    \ "Unmerged"  : "#FC51E6",
+    \ "Dirty"     : "#FFBD61",
+    \ "Clean"     : "#87939A",
+    \ "Ignored"   : "#808080"
+    \ }
 
 augroup nerdtreeconcealbrackets
       autocmd!
-      autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\]" contained conceal containedin=ALL cchar= 
+      autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\]" contained conceal containedin=ALL cchar=
       autocmd FileType nerdtree syntax match hideBracketsInNerdTree "\[" contained conceal containedin=ALL
       autocmd FileType nerdtree setlocal conceallevel=3
       autocmd FileType nerdtree setlocal concealcursor=nvic
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => CtrlP Settings 
+" => CtrlP Settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 if executable('ag')
@@ -534,7 +538,7 @@ if executable('ag')
 	  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
 	  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
- 
+
 map <silent> <leader>p :CtrlP<cr>
 let g:ctrlp_dotfiles=1
 let g:ctrlp_working_path_mode = 'ra'
@@ -560,22 +564,22 @@ let g:ctrlp_custom_ignore = {
             \ 'file': '\.exe$\|\.so$'
             \ }
 
-let g:ctrlp_working_path_mode = 'ra' 
+let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Intellisense Settings 
+" => Intellisense Settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:echodoc_enable_at_startup = 1
 " Automatically install servers
 let g:coc_global_extensions = [
   \ 'coc-tsserver',
-  \ 'coc-pairs', 
-  \ 'coc-css', 
-  \ 'coc-tabnine', 
-  \ 'coc-eslint', 
-  \ 'coc-prettier', 
-  \ 'coc-json', 
+  \ 'coc-pairs',
+  \ 'coc-css',
+  \ 'coc-tabnine',
+  \ 'coc-eslint',
+  \ 'coc-prettier',
+  \ 'coc-json',
   \ 'coc-inline-jest',
   \ 'coc-github',
   \ 'coc-snippets',
@@ -632,8 +636,8 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Show definition for symbol under cursor on CursorMoved 
-" autocmd CursorHold * silent call CocActionAsync('doHover') 
+" Show definition for symbol under cursor on CursorMoved
+" autocmd CursorHold * silent call CocActionAsync('doHover')
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
@@ -686,16 +690,16 @@ nmap <silent> <leader>dj  <Plug>(coc-diagnostic-next)
 " (d)iagnostic prev (up)
 nmap <silent> <leader>dk  <Plug>(coc-diagnostic-prev)
 
-" Definitions 
+" Definitions
 " (g)o to Definition
-nmap <silent> <leader>gd <Plug>(coc-definition) 
-" (v)iew documentation 
+nmap <silent> <leader>gd <Plug>(coc-definition)
+" (v)iew documentation
 nnoremap <silent> <leader>vd :call <SID>show_documentation()<CR>
-" View Type 
+" View Type
 nmap <silent> <leader>vt <Plug>(coc-type-definition)
-" View Implementation 
+" View Implementation
 nmap <silent> <leader>vi <Plug>(coc-implementation)
-" View References 
+" View References
 nmap <silent> <leader>vr <Plug>(coc-references)
 
 " Show commands
@@ -728,7 +732,7 @@ highlight CocHoverRange ctermfg=Red guifg=#f26299
 " Comment Colors
 hi Comment cterm=italic
 " hi Comment guifg=#244424 guibg=#747474
-hi Comment guifg=#747474 
+hi Comment guifg=#747474
 
 " JS/TS Syntax Types
 " hi StorageClass guifg=#f26299
@@ -737,7 +741,7 @@ hi Comment guifg=#747474
 " hi Special guifg=#E5C07B
 " hi Boolean guifg=#E5C07B
 
-" JSX/TSX 
+" JSX/TSX
 hi tsxTagName guifg=#e63682
 hi tsxCloseString guifg=#e63682
 hi tsxTag guifg=#07929e
@@ -746,5 +750,3 @@ hi tsxAttributeBraces guifg=#809cdb
 hi tsxEqual guifg=#809cdb
 hi tsxTypeBraces guifg=#999999
 hi tsxTypes guifg=#18a8b4
-
-

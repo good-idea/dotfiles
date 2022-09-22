@@ -32,8 +32,11 @@ return packer.startup {
       config = [[ require('config/lsp_config') ]]
     }
     use {
+      "weilbith/nvim-code-action-menu"
+    }
+    use {
       "jose-elias-alvarez/nvim-lsp-ts-utils",
-      config = [[ require('config/lsp_utils') ]]
+      config = [[ require('config/lsp_ts_utils') ]]
     }
 
     use {
@@ -52,6 +55,16 @@ return packer.startup {
       config = [[ require('config/lsp_status') ]]
     }
 
+    -- Elixir
+    use {
+      "mhanberg/elixir.nvim",
+      requires = {
+        "neovim/nvim-lspconfig",
+        "nvim-lua/plenary.nvim"
+      },
+      config = [[ require('config/elixir') ]]
+    }
+
     -- Syntax Highlighting
     use "eloyesp/vim-liquid"
     use "elzr/vim-json"
@@ -61,18 +74,14 @@ return packer.startup {
     -- Git
     use {
       "TimUntersberger/neogit",
-      requires = {"nvim-lua/plenary.nvim"},
-      config = [[ require('config/neogit') ]]
-    }
-    use {
-      "pwntester/octo.nvim",
       requires = {
         "nvim-lua/plenary.nvim",
-        "nvim-telescope/telescope.nvim",
-        "kyazdani42/nvim-web-devicons"
+        "sindrets/diffview.nvim"
       },
-      config = [[ require('config/octo') ]]
+      config = [[ require('config/neogit') ]]
     }
+
+    use "sindrets/diffview.nvim"
     use {
       "lewis6991/gitsigns.nvim",
       requires = {
@@ -85,7 +94,13 @@ return packer.startup {
     use "reedes/vim-pencil" -- nicer markdown settings
     use "chrisbra/recover.vim" -- add "compare" option when a swap file is found
     use "jakelinnzy/autocmd-lua" -- easier autocommands
-    use "heavenshell/vim-jsdoc" -- generate jsdoc comments with :JsDoc
+    -- generate jsdoc comments with :JsDoc
+    use {
+      "heavenshell/vim-jsdoc",
+      cmd = "JsDoc",
+      ft = {"js", "jsx", "ts", "tsx"},
+      run = "make install"
+    }
     use "christoomey/vim-tmux-navigator"
     use "tpope/vim-unimpaired"
     use "tpope/vim-surround" -- surround commands
@@ -121,9 +136,9 @@ return packer.startup {
     use {
       -- Snippet Engine for Neovim written in Lua.
       "L3MON4D3/LuaSnip",
-      requires = {
-        "rafamadriz/friendly-snippets" -- Snippets collection for a set of different programming languages for faster development.
-      },
+      -- requires = {
+      --   "rafamadriz/friendly-snippets" -- Snippets collection for a set of different programming languages for faster development.
+      -- },
       config = [[ require('config/luasnip') ]]
     }
 

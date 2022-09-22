@@ -50,12 +50,10 @@ for type, icon in pairs(signs) do
 end
 
 -- Auto-display the signature on hver when in Insert mode and within parens
-vim.cmd [[
-  autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()
-  autocmd CursorHold * silent! lua vim.lsp.diagnostic.show_line_diagnostics()
-  " autocmd CursorHold * silent! PrintDiagnostics()
-]]
 -- autocmd CursorHold * silent! lua vim.lsp.buf.hover()
+vim.cmd [[
+ autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()
+]]
 
 -- -- Print diagnostics to the message buffer instead of a popup
 -- TODO: Work on this to have a nicer diagnostics popup
@@ -87,7 +85,7 @@ local null_ls = require("null-ls")
 null_ls.setup(
   {
     sources = {
-      null_ls.builtins.diagnostics.eslint,
+      null_ls.builtins.diagnostics.eslint.with({}),
       null_ls.builtins.code_actions.eslint,
       -- null_ls.builtins.diagnostics.eslint_d,
       -- null_ls.builtins.code_actions.eslint_d,

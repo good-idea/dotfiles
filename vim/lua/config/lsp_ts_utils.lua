@@ -8,7 +8,6 @@ lspconfig.tsserver.setup(
     init_options = require("nvim-lsp-ts-utils").init_options,
     --
     on_attach = function(client, bufnr)
-      print "Hi :)"
       local ts_utils = require("nvim-lsp-ts-utils")
 
       -- defaults
@@ -41,15 +40,15 @@ lspconfig.tsserver.setup(
           inlay_hints_format = {
             -- format options for individual hint kind
             Type = {},
-            Parameter = {},
-            Enum = {}
+            -- Parameter = {},
+            Enum = {},
             -- Example format customization for `Type` kind:
-            -- Type = {
-            --     highlight = "Comment",
-            --     text = function(text)
-            --         return "->" .. text:sub(2)
-            --     end,
-            -- },
+            Parameter = {
+              highlight = "Comment",
+              text = function(text)
+                return "->" .. text:sub(2)
+              end
+            }
           },
           -- update imports on file move
           update_imports_on_move = false,

@@ -1,0 +1,11 @@
+# If this config is not being read by lazygit,
+# be sure to symlink it:
+#
+# ln -s ~/Library/Application\ Support/lazygit/config.yml ~/.dotfiles/tools/lazygit-config.yml
+
+git:
+  paging:
+    pager: delta --dark --paging=never --24-bit-color=never --side-by-side
+keybinding:
+  files:
+    toggleStagedAll: '<c-a>'
