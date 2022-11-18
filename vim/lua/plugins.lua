@@ -22,6 +22,11 @@ return packer.startup {
   function(use)
     -- Packer can manage itself
     use "wbthomason/packer.nvim"
+    -- Commands
+    use {
+      "folke/which-key.nvim",
+      config = [[ require('config/which-key') ]]
+    }
 
     -- LSP
     use {
@@ -81,13 +86,19 @@ return packer.startup {
       config = [[ require('config/neogit') ]]
     }
 
-    use "sindrets/diffview.nvim"
+    -- use "sindrets/diffview.nvim"
     use {
       "lewis6991/gitsigns.nvim",
       requires = {
         "nvim-lua/plenary.nvim"
       },
       config = [[ require('config/gitsigns') ]]
+    }
+
+    use {
+      "ldelossa/gh.nvim",
+      requires = {{"ldelossa/litee.nvim"}},
+      config = [[ require('config/ghnvim') ]]
     }
 
     -- Misc

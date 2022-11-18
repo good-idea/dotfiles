@@ -48,6 +48,10 @@ map("n", "<leader>p", "<cmd>Telescope find_files hidden=true<CR>", opts) -- "ctr
 map("n", "<leader>ag", "<cmd>Telescope live_grep<CR>", opts) -- "ag" like live grep with ,ag
 map("n", "<leader>b", "<cmd>NvimTreeToggle<CR>", opts) -- open nvim-tree explorer
 map("n", "<leader>B", "<cmd>NvimTreeFindFile<CR>", opts) -- open nvim-tree explorer
+map("n", "<leader>wk", "<cmd>WhichKey<CR>", opts)
+
+-- Git
+map("n", "<leader>vpr", "<cmd>GHSearchPRs<CR>is:open", opts)
 
 -- Misc
 map("n", '<leader>"', 'ysiw"', opts) -- use ," to surround a word with "quotes"
