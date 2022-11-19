@@ -30,24 +30,20 @@ return packer.startup {
 
     -- LSP
     use {
-      "neovim/nvim-lspconfig",
-      requires = {
-        "jose-elias-alvarez/null-ls.nvim"
-      },
-      config = [[ require('config/lsp_config') ]]
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "neovim/nvim-lspconfig"
     }
+
+    use "jose-elias-alvarez/null-ls.nvim"
+
     use {
       "weilbith/nvim-code-action-menu"
     }
     use {
-      "jose-elias-alvarez/nvim-lsp-ts-utils",
-      config = [[ require('config/lsp_ts_utils') ]]
+      "jose-elias-alvarez/nvim-lsp-ts-utils"
     }
 
-    use {
-      "williamboman/nvim-lsp-installer",
-      config = [[ require('config/lsp_installer') ]]
-    }
     use {
       "nvim-lualine/lualine.nvim",
       requires = {"kyazdani42/nvim-web-devicons", opt = true},

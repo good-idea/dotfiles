@@ -45,6 +45,9 @@ require("formatter").setup(
       css = {
         prettier
       },
+      vue = {
+        prettier
+      },
       json = {
         prettier
       },
