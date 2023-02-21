@@ -44,7 +44,8 @@ map(
 map("n", "<Leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts) -- go to definition with ,gd
 map("n", "<leader>vg", "<cmd>Telescope git_files<CR>", opts) -- view changed git files with ,vg
 map("n", "<leader>vr", "<cmd>Telescope lsp_references<CR>", opts) -- view file references with ,vr
-map("n", "<leader>p", "<cmd>Telescope find_files hidden=true<CR>", opts) -- "ctrl-p" file finding with ,p
+-- "ctrl-p" file finding with ,p -- uses git_files if in git repo, falls back to working directory
+map("n", "<Leader>p", "<CMD>lua require'config/telescope'.project_files()<CR>", {noremap = true, silent = true})
 map("n", "<leader>ag", "<cmd>Telescope live_grep<CR>", opts) -- "ag" like live grep with ,ag
 map("n", "<leader>b", "<cmd>NvimTreeToggle<CR>", opts) -- open nvim-tree explorer
 map("n", "<leader>B", "<cmd>NvimTreeFindFile<CR>", opts) -- open nvim-tree explorer

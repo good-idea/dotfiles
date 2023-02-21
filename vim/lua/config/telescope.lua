@@ -1,7 +1,6 @@
 local actions = require "telescope.actions"
 local telescope = require "telescope"
 local map = vim.api.nvim_set_keymap
-local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
 
 telescope.setup {
   defaults = {
@@ -16,11 +15,13 @@ telescope.setup {
       }
     }
   },
-  extensions = {},
+  -- extensions = {},
   pickers = {
     find_files = {
-      theme = "dropdown",
-      cwd = git_root
+      theme = "dropdown"
+    },
+    git_files = {
+      theme = "dropdown"
     },
     lsp_references = {theme = "dropdown"},
     lsp_code_actions = {theme = "dropdown"},
@@ -32,3 +33,27 @@ telescope.setup {
     }
   }
 }
+
+-- Falling back to find_files if git_files can't find a .git directory
+-- https://github.com/nvim-telescope/telescope.nvim/wiki/Configuration-Recipes#falling-back-to-find_files-if-git_files-cant-find-a-git-directory
+
+-- telescope-config.lua
+local M = {}
+
+M.project_files = function()
+  local opts = {} -- define here if you want to define something
+  vim.fn.system("git rev-parse --is-inside-work-tree")
+  if vim.v.shell_error == 0 then
+    require "telescope.builtin".git_files(opts)
+  else
+    require "telescope.builtin".find_files(opts)
+  end
+end
+
+return M
+
+-- call via:
+-- :lua require"telescope-config".project_files()
+
+-- example keymap:
+-- vim.api.nvim_set_keymap("n", "<Leader><Space>", "<CMD>lua require'telescope-config'.project_files()<CR>", {noremap = true, silent = true})
