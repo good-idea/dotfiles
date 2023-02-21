@@ -114,10 +114,10 @@ return packer.startup {
     use "tpope/vim-commentary" -- use gcc to comment selected lines
 
     -- Themes
-    use {"challenger-deep-theme/vim", as = "challenger-deep-theme"}
-
     -- TODO Learn these!
     -- use { 'tpope/vim-dispatch', cmd = { 'Dispatch', 'Make', 'Focus', 'Start' } }
+    -- enable theme in ./settings.lua
+    use {"rebelot/kanagawa.nvim"}
 
     -- Completion
     use {
