@@ -53,6 +53,7 @@ map("n", "<leader>wk", "<cmd>WhichKey<CR>", opts)
 
 -- Git
 map("n", "<leader>vpr", "<cmd>GHSearchPRs<CR>is:open", opts)
+map("n", "<leader>lg", "<cmd>LazyGit<CR>", opts)
 
 -- Misc
 map("n", '<leader>"', 'ysiw"', opts) -- use ," to surround a word with "quotes"

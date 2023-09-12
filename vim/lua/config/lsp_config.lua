@@ -11,10 +11,43 @@ require("mason").setup(
 )
 require("mason-lspconfig").setup()
 
-require("lspconfig").tsserver.setup {}
-require("lspconfig").volar.setup {}
-
 local lspConfig = require "lspconfig"
+
+lspConfig.tsserver.setup {
+  handlers = {
+    ["textDocument/definition"] = function(_, result, params)
+      if result == nil or vim.tbl_isempty(result) then
+        local _ = vim.lsp.log.info() and vim.lsp.log.info(params.method, "No location found")
+        return nil
+      end
+
+      if vim.tbl_islist(result) then
+        vim.lsp.util.jump_to_location(result[1])
+        if #result > 1 then
+          local isReactDTs = false
+          for key, value in pairs(result) do
+            if string.match(value.targetUri, "react/index.d.ts") then
+              isReactDTs = true
+              break
+            end
+          end
+          if not isReactDTs then
+            vim.lsp.util.set_qflist(util.locations_to_items(result))
+            vim.api.nvim_command("copen")
+            vim.api.api.nvim_command("wincmd p")
+          end
+        end
+      else
+        vim.lsp.util.jump_to_location(result)
+      end
+    end
+  }
+}
+lspConfig.volar.setup {}
+-- lspConfig.elixirls.setup {
+--   cmd = {"/Users/joseph/.elixir-ls/language_server.sh"},
+--   on_attach = on_attach
+-- }
 
 LspDiagnosticsFloatingError = {fg = color1, bg = none, style = "bold"}
 LspDiagnosticsFloatingWarning = {fg = color2, bg = none, style = "bold"}

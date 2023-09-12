@@ -1,13 +1,14 @@
-require'nvim-treesitter.configs'.setup {
+require "nvim-treesitter.configs".setup {
+  ensure_installed = {"javascript", "typescript", "elixir", "lua", "vim", "vimdoc", "query"},
+  auto_install = true,
   textobjects = {
     lsp_interop = {
       enable = true,
-      border = 'none',
+      border = "none",
       peek_definition_code = {
         ["<leader>vF"] = "@function.outer",
-        ["<leader>vC"] = "@class.outer",
-      },
-    },
-  },
+        ["<leader>vC"] = "@class.outer"
+      }
+    }
+  }
 }
-

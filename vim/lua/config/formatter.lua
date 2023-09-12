@@ -45,6 +45,9 @@ require("formatter").setup(
       css = {
         prettier
       },
+      scss = {
+        prettier
+      },
       vue = {
         prettier
       },
@@ -52,6 +55,9 @@ require("formatter").setup(
         prettier
       },
       markdown = {
+        prettier
+      },
+      mjs = {
         prettier
       },
       javascript = {

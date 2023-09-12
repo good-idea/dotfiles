@@ -95,7 +95,7 @@ vim.cmd(
   [[
   augroup FormatAutogroup
     autocmd!
-    autocmd BufWritePost *.ts,*.tsx,*.json,*.md,*.js,*.rs,*.lua,*.css,*.scss,*.sass,*.vue FormatWrite
+    autocmd BufWritePost *.ts,*.tsx,*.json,*.md,*.js,*.rs,*.lua,*.css,*.scss,*.sass,*.vue,*.mjs FormatWrite
   augroup END
 ]],
   true
@@ -131,8 +131,7 @@ vim.cmd [[
 -- Theme
 -- *******************
 
-    -- use {"challenger-deep-theme/vim", as = "challenger-deep-theme"}
-
+-- use {"challenger-deep-theme/vim", as = "challenger-deep-theme"}
 
 vim.cmd [[syntax on]]
 vim.cmd [[color kanagawa]]

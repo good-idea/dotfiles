@@ -58,9 +58,8 @@ return packer.startup {
 
     -- Elixir
     use {
-      "mhanberg/elixir.nvim",
+      "elixir-tools/elixir-tools.nvim",
       requires = {
-        "neovim/nvim-lspconfig",
         "nvim-lua/plenary.nvim"
       },
       config = [[ require('config/elixir') ]]
@@ -74,12 +73,10 @@ return packer.startup {
 
     -- Git
     use {
-      "TimUntersberger/neogit",
+      "kdheepak/lazygit.nvim",
       requires = {
-        "nvim-lua/plenary.nvim",
-        "sindrets/diffview.nvim"
-      },
-      config = [[ require('config/neogit') ]]
+        "nvim-lua/plenary.nvim"
+      }
     }
 
     -- use "sindrets/diffview.nvim"
@@ -113,9 +110,10 @@ return packer.startup {
     use "tpope/vim-surround" -- surround commands
     use "tpope/vim-commentary" -- use gcc to comment selected lines
 
-    -- Themes
     -- TODO Learn these!
     -- use { 'tpope/vim-dispatch', cmd = { 'Dispatch', 'Make', 'Focus', 'Start' } }
+
+    -- Themes
     -- enable theme in ./settings.lua
     use {"rebelot/kanagawa.nvim"}
 
@@ -201,7 +199,12 @@ return packer.startup {
       run = ":TSUpdate"
     }
 
-    use "nvim-treesitter/nvim-treesitter-textobjects"
+    use {
+      "axelvc/template-string.nvim",
+      config = [[require('config.template-string')]]
+    }
+
+    -- use "nvim-treesitter/nvim-treesitter-textobjects"
     --
     -- use {
     --   "lukas-reineke/indent-blankline.nvim",
