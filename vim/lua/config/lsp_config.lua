@@ -9,9 +9,15 @@ require("mason").setup(
     }
   }
 )
-require("mason-lspconfig").setup()
+require("mason-lspconfig").setup(
+  {
+    ensure_installed = {"tailwindcss", "tsserver"}
+  }
+)
 
 local lspConfig = require "lspconfig"
+
+lspConfig.tailwindcss.setup {}
 
 lspConfig.tsserver.setup {
   handlers = {

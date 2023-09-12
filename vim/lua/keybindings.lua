@@ -55,6 +55,9 @@ map("n", "<leader>wk", "<cmd>WhichKey<CR>", opts)
 map("n", "<leader>vpr", "<cmd>GHSearchPRs<CR>is:open", opts)
 map("n", "<leader>lg", "<cmd>LazyGit<CR>", opts)
 
+-- Neotest
+-- map("n", "<leader>t", "<cmd>lua require('neotest').run.run()<CR>", opts)
+-- map("n", "<leader>t", function() require("neotest").run.run() end)
 -- Misc
 map("n", '<leader>"', 'ysiw"', opts) -- use ," to surround a word with "quotes"
 map("n", "<leader>'", "ysiw'", opts) -- use ," to surround a word with 'single quotes'
@@ -69,3 +72,39 @@ map("v", "Q", ":norm @q<CR>", opts)
 map("n", "<S-l>", "gt", opts) -- Shift + L for next tab
 map("n", "<S-h>", "gT", opts) -- Shift + L for previous tab
 map("c", "qt", ":tabclose", opts) -- close tab with :qt
+-- map("n", "<leader>tw", "<cmd>TWValues<CR>", opts) -- display applied Tailwind styles
+
+-- Run a single test
+vim.keymap.set(
+  "n",
+  "<leader>t",
+  function()
+    require("neotest").run.run()
+  end
+)
+
+-- Run all tests in a file
+vim.keymap.set(
+  "n",
+  "<leader>ta",
+  function()
+    require("neotest").run.run(vim.fn.expand("%"))
+  end
+)
+-- Toggle the test summary open & closed
+vim.keymap.set(
+  "n",
+  "<leader>ts",
+  function()
+    require("neotest").summary.toggle()
+  end
+)
+
+-- Run all tests in a project
+vim.keymap.set(
+  "n",
+  "<leader>tp",
+  function()
+    require("neotest").run.run({vim.fn.getcwd(), jestCommand = "yarn jest --watchAll"})
+  end
+)

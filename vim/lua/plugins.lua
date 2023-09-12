@@ -28,12 +28,26 @@ return packer.startup {
       config = [[ require('config/which-key') ]]
     }
 
+    -- Highlights
+    use {
+      "nvim-treesitter/nvim-treesitter",
+      requires = {
+        "nvim-treesitter/nvim-treesitter-refactor",
+        "nvim-treesitter/nvim-treesitter-textobjects"
+      },
+      config = [[require('config.treesitter')]],
+      run = ":TSUpdate"
+    }
+
     -- LSP
     use {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "neovim/nvim-lspconfig"
     }
+
+    -- Use ,tw to view CSS values from TW classnames
+    use "MaximilianLloyd/tw-values.nvim"
 
     use "jose-elias-alvarez/null-ls.nvim"
 
@@ -115,7 +129,7 @@ return packer.startup {
 
     -- Themes
     -- enable theme in ./settings.lua
-    use {"rebelot/kanagawa.nvim"}
+    use "rebelot/kanagawa.nvim"
 
     -- Completion
     use {
@@ -179,6 +193,18 @@ return packer.startup {
         run = "make"
       }
     }
+    -- Test runner
+    use {
+      "nvim-neotest/neotest",
+      requires = {
+        "nvim-lua/plenary.nvim",
+        "nvim-treesitter/nvim-treesitter",
+        "antoinemadec/FixCursorHold.nvim",
+        "nvim-neotest/neotest-jest"
+      },
+      config = [[require('config.neotest')]]
+    }
+    use "mortepau/codicons.nvim"
 
     use {
       -- File explorer
@@ -186,17 +212,6 @@ return packer.startup {
       requires = "kyazdani42/nvim-web-devicons",
       config = [[ require('config/nvim-tree') ]],
       setup = [[ require('config/nvim-tree-setup') ]]
-    }
-
-    -- Highlights
-    use {
-      "nvim-treesitter/nvim-treesitter",
-      requires = {
-        "nvim-treesitter/nvim-treesitter-refactor",
-        "nvim-treesitter/nvim-treesitter-textobjects"
-      },
-      config = [[require('config.treesitter')]],
-      run = ":TSUpdate"
     }
 
     use {
