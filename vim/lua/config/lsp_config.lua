@@ -11,13 +11,14 @@ require("mason").setup(
 )
 require("mason-lspconfig").setup(
   {
-    ensure_installed = {"tailwindcss", "tsserver"}
+    ensure_installed = {"tailwindcss", "tsserver", "eslint"}
   }
 )
 
 local lspConfig = require "lspconfig"
 
 lspConfig.tailwindcss.setup {}
+lspConfig.eslint.setup {}
 
 lspConfig.tsserver.setup {
   handlers = {
@@ -109,20 +110,3 @@ end
 vim.cmd [[
  autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()
 ]]
-
--- -- null-ls
--- -- configure null-ls to work with eslint_d and prettier
-local null_ls = require("null-ls")
-
-null_ls.setup(
-  {
-    sources = {
-      -- null_ls.builtins.diagnostics.eslint.with({}),
-      -- null_ls.builtins.code_actions.eslint,
-      null_ls.builtins.diagnostics.eslint_d,
-      null_ls.builtins.code_actions.eslint_d,
-      null_ls.builtins.formatting.prettier
-    },
-    on_attach = on_attach
-  }
-)

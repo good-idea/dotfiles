@@ -49,8 +49,6 @@ return packer.startup {
     -- Use ,tw to view CSS values from TW classnames
     use "MaximilianLloyd/tw-values.nvim"
 
-    use "jose-elias-alvarez/null-ls.nvim"
-
     use {
       "weilbith/nvim-code-action-menu"
     }
@@ -193,18 +191,6 @@ return packer.startup {
         run = "make"
       }
     }
-    -- Test runner
-    use {
-      "nvim-neotest/neotest",
-      requires = {
-        "nvim-lua/plenary.nvim",
-        "nvim-treesitter/nvim-treesitter",
-        "antoinemadec/FixCursorHold.nvim",
-        "nvim-neotest/neotest-jest"
-      },
-      config = [[require('config.neotest')]]
-    }
-    use "mortepau/codicons.nvim"
 
     use {
       -- File explorer
