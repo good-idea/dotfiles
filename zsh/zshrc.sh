@@ -18,6 +18,10 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+# Ruby
+
+export PATH=$PATH:$HOME/.gem/ruby/3.0.0/bin
+
 
 # Settings
 export VISUAL=vim
