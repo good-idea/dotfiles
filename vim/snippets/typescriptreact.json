@@ -2,14 +2,14 @@
   "React Native Function Component": {
     "prefix": "rnfcomp",
     "body": [
-      "import * as React from 'react'",
+      "import React, { FC } from 'react'",
       "import { Text } from 'react-native'",
       "",
       "interface ${1:NAME}Props {",
       "  /* */",
       "}",
       "",
-      "export const $1: React.FC<$1Props> = (props) => {",
+      "export const $1: FC<$1Props> = (props) => {",
       "  return <Text>...</Text>",
       "}",
       ""
@@ -20,13 +20,13 @@
   "React Function Component": {
     "prefix": "rfcomp",
     "body": [
-      "import * as React from 'react'",
+      "import React, { FC } from 'react'",
       "",
-      "interface ${1:NAME}Props {",
+      "type ${1:NAME}Props = {",
       "  /* */",
       "}",
       "",
-      "export const $1: React.FC<$1Props> = (props) => {",
+      "export const $1: FC<$1Props> = (props) => {",
       "  return <div>...</div>",
       "}",
       ""
@@ -36,9 +36,9 @@
   "React Context Provider": {
     "prefix": "rcontext",
     "body": [
-      "import * as React from 'react'",
+      "import React from 'react'",
       "",
-      "interface ${1:Title}ContextValue {",
+      "type ${1:Title}ContextValue = {",
       "  /* */",
       "}",
       "",
@@ -69,7 +69,7 @@
   "A new Jest test file": {
     "prefix": "jtestfilereact",
     "body": [
-      "import * as React from 'react'",
+      "import React from 'react'",
       "import { render } from '@testing-library/react'",
       "import { ${1:Component} } from '../${1:example}'",
       "",
@@ -87,21 +87,21 @@
     "description": "A new Jest assertion"
   },
   "Next.js Route with GetServerSideProps": {
-    "prefix": "nextroute",
+    "prefix": "nextroutegssp",
     "body": [
-      "import * as React from 'react';",
+      "import React, { FC } from 'react';",
       "import { GetServerSideProps } from 'next';",
       "import { ${1:Page}View } from '../views/${1:Page}View';",
       "",
-      "interface ${1:Page}Props {",
+      "type ${1:Page}Props = {",
       "  //",
       "}",
       "",
-      "interface ${1:Page}Params{",
+      "type ${1:Page}Params = {",
       "  param: string",
       "}",
       "",
-      "const ${1:Page}: React.FC<${1:Page}Props> = (props) => {",
+      "const ${1:Page}: FC<${1:Page}Props> = (props) => {",
       "  return <${1:Page}View />;",
       "};",
       "",
