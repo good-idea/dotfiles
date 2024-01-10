@@ -17,6 +17,7 @@ require("mason-lspconfig").setup(
 
 local lspConfig = require "lspconfig"
 
+lspConfig.solargraph.setup {}
 lspConfig.tailwindcss.setup {}
 lspConfig.eslint.setup {}
 
@@ -39,7 +40,7 @@ lspConfig.tsserver.setup {
             end
           end
           if not isReactDTs then
-            vim.lsp.util.set_qflist(util.locations_to_items(result))
+            vim.lsp.util.set_qflist(vim.lsp.util.locations_to_items(result))
             vim.api.nvim_command("copen")
             vim.api.api.nvim_command("wincmd p")
           end
@@ -105,8 +106,14 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = hl})
 end
 
+-- Set up folding
+-- https://www.jmaguire.tech/posts/treesitter_folding/
+-- vim.opt.foldmethod = "expr"
+-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.opt.foldlevel = 99
+
 -- Auto-display the signature on hver when in Insert mode and within parens
 -- autocmd CursorHold * silent! lua vim.lsp.buf.hover()
-vim.cmd [[
- autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()
-]]
+-- vim.cmd [[
+--  autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()
+-- ]]
