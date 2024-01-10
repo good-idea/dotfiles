@@ -1,5 +1,5 @@
 require "nvim-treesitter.configs".setup {
-  ensure_installed = {"javascript", "typescript", "elixir", "lua", "vim", "vimdoc", "query"},
+  ensure_installed = {"html", "javascript", "typescript", "elixir", "lua", "vim", "vimdoc", "query"},
   auto_install = true,
   textobjects = {
     lsp_interop = {
