@@ -74,6 +74,9 @@ map("n", "<S-h>", "gT", opts) -- Shift + L for previous tab
 map("c", "qt", ":tabclose", opts) -- close tab with :qt
 -- map("n", "<leader>tw", "<cmd>TWValues<CR>", opts) -- display applied Tailwind styles
 
+-- -- ChatGPT
+map("v", "<leader>gpte", ":ChatGPTEditWithInstructions<CR>", opts)
+
 -- Run a single test
 vim.keymap.set(
   "n",
