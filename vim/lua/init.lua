@@ -1,7 +1,6 @@
 require("plugins")
 require("config/lsp_config")
 require("settings")
-require("theme")
 require("keybindings")
 
 -- Uncomment to enable profiling.
