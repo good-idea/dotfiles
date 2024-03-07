@@ -93,6 +93,11 @@ return packer.startup {
 
     -- use "sindrets/diffview.nvim"
     use {
+      -- used in Lualine
+      "f-person/git-blame.nvim",
+      config = [[ require('config/gitblame') ]]
+    }
+    use {
       "lewis6991/gitsigns.nvim",
       requires = {
         "nvim-lua/plenary.nvim"
