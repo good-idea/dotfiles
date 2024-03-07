@@ -201,17 +201,17 @@ return packer.startup {
     }
 
     -- OpenAI
-    use(
-      {
-        "jackMort/ChatGPT.nvim",
-        config = [[ require('config/chatgpt') ]],
-        requires = {
-          "MunifTanjim/nui.nvim",
-          "nvim-lua/plenary.nvim"
-          -- "nvim-telescope/telescope.nvim"
-        }
-      }
-    )
+    -- use(
+    --   {
+    --     "jackMort/ChatGPT.nvim",
+    --     config = [[ require('config/chatgpt') ]],
+    --     requires = {
+    --       "MunifTanjim/nui.nvim",
+    --       "nvim-lua/plenary.nvim"
+    --       -- "nvim-telescope/telescope.nvim"
+    --     }
+    --   }
+    -- )
 
     use {
       "axelvc/template-string.nvim",
