@@ -40,6 +40,9 @@ map(
   opts
 )
 
+-- Theme
+map("n", "<leader>th", "<cmd>Telescope colorscheme<CR>", opts)
+
 -- File search & navigation
 map("n", "<Leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts) -- go to definition with ,gd
 map("n", "<leader>vg", "<cmd>Telescope git_files<CR>", opts) -- view changed git files with ,vg

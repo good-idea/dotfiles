@@ -17,6 +17,9 @@ telescope.setup {
   },
   -- extensions = {},
   pickers = {
+    colorscheme = {
+      enable_preview = true
+    },
     find_files = {
       theme = "dropdown"
     },

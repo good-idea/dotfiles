@@ -131,8 +131,10 @@ return packer.startup {
     -- use { 'tpope/vim-dispatch', cmd = { 'Dispatch', 'Make', 'Focus', 'Start' } }
 
     -- Themes
-    -- enable theme in ./settings.lua
+    use "sainnhe/edge"
+    use "yorik1984/newpaper.nvim"
     use "rebelot/kanagawa.nvim"
+    use {"catppuccin/nvim", as = "catppuccin"}
 
     -- Completion
     use {
