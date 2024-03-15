@@ -134,4 +134,4 @@ vim.cmd [[
 -- use {"challenger-deep-theme/vim", as = "challenger-deep-theme"}
 
 vim.cmd [[syntax on]]
-vim.cmd [[color kanagawa]]
+vim.cmd [[color everforest]]

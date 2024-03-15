@@ -4,3 +4,4 @@ tmux/plugins
 !tmux/plugins/.gitkeep
 vim/plugins
 !vim/plugins/.gitkeep
+tmux-client-*.log

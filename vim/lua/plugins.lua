@@ -135,6 +135,8 @@ return packer.startup {
     use "yorik1984/newpaper.nvim"
     use "rebelot/kanagawa.nvim"
     use {"catppuccin/nvim", as = "catppuccin"}
+    use "olivercederborg/poimandres.nvim"
+    use "neanias/everforest-nvim"
 
     -- Completion
     use {
