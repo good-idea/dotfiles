@@ -1,0 +1,32 @@
+# NOTE: Symlink this to ~/.gitconfig
+[push]
+	default = current
+	autoSetupRemote = true
+[user]
+	name = Joseph
+	email = joseph@good-idea.studio
+[core]
+	excludesfile = /Users/joseph/.gitignore
+	editor = nvim
+	pager = delta --side-by-side
+[github]
+	user = good-idea
+[ghi]
+	token = !security find-internet-password -a good-idea -s github.com -l 'ghi token' -w
+[alias]
+  logp = log --pretty --oneline
+  # supposedly removes merged branches
+	sweep = !git branch --merged $([[ $1 != \"-f\" ]] \\\n&& git rev-parse main) | egrep -v \"(^\\*|^\\s*(master|main|develop)$)\" \\\n| xargs git branch -d
+	diffn = diff --name-only
+  # lists all branch names
+  branches = !git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:cyan)%(refname:short)%(color:reset) - %(color:magenta)%(objectname:short)%(color:reset) - %(contents:subject) - %(color:dim cyan)%(authorname) %(color:dim green)(%(committerdate:relative))%(color:reset)'
+  bb = !~/.dotfiles/git/better-branch.sh
+
+  # rebases from latest main
+  rbm = !git checkout main && git pull && git checkout - && git rebase main
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[url "git@github.com:"]
+	insteadOf = https://github.com/
