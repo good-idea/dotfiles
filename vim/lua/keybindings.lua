@@ -27,11 +27,26 @@ map("o", "<tab>", "%", opts) -- use Tab to go to next bracket/paren pair
 
 -- Diagnostics
 -- view code actions ,va
-map("n", "<leader>va", "<cmd>CodeActionMenu<CR>", opts)
--- view signature with ,vs
-map("n", "<leader>vs", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+local function showCodeActions()
+  vim.lsp.buf.code_action(
+    {
+      filter = function(action)
+        return true
+      end
+    }
+  )
+end
+
+-- map("n", "<leader>va", showCodeActions, opts)
+vim.keymap.set("n", "<leader>va", showCodeActions, opts)
 -- view diagnostics for line with ,vs
 map("n", "<leader>vd", "<cmd>lua vim.diagnostic.open_float(nil, { focusable = true, max_height = 20 })<CR>", opts)
+-- list diagnostics in location list
+map("n", "<leader>dl", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+-- navigate to next diagnostic
+map("n", "<leader>dj", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+-- navigate to prev diagnostic
+map("n", "<leader>dk", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
 -- View diagnostics for entire buffer with ,vD
 map(
   "n",
@@ -40,15 +55,25 @@ map(
   opts
 )
 
+-- Definitions
+-- view signature with ,vs
+map("n", "<leader>vs", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+-- go to definition with ,gd
+map("n", "<Leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts) -- go to definition with ,gd
+-- view symbol references with ,vr
+map("n", "<leader>vr", "<cmd>Telescope lsp_references<CR>", opts)
+
 -- Theme
 map("n", "<leader>th", "<cmd>Telescope colorscheme<CR>", opts)
 
+-- Help
+map("n", "<leader>sH", "<cmd>Telescope help_tags<CR>", opts) -- search help docs
+map("n", "<leader>sC", "<cmd>Telescope commands<CR>", opts) -- search help docs
+
 -- File search & navigation
-map("n", "<Leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts) -- go to definition with ,gd
-map("n", "<leader>vg", "<cmd>Telescope git_files<CR>", opts) -- view changed git files with ,vg
-map("n", "<leader>vr", "<cmd>Telescope lsp_references<CR>", opts) -- view file references with ,vr
 -- "ctrl-p" file finding with ,p -- uses git_files if in git repo, falls back to working directory
 map("n", "<Leader>p", "<CMD>lua require'config/telescope'.project_files()<CR>", {noremap = true, silent = true})
+
 map("n", "<leader>ag", "<cmd>Telescope live_grep<CR>", opts) -- "ag" like live grep with ,ag
 map("n", "<leader>b", "<cmd>NvimTreeToggle<CR>", opts) -- open nvim-tree explorer
 map("n", "<leader>B", "<cmd>NvimTreeFindFile<CR>", opts) -- open nvim-tree explorer
