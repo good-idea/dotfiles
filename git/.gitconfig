@@ -14,7 +14,10 @@
 [ghi]
 	token = !security find-internet-password -a good-idea -s github.com -l 'ghi token' -w
 [alias]
+  # pretty log
   logp = log --pretty --oneline
+  # log message only
+  logm = log --oneline --format="%s"
   # supposedly removes merged branches
 	sweep = !git branch --merged $([[ $1 != \"-f\" ]] \\\n&& git rev-parse main) | egrep -v \"(^\\*|^\\s*(master|main|develop)$)\" \\\n| xargs git branch -d
 	diffn = diff --name-only
@@ -30,3 +33,5 @@
 	rebase = false
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+[rerere]
+	enabled = true
