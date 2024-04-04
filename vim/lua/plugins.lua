@@ -35,19 +35,32 @@ return packer.startup {
       run = ":TSUpdate"
     }
 
-    -- LSP
+    -- LSP & language stuff
     use {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "neovim/nvim-lspconfig"
     }
+    -- Automatically create & rename open/close tags
+    -- Before        Input         After
+    -- ------------------------------------
+    -- <div           >              <div></div>
+    -- <div></div>    ciwspan<esc>   <span></span>
+    -- ------------------------------------
+    use {
+      "windwp/nvim-ts-autotag",
+      config = function()
+        require("nvim-ts-autotag").setup()
+      end
+    }
 
     -- Use ,tw to view CSS values from TW classnames
     use "MaximilianLloyd/tw-values.nvim"
-
+    -- use :TSC to get workspace typescript diagnostics
     use {
-      "weilbith/nvim-code-action-menu"
+      "dmmulroy/tsc.nvim"
     }
+
     use {
       "jose-elias-alvarez/nvim-lsp-ts-utils",
       config = [[ require('tsc').setup() ]]
