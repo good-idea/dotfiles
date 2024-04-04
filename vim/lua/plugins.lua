@@ -31,10 +31,6 @@ return packer.startup {
     -- Highlights
     use {
       "nvim-treesitter/nvim-treesitter",
-      requires = {
-        "nvim-treesitter/nvim-treesitter-refactor",
-        "nvim-treesitter/nvim-treesitter-textobjects"
-      },
       config = [[require('config.treesitter')]],
       run = ":TSUpdate"
     }
@@ -53,7 +49,8 @@ return packer.startup {
       "weilbith/nvim-code-action-menu"
     }
     use {
-      "jose-elias-alvarez/nvim-lsp-ts-utils"
+      "jose-elias-alvarez/nvim-lsp-ts-utils",
+      config = [[ require('tsc').setup() ]]
     }
 
     use {
@@ -169,36 +166,21 @@ return packer.startup {
     }
 
     -- Search & Navigation
+    use {"junegunn/fzf", run = "./install --bin"}
     use {
-      {
-        "nvim-telescope/telescope.nvim",
-        requires = {
-          "nvim-lua/popup.nvim",
-          "nvim-lua/plenary.nvim",
-          "telescope-frecency.nvim",
-          "telescope-fzf-native.nvim",
-          "BurntSushi/ripgrep",
-          "windwp/nvim-ts-autotag"
-        },
-        wants = {
-          "popup.nvim",
-          "plenary.nvim",
-          "telescope-frecency.nvim",
-          "telescope-fzf-native.nvim"
-        },
-        config = [[require('config.telescope')]],
-        cmd = "Telescope",
-        module = "telescope"
+      "nvim-telescope/telescope.nvim",
+      requires = {
+        "nvim-lua/plenary.nvim"
+        -- Not sure if this is necessary anymore?
+        -- "BurntSushi/ripgrep",
       },
-      {
-        "nvim-telescope/telescope-frecency.nvim",
-        after = "telescope.nvim",
-        requires = "tami5/sql.nvim"
-      },
-      {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        run = "make"
-      }
+      config = [[require('config.telescope')]]
+    }
+    use {
+      "nvim-telescope/telescope-ui-select.nvim"
+    }
+    use {
+      "nvim-telescope/telescope-frecency.nvim"
     }
 
     use {
@@ -227,7 +209,6 @@ return packer.startup {
       config = [[require('config.template-string')]]
     }
 
-    -- use "nvim-treesitter/nvim-treesitter-textobjects"
     --
     -- use {
     --   "lukas-reineke/indent-blankline.nvim",

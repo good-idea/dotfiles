@@ -15,7 +15,20 @@ telescope.setup {
       }
     }
   },
-  -- extensions = {},
+  extensions = {
+    frecency = {
+      db_safe_mode = false
+    },
+    ["ui-select"] = {
+      -- vim.lsp.buf.code_action(),
+      layout_config = {width = 0.4, height = 0.3},
+      on_complete = {
+        function()
+          vim.cmd("stopinsert")
+        end
+      }
+    }
+  },
   pickers = {
     colorscheme = {
       enable_preview = true
@@ -36,6 +49,9 @@ telescope.setup {
     }
   }
 }
+
+telescope.load_extension("ui-select")
+telescope.load_extension("frecency")
 
 -- Falling back to find_files if git_files can't find a .git directory
 -- https://github.com/nvim-telescope/telescope.nvim/wiki/Configuration-Recipes#falling-back-to-find_files-if-git_files-cant-find-a-git-directory
