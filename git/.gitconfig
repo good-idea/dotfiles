@@ -27,6 +27,9 @@
 
   # rebases from latest main
   rbm = !git checkout main && git pull && git checkout - && git rebase main
+
+  dft = difftool
+  dlog = "-c diff.external=difft log -p --ext-diff"
 [init]
 	defaultBranch = main
 [pull]
@@ -35,3 +38,13 @@
 	insteadOf = https://github.com/
 [rerere]
 	enabled = true
+
+# Diffing
+[diff]
+  tool = difftastic
+[difftool]
+  prompt = false
+[difftool "difftastic"]
+  cmd = difft "$LOCAL" "$REMOTE"
+[pager]
+  difftool = true
