@@ -23,10 +23,10 @@ return packer.startup {
     -- Packer can manage itself
     use "wbthomason/packer.nvim"
     -- Commands
-    use {
-      "folke/which-key.nvim",
-      config = [[ require('config/which-key') ]]
-    }
+    -- use {
+    --   "folke/which-key.nvim",
+    --   config = [[ require('config/which-key') ]]
+    -- }
 
     -- Highlights
     use {

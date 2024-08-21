@@ -1,3 +1,5 @@
+vim.o.timeout = true
+vim.o.timeoutlen = 500
 require("which-key").setup {
   plugins = {
     marks = true, -- shows a list of your marks on ' and `
