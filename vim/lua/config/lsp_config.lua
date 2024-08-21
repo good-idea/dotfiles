@@ -40,9 +40,8 @@ lspConfig.tsserver.setup {
             end
           end
           if not isReactDTs then
-            vim.lsp.util.set_qflist(vim.lsp.util.locations_to_items(result))
+            vim.fn.setqflist(vim.lsp.util.locations_to_items(result))
             vim.api.nvim_command("copen")
-            vim.api.api.nvim_command("wincmd p")
           end
         end
       else
