@@ -67,12 +67,16 @@ map("n", "<leader>vr", "<cmd>Telescope lsp_references<CR>", opts)
 map("n", "<leader>th", "<cmd>Telescope colorscheme<CR>", opts)
 
 -- Help
-map("n", "<leader>sH", "<cmd>Telescope help_tags<CR>", opts) -- search help docs
-map("n", "<leader>sC", "<cmd>Telescope commands<CR>", opts) -- search help docs
+map("n", "<leader>sh", "<cmd>Telescope help_tags<CR>", opts) -- search help docs
+-- TODO: question for josh!
+-- map("c", "searchhelp", "<cmd>Telescope help_tags<CR>", opts) -- search help docs
+-- map("c", "sh", "<cmd>Telescope help_tags<CR>", opts) -- search help docs
+map("n", "<leader>sc", "<cmd>Telescope commands<CR>", opts) -- search help docs
 
 -- File search & navigation
 -- "ctrl-p" file finding with ,p -- uses git_files if in git repo, falls back to working directory
-map("n", "<Leader>p", "<CMD>lua require'config/telescope'.project_files()<CR>", {noremap = true, silent = true})
+-- map("n", "<Leader>p", "<CMD>lua require'config/telescope'.project_files()<CR>", {noremap = true, silent = true})
+map("n", "<Leader>p", "<CMD>Telescope frecency<CR>", {noremap = true, silent = true})
 
 map("n", "<leader>ag", "<cmd>Telescope live_grep<CR>", opts) -- "ag" like live grep with ,ag
 map("n", "<leader>b", "<cmd>NvimTreeToggle<CR>", opts) -- open nvim-tree explorer

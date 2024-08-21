@@ -5,7 +5,7 @@ local map = vim.api.nvim_set_keymap
 telescope.setup {
   defaults = {
     file_ignore_patterns = {"node_modules", ".git", "dist", "_next"},
-    layout_strategy = "flex",
+    layout_strategy = "vertical",
     scroll_strategy = "cycle",
     mappings = {
       ["i"] = {
@@ -17,7 +17,10 @@ telescope.setup {
   },
   extensions = {
     frecency = {
-      db_safe_mode = false
+      matcher = "fuzzy",
+      db_safe_mode = false,
+      default_workspace = "CWD",
+      workspace_scan_cmd = "cd `git rev-parse --show-toplevel && rg -.g '!.git' --files"
     },
     ["ui-select"] = {
       -- vim.lsp.buf.code_action(),
