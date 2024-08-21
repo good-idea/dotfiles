@@ -31,8 +31,8 @@ return packer.startup {
     -- Highlights
     use {
       "nvim-treesitter/nvim-treesitter",
-      config = [[require('config.treesitter')]],
-      run = ":TSUpdate"
+      config = [[require('config.treesitter')]]
+      -- run = ":TSUpdate"
     }
 
     -- LSP & language stuff
@@ -92,6 +92,7 @@ return packer.startup {
     use "elzr/vim-json"
     use "jparise/vim-graphql"
     use "elixir-editors/vim-elixir"
+    use "jidn/vim-dbml"
 
     -- Git
     use {
@@ -115,6 +116,7 @@ return packer.startup {
       config = [[ require('config/gitsigns') ]]
     }
 
+    -- Github PR reviews
     use {
       "ldelossa/gh.nvim",
       requires = {{"ldelossa/litee.nvim"}},
@@ -142,7 +144,7 @@ return packer.startup {
 
     -- Themes
     use "sainnhe/edge"
-    use "yorik1984/newpaper.nvim"
+    -- use "yorik1984/newpaper.nvim"
     use "rebelot/kanagawa.nvim"
     use {"catppuccin/nvim", as = "catppuccin"}
     use "olivercederborg/poimandres.nvim"
