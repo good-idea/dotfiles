@@ -74,6 +74,9 @@ export PATH=$PATH:$HOME/.dotfiles/bin
 # ASDF
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
 
+# Environtmenv Variables
+eval "$(direnv hook zsh)"
+
 # append completions to fpath
 fpath=(${ASDF_DIR}/completions $fpath)
 # initialise completions with ZSH's compinit
