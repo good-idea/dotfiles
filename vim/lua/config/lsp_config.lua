@@ -62,6 +62,10 @@ lspConfig.tsserver.setup {
   }
 }
 lspConfig.volar.setup {}
+-- lspConfig.elixirls.setup {}
+-- lspConfig.nextls.setup {
+--   cmd:
+-- }
 -- lspConfig.elixirls.setup {
 --   cmd = {"/Users/joseph/.elixir-ls/language_server.sh"},
 --   on_attach = on_attach

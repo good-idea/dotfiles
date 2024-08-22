@@ -79,8 +79,10 @@ return packer.startup {
     }
 
     -- Elixir
+    --
     use {
       "elixir-tools/elixir-tools.nvim",
+      tag = "stable",
       requires = {
         "nvim-lua/plenary.nvim"
       },

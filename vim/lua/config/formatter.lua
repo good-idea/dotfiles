@@ -33,6 +33,9 @@ require("formatter").setup(
       html = {
         prettier
       },
+      elixir = {
+        require("formatter.filetypes.elixir").mixformat
+      },
       tex = {
         -- prettier
         function()

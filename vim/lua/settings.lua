@@ -95,7 +95,7 @@ vim.cmd(
   [[
   augroup FormatAutogroup
     autocmd!
-    autocmd BufWritePost *.ts,*.tsx,*.json,*.md,*.js,*.rs,*.lua,*.css,*.scss,*.sass,*.vue,*.mjs FormatWrite
+    autocmd BufWritePost *.ex,*.ts,*.tsx,*.json,*.md,*.js,*.rs,*.lua,*.css,*.scss,*.sass,*.vue,*.mjs FormatWrite
   augroup END
 ]],
   true

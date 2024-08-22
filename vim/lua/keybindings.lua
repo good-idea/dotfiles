@@ -136,10 +136,10 @@ vim.keymap.set(
 )
 
 -- Run all tests in a project
-vim.keymap.set(
-  "n",
-  "<leader>tp",
-  function()
-    require("neotest").run.run({vim.fn.getcwd(), jestCommand = "yarn jest --watchAll"})
-  end
-)
+-- vim.keymap.set(
+--   "n",
+--   "<leader>tp",
+--   function()
+--     require("neotest").run.run({vim.fn.getcwd(), jestCommand = "yarn jest --watchAll"})
+--   end
+-- )
