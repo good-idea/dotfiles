@@ -9,8 +9,9 @@ setopt share_history # setopt inc_append_history
 git config --global push.default current
 
 
-# XCode & Android Studio
-
+# XCode, Java & Android Studio
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+export JAVA_HOME_11=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
 export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
@@ -18,9 +19,14 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-# Ruby
 
+# PHP
+export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
+# Ruby
 export PATH=$PATH:$HOME/.gem/ruby/3.0.0/bin
+
+
 
 
 # Settings
