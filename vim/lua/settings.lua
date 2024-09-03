@@ -90,16 +90,7 @@ augroup END
 ]]
 )
 
--- auto formatting. Add extensions below
-vim.cmd(
-  [[
-  augroup FormatAutogroup
-    autocmd!
-    autocmd BufWritePost *.ex,*.ts,*.tsx,*.json,*.md,*.js,*.rs,*.lua,*.css,*.scss,*.sass,*.vue,*.mjs FormatWrite
-  augroup END
-]],
-  true
-)
+
 
 vim.cmd [[
   set nocompatible

@@ -1,3 +1,21 @@
+-- Auto formatting:
+-- for file types that should use formatting plugin
+vim.cmd(
+  [[
+  augroup FormatAutogroup
+    autocmd!
+    autocmd BufWritePost *.ex,*.ts,*.tsx,*.json,*.md,*.js,*.rs,*.lua,*.css,*.scss,*.sass,*.vue,*.mjs,*.eex,*.html FormatWrite
+  augroup END
+]],
+  true
+)
+
+-- Auto formatting:
+-- for file types that should use LSP formatting
+vim.cmd([[
+  autocmd BufWritePost *.heex lua vim.lsp.buf.format()
+]])
+
 local goFmt = function()
   return {
     exe = "gofmt",
@@ -117,15 +135,6 @@ require("formatter").setup(
     }
   }
 )
-
---[=[
-vim.api.nvim_exec([[
-augroup FormatAutogroup
-  autocmd!
-  autocmd BufWritePost *.js,*.py,*.ts,*.tsx,*.jsx,*.html,*.css,*.json,*.rs,*.lua FormatWrite
-augroup END
-]], true)
-]=]
 
 vim.api.nvim_exec(
   [[
