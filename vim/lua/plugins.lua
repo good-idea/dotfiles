@@ -39,8 +39,17 @@ return packer.startup {
     use {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      "neovim/nvim-lspconfig"
+      "neovim/nvim-lspconfig",
+      opts = {
+        registries = {
+          "github:nvim-java/mason-registry",
+          "github:mason-org/mason-registry"
+        }
+      }
     }
+
+    use {"mfussenegger/nvim-jdtls"}
+
     -- Automatically create & rename open/close tags
     -- Before        Input         After
     -- ------------------------------------
