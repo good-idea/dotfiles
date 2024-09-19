@@ -1,3 +1,5 @@
+local lspConfig = require "lspconfig"
+
 require("mason").setup(
   {
     ui = {
@@ -9,13 +11,15 @@ require("mason").setup(
     }
   }
 )
+
 require("mason-lspconfig").setup(
   {
-    ensure_installed = {"tailwindcss", "tsserver", "eslint"}
+    ensure_installed = {"tailwindcss", "ts_ls", "eslint"}
   }
 )
 
-local lspConfig = require "lspconfig"
+-- Java setup lives in ftplugin/java.lua
+-- Elixir setup lives in config/elixir.lua
 
 lspConfig.solargraph.setup {}
 lspConfig.tailwindcss.setup {
@@ -56,16 +60,16 @@ lspConfig.lua_ls.setup {
 }
 
 lspConfig.flow.setup {}
-lspConfig.tsserver.setup {
+lspConfig.ts_ls.setup {
   settings = {
     codeAction = {
       applyRefactoring = {enabled = false}
     }
   },
   root_dir = function(fname)
-    return lspconfig.util.root_pattern("tsconfig.json")(fname) or
-      not lspconfig.util.root_pattern(".flowconfig")(fname) and
-        lspconfig.util.root_pattern("package.json", "jsconfig.json", ".git")(fname)
+    return lspConfig.util.root_pattern("tsconfig.json")(fname) or
+      not lspConfig.util.root_pattern(".flowconfig")(fname) and
+        lspConfig.util.root_pattern("package.json", "jsconfig.json", ".git")(fname)
   end,
   handlers = {
     ["textDocument/definition"] = function(_, result, params)
