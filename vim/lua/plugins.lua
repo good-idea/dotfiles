@@ -217,6 +217,11 @@ return packer.startup {
       setup = [[ require('config/nvim-tree-setup') ]]
     }
 
+    use {
+      "stevearc/oil.nvim",
+      config = [[ require('config/oil') ]]
+    }
+
     -- OpenAI
     -- use(
     --   {
