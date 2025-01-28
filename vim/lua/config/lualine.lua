@@ -1,5 +1,4 @@
 local filteredLspNames = {"tailwindcss", "eslint"}
-local git_blame = require("gitblame")
 require("lualine").setup {
   options = {
     theme = "auto"
@@ -7,16 +6,16 @@ require("lualine").setup {
   sections = {
     lualine_a = {"mode"},
     lualine_b = {"branch", "diff", "diagnostics"},
-    lualine_c = {
-      {
-        function()
-          local blame = git_blame.get_current_blame_text()
-          return blame or ""
-        end,
-        cond = git_blame.is_blame_text_available,
-        color = "DiagnosticHint"
-      }
-    },
+    -- lualine_c = {
+    --   {
+    --     function()
+    --       local blame = git_blame.get_current_blame_text()
+    --       return blame or ""
+    --     end,
+    --     cond = git_blame.is_blame_text_available,
+    --     color = "DiagnosticHint"
+    --   }
+    -- },
     lualine_x = {"filename"},
     lualine_y = {
       {
