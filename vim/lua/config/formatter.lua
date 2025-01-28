@@ -4,7 +4,7 @@ vim.cmd(
   [[
   augroup FormatAutogroup
     autocmd!
-    autocmd BufWritePost *.ex,*.exs,*.ts,*.tsx,*.json,*.md,*.js,*.rs,*.lua,*.css,*.scss,*.sass,*.vue,*.mjs,*.eex,*.html FormatWrite
+    autocmd BufWritePost *.ex,*.exs,*.json,*.md,*.js,*.ts,*.tsx,*.rs,*.lua,*.css,*.scss,*.sass,*.vue,*.mjs,*.eex,*.html FormatWrite
   augroup END
 ]],
   true
@@ -13,7 +13,7 @@ vim.cmd(
 -- Auto formatting:
 -- for file types that should use LSP formatting
 vim.cmd([[
-  autocmd BufWritePost *.heex lua vim.lsp.buf.format()
+  autocmd BufWritePost *.hee, lua vim.lsp.buf.format()
 ]])
 
 local goFmt = function()
@@ -36,7 +36,7 @@ end
 
 local prettier = function()
   return {
-    exe = [[ prettierd ]],
+    exe = [[ prettier ]],
     args = {
       "--stdin-filepath",
       vim.fn.fnameescape(vim.api.nvim_buf_get_name(0))
