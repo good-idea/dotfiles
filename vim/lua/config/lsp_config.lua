@@ -72,6 +72,31 @@ lspConfig.ts_ls.setup {
         lspConfig.util.root_pattern("package.json", "jsconfig.json", ".git")(fname)
   end,
   handlers = {
+    -- see https://github.com/davidosomething/format-ts-errors.nvim
+    ["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
+      if result.diagnostics == nil then
+        return
+      end
+
+      -- ignore some tsserver diagnostics
+      local idx = 1
+      while idx <= #result.diagnostics do
+        local entry = result.diagnostics[idx]
+
+        local formatter = require("format-ts-errors")[entry.code]
+        entry.message = formatter and formatter(entry.message) or entry.message
+
+        -- codes: https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json
+        if entry.code == 80001 then
+          -- { message = "File is a CommonJS module; it may be converted to an ES module.", }
+          table.remove(result.diagnostics, idx)
+        else
+          idx = idx + 1
+        end
+      end
+
+      vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
+    end,
     ["textDocument/definition"] = function(_, result, params)
       if result == nil or vim.tbl_isempty(result) then
         local _ = vim.lsp.log.info() and vim.lsp.log.info(params.method, "No location found")

@@ -47,6 +47,7 @@ return packer.startup {
         }
       }
     }
+    use {"davidosomething/format-ts-errors.nvim"}
 
     use {"mfussenegger/nvim-jdtls"}
 
