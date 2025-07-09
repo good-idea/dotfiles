@@ -10,6 +10,7 @@ alias flushdns="sudo killall -HUP mDNSResponder"
 alias y="yarn"
 alias ys="yarn start"
 alias lg="lazygit"
+alias localip="ipconfig getifaddr en0"
 
 yw() {
   yarn workspace $(yarn workspaces info --json | jq '.data' -r | jq "[keys][0] []" -r | fzf) $@

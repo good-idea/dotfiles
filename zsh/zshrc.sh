@@ -8,6 +8,8 @@ setopt share_history # setopt inc_append_history
 
 git config --global push.default current
 
+# Expo made me add this
+export LANG=en_US.UTF-8
 
 # XCode, Java & Android Studio
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
@@ -19,6 +21,9 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+
+# Python
+export PATH=$Home/.local/bin:$PATH
 
 # PHP
 export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
