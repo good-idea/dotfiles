@@ -125,7 +125,10 @@ lspConfig.ts_ls.setup {
   }
 }
 lspConfig.volar.setup {}
--- lspConfig.elixirls.setup {}
+lspConfig.elixirls.setup {
+  cmd = {"elixir-ls"}, -- Adjust this if needed
+  filetypes = {"elixir", "eelixir", "ex", "exs"} -- Ensure exs is included
+}
 -- lspConfig.nextls.setup {
 --   cmd:
 -- }

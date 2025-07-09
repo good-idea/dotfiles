@@ -4,7 +4,7 @@ local map = vim.api.nvim_set_keymap
 
 telescope.setup {
   defaults = {
-    file_ignore_patterns = {"node_modules", ".git", "dist", "_next"},
+    file_ignore_patterns = {"node_modules", ".git", "dist", "_next", ".elixir-tools"},
     layout_strategy = "vertical",
     scroll_strategy = "cycle",
     mappings = {
