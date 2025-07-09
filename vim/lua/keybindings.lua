@@ -82,6 +82,7 @@ map("n", "<leader>ag", "<cmd>Telescope live_grep<CR>", opts) -- "ag" like live g
 map("n", "<leader>b", "<cmd>NvimTreeToggle<CR>", opts) -- open nvim-tree explorer
 map("n", "<leader>B", "<cmd>NvimTreeFindFile<CR>", opts) -- open nvim-tree explorer
 map("n", "<leader>wk", "<cmd>WhichKey<CR>", opts)
+map("n", "<leader>cG", "<cmd>CopyGitRelPath<CR>", opts) -- copy path relative to git root, see ./commands.lua
 
 -- Git
 map("n", "<leader>vpr", "<cmd>GHSearchPRs<CR>is:open", opts)

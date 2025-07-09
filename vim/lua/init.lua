@@ -1,5 +1,6 @@
 require("plugins")
 require("config/lsp_config")
+require("commands")
 require("settings")
 require("keybindings")
 
