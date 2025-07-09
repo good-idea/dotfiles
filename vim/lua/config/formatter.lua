@@ -39,7 +39,8 @@ local prettier = function()
     exe = [[ prettier ]],
     args = {
       "--stdin-filepath",
-      vim.fn.fnameescape(vim.api.nvim_buf_get_name(0))
+      -- manually quote the filepath to avoid Zsh globbing issues
+      [["]] .. vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)) .. [["]]
     },
     stdin = true
   }
