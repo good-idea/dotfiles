@@ -4,7 +4,7 @@ vim.cmd(
   [[
   augroup FormatAutogroup
     autocmd!
-    autocmd BufWritePost *.ex,*.exs,*.json,*.md,*.js,*.ts,*.tsx,*.rs,*.lua,*.css,*.scss,*.sass,*.vue,*.mjs,*.eex,*.html FormatWrite
+    autocmd BufWritePost *.ex,*.md,*.js,*.jsx,*.ts,*.tsx,*.rs,*.lua,*.css,*.scss,*.sass,*.vue,*.mjs,*.mts,*.eex,*.html,*.liquid FormatWrite
   augroup END
 ]],
   true
@@ -13,7 +13,7 @@ vim.cmd(
 -- Auto formatting:
 -- for file types that should use LSP formatting
 vim.cmd([[
-  autocmd BufWritePost *.hee, lua vim.lsp.buf.format()
+  autocmd BufWritePost *.hee,*.json, lua vim.lsp.buf.format()
 ]])
 
 local goFmt = function()
@@ -51,9 +51,6 @@ require("formatter").setup(
     filetype = {
       html = {
         prettier
-      },
-      elixir = {
-        require("formatter.filetypes.elixir").mixformat
       },
       tex = {
         -- prettier
@@ -107,6 +104,9 @@ require("formatter").setup(
         prettier
       },
       typescriptreact = {
+        prettier
+      },
+      liquid = {
         prettier
       },
       go = {

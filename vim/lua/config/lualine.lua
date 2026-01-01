@@ -1,4 +1,5 @@
 local filteredLspNames = {"tailwindcss", "eslint"}
+
 require("lualine").setup {
   options = {
     theme = "auto"
@@ -6,21 +7,12 @@ require("lualine").setup {
   sections = {
     lualine_a = {"mode"},
     lualine_b = {"branch", "diff", "diagnostics"},
-    -- lualine_c = {
-    --   {
-    --     function()
-    --       local blame = git_blame.get_current_blame_text()
-    --       return blame or ""
-    --     end,
-    --     cond = git_blame.is_blame_text_available,
-    --     color = "DiagnosticHint"
-    --   }
-    -- },
     lualine_x = {"filename"},
+    -- Display the active LSPs for the buffer
     lualine_y = {
       {
         function()
-          local lsps = vim.lsp.get_active_clients({bufnr = vim.fn.bufnr()})
+          local lsps = vim.lsp.get_clients({bufnr = vim.fn.bufnr()})
           if lsps and #lsps > 0 then
             local names = {}
             for _, lsp in ipairs(lsps) do

@@ -3,4 +3,7 @@ vim.cmd [[
   let g:gitblame_enabled = 0
 ]]
 
-vim.api.nvim_create_user_command("Blame", ":GitBlameToggle", {})
+-- Disable virtual text
+vim.g.gitblame_display_virtual_text = 0
+
+-- vim.api.nvim_create_user_command("Blame", ":GitBlameToggle", {})

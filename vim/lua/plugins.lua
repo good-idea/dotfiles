@@ -82,11 +82,6 @@ return packer.startup {
       config = [[ require('config/lualine') ]]
     }
     use "nvim-lua/popup.nvim"
-    use {
-      -- Utility functions for getting diagnostic status and progress messages from LSP servers, for use in the Neovim statusline
-      "nvim-lua/lsp-status.nvim",
-      config = [[ require('config/lsp_status') ]]
-    }
 
     -- Elixir
     --

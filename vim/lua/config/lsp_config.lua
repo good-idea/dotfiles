@@ -19,7 +19,6 @@ require("mason-lspconfig").setup(
 )
 
 -- Java setup lives in ftplugin/java.lua
--- Elixir setup lives in config/elixir.lua
 
 lspConfig.solargraph.setup {}
 lspConfig.tailwindcss.setup {
@@ -126,16 +125,23 @@ lspConfig.ts_ls.setup {
 }
 lspConfig.volar.setup {}
 lspConfig.elixirls.setup {
-  cmd = {"elixir-ls"}, -- Adjust this if needed
-  filetypes = {"elixir", "eelixir", "ex", "exs"} -- Ensure exs is included
+  cmd = {"elixir-ls"},
+  filetypes = {"elixir", "eelixir", "ex", "exs"},
+  on_attach = function(client, bufnr)
+    if client.server_capabilities.documentFormattingProvider then
+      vim.api.nvim_create_autocmd(
+        "BufWritePre",
+        {
+          group = vim.api.nvim_create_augroup("FormatElixir", {clear = true}),
+          buffer = bufnr,
+          callback = function()
+            vim.lsp.buf.format({async = false})
+          end
+        }
+      )
+    end
+  end
 }
--- lspConfig.nextls.setup {
---   cmd:
--- }
--- lspConfig.elixirls.setup {
---   cmd = {"/Users/joseph/.elixir-ls/language_server.sh"},
---   on_attach = on_attach
--- }
 
 LspDiagnosticsFloatingError = {fg = color1, bg = none, style = "bold"}
 LspDiagnosticsFloatingWarning = {fg = color2, bg = none, style = "bold"}
