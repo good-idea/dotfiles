@@ -21,6 +21,8 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+# Ghostty CLI
+export PATH=$PATH:/Applications/Ghostty.app/Contents/MacOS
 
 # Python
 export PATH=$Home/.local/bin:$PATH
@@ -45,20 +47,30 @@ export VISUAL=vim
 # plugins from oh-my-zsh
 antigen bundle cp # use rsync for cp commands
 antigen bundle git
-antigen bundle tmux
 antigen bundle docker
 antigen bundle history
 antigen bundle key-bindings
 antigen bundle completion
 
 # other plugins
-# zplug "jeffreytse/zsh-vi-mode"
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-history-substring-search
 antigen bundle knu/zsh-manydots-magic
 
 antigen apply
+
+# autoload -U edit-command-line
+# zle -N edit-command-line
+# # bindkey -M vicmd v edit-command-line
+# bindkey '^Xe' edit-command-line
+# <Ctrl-x><Ctrl-e> to edit command-line in EDITOR
+# autoload -Uz edit-command-line
+# zle -N edit-command-line
+# # bindkey "${key_info[Control]}x${key_info[Control]}e" edit-command-line
+# bindkey "${key_info[Control]}x" edit-command-line
+# # bindkey "${key_info[Control]}e" echo "foo"
+# edit-command-line
 
 
 # Custom keybindings and aliases
@@ -83,13 +95,15 @@ export PATH=$PATH:$HOME/.dotfiles/utils
 export PATH=$PATH:$HOME/.dotfiles/bin
 
 # ASDF
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+# append completions to fpath
+fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
+# initialise completions with ZSH's compinit
+autoload -Uz compinit && compinit
 
 # Environtmenv Variables
 eval "$(direnv hook zsh)"
 
-# append completions to fpath
-fpath=(${ASDF_DIR}/completions $fpath)
 # initialise completions with ZSH's compinit
 # autoload -Uz compinit
 # compinit

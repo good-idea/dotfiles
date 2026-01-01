@@ -1,0 +1,12 @@
+font-family = CaskaydiaCove Nerd Font
+font-size = 15
+
+macos-window-buttons = hidden
+macos-titlebar-style = hidden
+
+window-padding-x = 8
+window-padding-y = 0,0
+
+# shell = bin/zsh
+
+# command = "tmux attach || tmux new"
