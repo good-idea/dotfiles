@@ -11,6 +11,7 @@ alias y="yarn"
 alias ys="yarn start"
 alias lg="lazygit"
 alias localip="ipconfig getifaddr en0"
+alias whatsize="du -h -d 1 . | sort -hr"
 
 yw() {
   yarn workspace $(yarn workspaces info --json | jq '.data' -r | jq "[keys][0] []" -r | fzf) $@
