@@ -6,3 +6,5 @@ vim/plugins
 !vim/plugins/.gitkeep
 tmux-client-*.log
 zsh/zshrc.sh.zwc
+
+node_modules
