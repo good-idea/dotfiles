@@ -7,211 +7,120 @@ description: Use when starting feature work that needs isolation from current wo
 
 ## Overview
 
-Git worktrees create isolated workspaces sharing the same repository, allowing work on multiple branches simultaneously without switching.
+This skill provides two scripts for managing git worktrees:
 
-**Core principle:** Systematic directory selection + safety verification = reliable isolation.
+1. **create-worktree.sh** - Creates isolated workspaces for parallel development
+2. **cleanup-worktree.sh** - Removes worktrees and optionally their branches
 
 **Announce at start:** "I'm using the using-git-worktrees skill to set up an isolated workspace."
 
-## Directory Selection Process
+## Creating a Worktree
 
-Follow this priority order:
-
-### 1. Check Existing Directories
+Use the `create-worktree.sh` script:
 
 ```bash
-# Check in priority order
-ls -d .worktrees 2>/dev/null     # Preferred (hidden)
-ls -d worktrees 2>/dev/null      # Alternative
+./scripts/create-worktree.sh <branch-name>
 ```
 
-**If found:** Use that directory. If both exist, `.worktrees` wins.
+**Arguments:**
 
-### 2. Check CLAUDE.md
+- `branch-name` (required): Name of branch to create/checkout
+
+**What it does:**
+
+- Creates worktree in `.worktrees/<branch-name>`
+- Creates branch if it doesn't exist, or checks out existing branch
+- Verifies `.worktrees` is in `.gitignore` (adds and commits if needed)
+- Returns the full path to the created worktree
+
+**Example:**
 
 ```bash
-grep -i "worktree.*director" CLAUDE.md 2>/dev/null
+# Create worktree for feature/auth branch
+WORKTREE_PATH=$(./scripts/create-worktree.sh feature/auth)
+cd "$WORKTREE_PATH"
 ```
 
-**If preference specified:** Use it without asking.
+**Arguments:**
 
-### 3. Ask User
+- `branch-name` (required): Name of branch to create/checkout
+- `location` (optional): One of `.worktrees`, `worktrees`, or `global`
 
-If no directory exists and no CLAUDE.md preference:
+**What it does:**
 
-```
-No worktree directory found. Where should I create worktrees?
+- Creates branch if it doesn't exist, or checks out existing branch
+- Auto-detects worktree location (prefers `.worktrees` > `worktrees`)
+- Verifies project-local directories are in `.gitignore` (adds and commits if needed)
+- Returns the full path to the created worktree
 
-1. .worktrees/ (project-local, hidden)
-2. ~/.config/superpowers/worktrees/<project-name>/ (global location)
-
-Which would you prefer?
-```
-
-## Safety Verification
-
-### For Project-Local Directories (.worktrees or worktrees)
-
-**MUST verify directory is ignored before creating worktree:**
+**Example:**
 
 ```bash
-# Check if directory is ignored (respects local, global, and system gitignore)
-git check-ignore -q .worktrees 2>/dev/null || git check-ignore -q worktrees 2>/dev/null
+# Create worktree for feature/auth branch
+WORKTREE_PATH=$(./scripts/create-worktree.sh feature/auth)
+cd "$WORKTREE_PATH"
 ```
 
-**If NOT ignored:**
+## Cleaning Up a Worktree
 
-Per Jesse's rule "Fix broken things immediately":
-1. Add appropriate line to .gitignore
-2. Commit the change
-3. Proceed with worktree creation
-
-**Why critical:** Prevents accidentally committing worktree contents to repository.
-
-### For Global Directory (~/.config/superpowers/worktrees)
-
-No .gitignore verification needed - outside project entirely.
-
-## Creation Steps
-
-### 1. Detect Project Name
+Use the `cleanup-worktree.sh` script:
 
 ```bash
-project=$(basename "$(git rev-parse --show-toplevel)")
+./scripts/cleanup-worktree.sh <worktree-path> [--delete-branch]
 ```
 
-### 2. Create Worktree
+**Arguments:**
+
+- `worktree-path` (required): Path to the worktree to remove
+- `--delete-branch` (optional): Also delete the associated branch
+
+**What it does:**
+
+- Removes the worktree directory
+- Optionally deletes the branch if `--delete-branch` is provided
+- Validates worktree exists before attempting removal
+
+**Example:**
 
 ```bash
-# Determine full path
-case $LOCATION in
-  .worktrees|worktrees)
-    path="$LOCATION/$BRANCH_NAME"
-    ;;
-  ~/.config/superpowers/worktrees/*)
-    path="~/.config/superpowers/worktrees/$project/$BRANCH_NAME"
-    ;;
-esac
+# Remove worktree only
+./scripts/cleanup-worktree.sh .worktrees/feature/auth
 
-# Create worktree with new branch
-git worktree add "$path" -b "$BRANCH_NAME"
-cd "$path"
+# Remove worktree and delete branch
+./scripts/cleanup-worktree.sh .worktrees/feature/auth --delete-branch
 ```
 
-### 3. Run Project Setup
+## Workflow
 
-Auto-detect and run appropriate setup:
+### Starting Work
 
-```bash
-# Node.js
-if [ -f package.json ]; then npm install; fi
+1. Announce you're using the skill
+2. Run `create-worktree.sh` with the branch name
+3. Change to the worktree directory
+4. Run project setup (npm install, etc.) if needed
+5. Verify tests pass before starting work
 
-# Rust
-if [ -f Cargo.toml ]; then cargo build; fi
+### Finishing Work
 
-# Python
-if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-if [ -f pyproject.toml ]; then poetry install; fi
+1. Ensure changes are committed/pushed if needed
+2. Return to main workspace
+3. Run `cleanup-worktree.sh` with appropriate flags
+4. If branch was merged, use `--delete-branch`
 
-# Go
-if [ -f go.mod ]; then go mod download; fi
-```
+## Location Strategy
 
-### 4. Verify Clean Baseline
+All worktrees are created in `.worktrees/` (hidden, project-local).
 
-Run tests to ensure worktree starts clean:
-
-```bash
-# Examples - use project-appropriate command
-npm test
-cargo test
-pytest
-go test ./...
-```
-
-**If tests fail:** Report failures, ask whether to proceed or investigate.
-
-**If tests pass:** Report ready.
-
-### 5. Report Location
-
-```
-Worktree ready at <full-path>
-Tests passing (<N> tests, 0 failures)
-Ready to implement <feature-name>
-```
-
-## Quick Reference
-
-| Situation | Action |
-|-----------|--------|
-| `.worktrees/` exists | Use it (verify ignored) |
-| `worktrees/` exists | Use it (verify ignored) |
-| Both exist | Use `.worktrees/` |
-| Neither exists | Check CLAUDE.md → Ask user |
-| Directory not ignored | Add to .gitignore + commit |
-| Tests fail during baseline | Report failures + ask |
-| No package.json/Cargo.toml | Skip dependency install |
-
-## Common Mistakes
-
-### Skipping ignore verification
-
-- **Problem:** Worktree contents get tracked, pollute git status
-- **Fix:** Always use `git check-ignore` before creating project-local worktree
-
-### Assuming directory location
-
-- **Problem:** Creates inconsistency, violates project conventions
-- **Fix:** Follow priority: existing > CLAUDE.md > ask
-
-### Proceeding with failing tests
-
-- **Problem:** Can't distinguish new bugs from pre-existing issues
-- **Fix:** Report failures, get explicit permission to proceed
-
-### Hardcoding setup commands
-
-- **Problem:** Breaks on projects using different tools
-- **Fix:** Auto-detect from project files (package.json, etc.)
-
-## Example Workflow
-
-```
-You: I'm using the using-git-worktrees skill to set up an isolated workspace.
-
-[Check .worktrees/ - exists]
-[Verify ignored - git check-ignore confirms .worktrees/ is ignored]
-[Create worktree: git worktree add .worktrees/auth -b feature/auth]
-[Run npm install]
-[Run npm test - 47 passing]
-
-Worktree ready at /Users/jesse/myproject/.worktrees/auth
-Tests passing (47 tests, 0 failures)
-Ready to implement auth feature
-```
-
-## Red Flags
-
-**Never:**
-- Create worktree without verifying it's ignored (project-local)
-- Skip baseline test verification
-- Proceed with failing tests without asking
-- Assume directory location when ambiguous
-- Skip CLAUDE.md check
-
-**Always:**
-- Follow directory priority: existing > CLAUDE.md > ask
-- Verify directory is ignored for project-local
-- Auto-detect and run project setup
-- Verify clean test baseline
+**Safety:** The `.worktrees` directory is automatically added to `.gitignore` if not already ignored.
 
 ## Integration
 
 **Called by:**
-- **brainstorming** (Phase 4) - REQUIRED when design is approved and implementation follows
+
+- **brainstorming** (Phase 4) - When implementation follows approved design
 - Any skill needing isolated workspace
 
 **Pairs with:**
-- **finishing-a-development-branch** - REQUIRED for cleanup after work complete
-- **executing-plans** or **subagent-driven-development** - Work happens in this worktree
+
+- **finishing-a-development-branch** - For cleanup after work complete
+- **executing-plans** or **subagent-driven-development** - Work happens in worktree
