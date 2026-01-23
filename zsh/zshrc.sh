@@ -6,6 +6,9 @@ SAVEHIST=1000
 setopt inc_append_history # To save every command before it is executed
 setopt share_history # setopt inc_append_history
 
+export EDITOR="nvim"
+
+# git
 git config --global push.default current
 
 # Expo made me add this
