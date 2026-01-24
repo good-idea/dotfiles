@@ -71,22 +71,8 @@ return packer.startup {
     }
     use "nvim-lua/popup.nvim"
 
-    -- Elixir
-    --
-    use {
-      "elixir-tools/elixir-tools.nvim",
-      tag = "stable",
-      requires = {
-        "nvim-lua/plenary.nvim"
-      },
-      config = [[ require('config/elixir') ]]
-    }
-
     -- Syntax Highlighting
     use "eloyesp/vim-liquid"
-    use "elzr/vim-json"
-    use "jparise/vim-graphql"
-    use "elixir-editors/vim-elixir"
     use "jidn/vim-dbml"
 
     -- Git
@@ -98,11 +84,6 @@ return packer.startup {
     }
 
     -- use "sindrets/diffview.nvim"
-    use {
-      -- used in Lualine
-      "f-person/git-blame.nvim",
-      config = [[ require('config/gitblame') ]]
-    }
     use {
       "lewis6991/gitsigns.nvim",
       requires = {
@@ -121,15 +102,7 @@ return packer.startup {
     -- Misc
     use "reedes/vim-pencil" -- nicer markdown settings
     use "chrisbra/recover.vim" -- add "compare" option when a swap file is found
-    use "jakelinnzy/autocmd-lua" -- easier autocommands
-    -- generate jsdoc comments with :JsDoc
-    use {
-      "heavenshell/vim-jsdoc",
-      cmd = "JsDoc",
-      ft = {"js", "jsx", "ts", "tsx"},
-      run = "make install"
-    }
-    use "christoomey/vim-tmux-navigator"
+    -- use "christoomey/vim-tmux-navigator" -- Commented out: test if needed
     use "tpope/vim-unimpaired"
     use "tpope/vim-surround" -- surround commands
     use "tpope/vim-commentary" -- use gcc to comment selected lines
@@ -186,7 +159,6 @@ return packer.startup {
     }
 
     -- Search & Navigation
-    use {"junegunn/fzf", run = "./install --bin"}
     use {
       "nvim-telescope/telescope.nvim",
       requires = {
@@ -201,14 +173,6 @@ return packer.startup {
     }
     use {
       "nvim-telescope/telescope-frecency.nvim"
-    }
-
-    use {
-      -- File explorer
-      "kyazdani42/nvim-tree.lua",
-      requires = "kyazdani42/nvim-web-devicons",
-      config = [[ require('config/nvim-tree') ]],
-      setup = [[ require('config/nvim-tree-setup') ]]
     }
 
     use {

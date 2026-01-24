@@ -79,8 +79,6 @@ map("n", "<leader>sc", "<cmd>Telescope commands<CR>", opts) -- search help docs
 map("n", "<Leader>p", "<CMD>Telescope frecency<CR>", {noremap = true, silent = true})
 
 map("n", "<leader>ag", "<cmd>Telescope live_grep<CR>", opts) -- "ag" like live grep with ,ag
-map("n", "<leader>b", "<cmd>NvimTreeToggle<CR>", opts) -- open nvim-tree explorer
-map("n", "<leader>B", "<cmd>NvimTreeFindFile<CR>", opts) -- open nvim-tree explorer
 map("n", "<leader>wk", "<cmd>WhichKey<CR>", opts)
 map("n", "<leader>cG", "<cmd>CopyGitRelPath<CR>", opts) -- copy path relative to git root, see ./commands.lua
 
