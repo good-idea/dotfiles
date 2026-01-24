@@ -223,8 +223,8 @@ return packer.startup {
     -- }
     --
     use {
-      "mhartington/formatter.nvim",
-      config = [[ require('config/formatter') ]]
+      "stevearc/conform.nvim",
+      config = [[ require('config/conform') ]]
     }
 
     -- time tracking
