@@ -15,7 +15,7 @@ opt.wrap = false -- don't wrap lines
 opt.linebreak = true -- wrap lines at convenient points
 opt.relativenumber = true
 opt.visualbell = true -- no sounds
-opt.cursorline = true -- no sounds
+opt.cursorline = true -- highlight current line
 opt.autoread = true -- reload files changed outside vim
 opt.scrolloff = 8 -- leave 8 lines below bottom & top scroll
 opt.cmdheight = 2 -- more space for messages
@@ -53,7 +53,6 @@ opt.expandtab = true
 -- *******************
 
 -- Auto reload a buffer on file change
-opt.autoread = true
 vim.api.nvim_create_autocmd("FileChangedShellPost", {
   pattern = "*",
   callback = function()
@@ -85,8 +84,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 -- vim-pencil setup for markdown and text files
-vim.cmd([[set nocompatible]])
-vim.cmd([[filetype plugin on]])
 vim.g['pencil#wrapModeDefault'] = 'soft'
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -97,23 +94,9 @@ vim.api.nvim_create_autocmd("FileType", {
   desc = "Initialize vim-pencil for markdown and text files"
 })
 
--- return to the same line when re-opening a file
--- augroup {
---   'line_return',
---   {{
---     'BufReadPost', {
---        if line("'\"") > 0 && line("'\"") <= line("$") |
---        execute 'normal! g`"zvzz' |
---        endif
---     }
---   }}
--- }
-
 -- *******************
 -- Theme
 -- *******************
-
--- use {"challenger-deep-theme/vim", as = "challenger-deep-theme"}
 
 vim.cmd [[syntax on]]
 vim.cmd [[color everforest]]
