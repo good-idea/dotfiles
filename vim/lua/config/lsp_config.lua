@@ -192,13 +192,17 @@ vim.lsp.handlers["textDocument/signatureHelp"] =
       }
     )
 
--- Nicer icons for diagnostic signs
-local signs = { Error = "●", Warn = "○", Hint = "○", Info = "○" }
-
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
+-- Diagnostic sign icons (Neovim 0.11+ style)
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "●",
+      [vim.diagnostic.severity.WARN] = "○",
+      [vim.diagnostic.severity.HINT] = "○",
+      [vim.diagnostic.severity.INFO] = "○",
+    },
+  },
+})
 
 -- Set up folding
 -- https://www.jmaguire.tech/posts/treesitter_folding/
