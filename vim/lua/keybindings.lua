@@ -74,6 +74,7 @@ map("n", "<leader>sh", "<cmd>Telescope help_tags<CR>", opts) -- search help docs
 map("n", "<leader>sc", "<cmd>Telescope commands<CR>", opts) -- search help docs
 
 -- File search & navigation
+map("n", "-", "<CMD>Oil<CR>", opts) -- open parent directory in Oil
 -- "ctrl-p" file finding with ,p -- uses git_files if in git repo, falls back to working directory
 -- map("n", "<Leader>p", "<CMD>lua require'config/telescope'.project_files()<CR>", {noremap = true, silent = true})
 map("n", "<Leader>p", "<CMD>Telescope frecency<CR>", {noremap = true, silent = true})

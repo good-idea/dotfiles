@@ -1,6 +1,5 @@
 local actions = require "telescope.actions"
 local telescope = require "telescope"
-local map = vim.api.nvim_set_keymap
 
 telescope.setup {
   defaults = {
