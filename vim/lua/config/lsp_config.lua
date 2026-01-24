@@ -13,8 +13,8 @@ require("mason").setup(
 
 require("mason-lspconfig").setup(
   {
-    ensure_installed = {"tailwindcss", "ts_ls", "eslint", "lua_ls", "elixirls"},
-    automatic_enable = true  -- Automatically enable installed servers
+    ensure_installed = { "tailwindcss", "ts_ls", "eslint", "lua_ls", "elixirls" },
+    automatic_enable = true -- Automatically enable installed servers
   }
 )
 
@@ -65,10 +65,10 @@ vim.lsp.config('lua_ls', {
 
 -- TypeScript with custom handlers for diagnostics and definitions
 vim.lsp.config('ts_ls', {
-  root_markers = {'tsconfig.json', 'package.json', 'jsconfig.json', '.git'},
+  root_markers = { 'tsconfig.json', 'package.json', 'jsconfig.json', '.git' },
   settings = {
     codeAction = {
-      applyRefactoring = {enabled = false}
+      applyRefactoring = { enabled = false }
     }
   },
   handlers = {
@@ -128,8 +128,8 @@ vim.lsp.config('ts_ls', {
 
 -- Elixir LS with custom cmd and filetypes
 vim.lsp.config('elixirls', {
-  cmd = {"elixir-ls"},
-  filetypes = {"elixir", "eelixir", "heex"}
+  cmd = { "elixir-ls" },
+  filetypes = { "elixir", "eelixir", "heex" }
 })
 
 -- Auto-format on save for Elixir files
@@ -137,15 +137,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     local bufnr = args.buf
-    
+
     if client.name == 'elixirls' and client.server_capabilities.documentFormattingProvider then
       vim.api.nvim_create_autocmd(
         "BufWritePre",
         {
-          group = vim.api.nvim_create_augroup("FormatElixir", {clear = true}),
+          group = vim.api.nvim_create_augroup("FormatElixir", { clear = true }),
           buffer = bufnr,
           callback = function()
-            vim.lsp.buf.format({async = false})
+            vim.lsp.buf.format({ async = false })
           end
         }
       )
@@ -154,10 +154,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 -- Diagnostic sign styling (kept from original config)
-LspDiagnosticsFloatingError = {fg = color1, bg = none, style = "bold"}
-LspDiagnosticsFloatingWarning = {fg = color2, bg = none, style = "bold"}
-LspDiagnosticsFloatingInformation = {fg = color3, bg = none, style = "italic"}
-LspDiagnosticsFloatingHint = {fg = color4, bg = none, style = "italic"}
+LspDiagnosticsFloatingError = { fg = color1, bg = none, style = "bold" }
+LspDiagnosticsFloatingWarning = { fg = color2, bg = none, style = "bold" }
+LspDiagnosticsFloatingInformation = { fg = color3, bg = none, style = "italic" }
+LspDiagnosticsFloatingHint = { fg = color4, bg = none, style = "italic" }
 
 -- Config for the diagnostic window
 vim.diagnostic.config(
@@ -175,29 +175,29 @@ vim.diagnostic.config(
 )
 
 vim.lsp.handlers["textDocument/hover"] =
-  vim.lsp.with(
-  vim.lsp.handlers.hover,
-  {
-    border = "single"
-  }
-)
+    vim.lsp.with(
+      vim.lsp.handlers.hover,
+      {
+        border = "single"
+      }
+    )
 
 -- config for the signature window
 vim.lsp.handlers["textDocument/signatureHelp"] =
-  vim.lsp.with(
-  vim.lsp.handlers.signature_help,
-  {
-    silent = true,
-    focusable = false
-  }
-)
+    vim.lsp.with(
+      vim.lsp.handlers.signature_help,
+      {
+        silent = true,
+        focusable = false
+      }
+    )
 
 -- Nicer icons for diagnostic signs
-local signs = {Error = "●", Warn = "○", Hint = "○", Info = "○"}
+local signs = { Error = "●", Warn = "○", Hint = "○", Info = "○" }
 
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = hl})
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
 -- Set up folding

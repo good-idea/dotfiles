@@ -1,18 +1,18 @@
-local filteredLspNames = {"tailwindcss", "eslint"}
+local filteredLspNames = { "tailwindcss", "eslint" }
 
 require("lualine").setup {
   options = {
     theme = "auto"
   },
   sections = {
-    lualine_a = {"mode"},
-    lualine_b = {"branch", "diff", "diagnostics"},
-    lualine_x = {"filename"},
+    lualine_a = { "mode" },
+    lualine_b = { "branch", "diff", "diagnostics" },
+    lualine_x = {},
     -- Display the active LSPs for the buffer
     lualine_y = {
       {
         function()
-          local lsps = vim.lsp.get_clients({bufnr = vim.fn.bufnr()})
+          local lsps = vim.lsp.get_clients({ bufnr = vim.fn.bufnr() })
           if lsps and #lsps > 0 then
             local names = {}
             for _, lsp in ipairs(lsps) do
@@ -30,7 +30,7 @@ require("lualine").setup {
         end
       }
     },
-    lualine_z = {{"datetime", style = "%H:%M"}}
+    lualine_z = { { "datetime", style = "%H:%M" } }
   }
   -- inactive_sections = {
   --   lualine_x = {"encoding", "fileformat"},
