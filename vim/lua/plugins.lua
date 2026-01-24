@@ -195,6 +195,9 @@ require("lazy").setup({
   -- Handy bracket mappings for navigation ([q, ]q, [b, ]b, etc.)
   { "tpope/vim-unimpaired" },
 
+  -- Seamless navigation between tmux panes and vim splits
+  { "christoomey/vim-tmux-navigator" },
+
   -- Toggle comments with gc (line) and gb (block)
   {
     "numToStr/Comment.nvim",
