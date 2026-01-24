@@ -1,5 +1,6 @@
 require("oil").setup(
   {
+    columns = {},
     keymaps = {
       ["?"] = "actions.show_help",
       ["v"] = {"actions.select", opts = {vertical = true}, desc = "Open the entry in a vertical split"},
