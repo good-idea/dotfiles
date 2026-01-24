@@ -37,19 +37,11 @@ return packer.startup {
 
     -- LSP & language stuff
     use {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      "neovim/nvim-lspconfig",
-      opts = {
-        registries = {
-          "github:nvim-java/mason-registry",
-          "github:mason-org/mason-registry"
-        }
-      }
+      "mason-org/mason.nvim",
+      "mason-org/mason-lspconfig.nvim",
+      "neovim/nvim-lspconfig"
     }
     use {"davidosomething/format-ts-errors.nvim"}
-
-    use {"mfussenegger/nvim-jdtls"}
 
     -- Automatically create & rename open/close tags
     -- Before        Input         After
@@ -68,11 +60,7 @@ return packer.startup {
     use "MaximilianLloyd/tw-values.nvim"
     -- use :TSC to get workspace typescript diagnostics
     use {
-      "dmmulroy/tsc.nvim"
-    }
-
-    use {
-      "jose-elias-alvarez/nvim-lsp-ts-utils",
+      "dmmulroy/tsc.nvim",
       config = [[ require('tsc').setup() ]]
     }
 
@@ -187,6 +175,16 @@ return packer.startup {
       config = [[ require('config/luasnip') ]]
     }
 
+    use {
+      "folke/lazydev.nvim",
+      ft = "lua",
+      opts = {
+        library = {
+          { path = "${3rd}/luv/library", words = { "vim%.uv" } }
+        }
+      }
+    }
+
     -- Search & Navigation
     use {"junegunn/fzf", run = "./install --bin"}
     use {
@@ -264,6 +262,9 @@ return packer.startup {
       "mhartington/formatter.nvim",
       config = [[ require('config/formatter') ]]
     }
+
+    -- time tracking
+    use "wakatime/vim-wakatime"
     --
     -- use {
     --   "kmonad/kmonad-vim"

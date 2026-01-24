@@ -1,5 +1,4 @@
-local lspConfig = require "lspconfig"
-
+-- Mason setup
 require("mason").setup(
   {
     ui = {
@@ -14,14 +13,15 @@ require("mason").setup(
 
 require("mason-lspconfig").setup(
   {
-    ensure_installed = {"tailwindcss", "ts_ls", "eslint"}
+    ensure_installed = {"tailwindcss", "ts_ls", "eslint", "lua_ls", "elixirls"},
+    automatic_enable = true  -- Automatically enable installed servers
   }
 )
 
--- Java setup lives in ftplugin/java.lua
+-- Server Configurations
 
-lspConfig.solargraph.setup {}
-lspConfig.tailwindcss.setup {
+-- Tailwind CSS with custom init_options for Elixir/Heex support
+vim.lsp.config('tailwindcss', {
   init_options = {
     userLanguages = {
       elixir = "html-eex",
@@ -29,9 +29,14 @@ lspConfig.tailwindcss.setup {
       heex = "html-eex"
     }
   }
-}
-lspConfig.eslint.setup {}
-lspConfig.lua_ls.setup {
+})
+
+-- ESLint - use default config from nvim-lspconfig
+vim.lsp.config('eslint', {})
+
+-- Lua LS with custom settings
+-- Note: lazydev.nvim handles most Lua config automatically, but we keep this for reference
+vim.lsp.config('lua_ls', {
   settings = {
     Lua = {
       runtime = {
@@ -56,22 +61,18 @@ lspConfig.lua_ls.setup {
       }
     }
   }
-}
+})
 
-lspConfig.flow.setup {}
-lspConfig.ts_ls.setup {
+-- TypeScript with custom handlers for diagnostics and definitions
+vim.lsp.config('ts_ls', {
+  root_markers = {'tsconfig.json', 'package.json', 'jsconfig.json', '.git'},
   settings = {
     codeAction = {
       applyRefactoring = {enabled = false}
     }
   },
-  root_dir = function(fname)
-    return lspConfig.util.root_pattern("tsconfig.json")(fname) or
-      not lspConfig.util.root_pattern(".flowconfig")(fname) and
-        lspConfig.util.root_pattern("package.json", "jsconfig.json", ".git")(fname)
-  end,
   handlers = {
-    -- see https://github.com/davidosomething/format-ts-errors.nvim
+    -- Custom diagnostics handler: filters and formats TypeScript errors
     ["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
       if result.diagnostics == nil then
         return
@@ -96,6 +97,7 @@ lspConfig.ts_ls.setup {
 
       vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
     end,
+    -- Custom definition handler: smart quickfix list for multiple definitions
     ["textDocument/definition"] = function(_, result, params)
       if result == nil or vim.tbl_isempty(result) then
         local _ = vim.lsp.log.info() and vim.lsp.log.info(params.method, "No location found")
@@ -122,13 +124,21 @@ lspConfig.ts_ls.setup {
       end
     end
   }
-}
-lspConfig.volar.setup {}
-lspConfig.elixirls.setup {
+})
+
+-- Elixir LS with custom cmd and filetypes
+vim.lsp.config('elixirls', {
   cmd = {"elixir-ls"},
-  filetypes = {"elixir", "eelixir", "ex", "exs"},
-  on_attach = function(client, bufnr)
-    if client.server_capabilities.documentFormattingProvider then
+  filetypes = {"elixir", "eelixir", "heex"}
+})
+
+-- Auto-format on save for Elixir files
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    local bufnr = args.buf
+    
+    if client.name == 'elixirls' and client.server_capabilities.documentFormattingProvider then
       vim.api.nvim_create_autocmd(
         "BufWritePre",
         {
@@ -141,15 +151,13 @@ lspConfig.elixirls.setup {
       )
     end
   end
-}
+})
 
+-- Diagnostic sign styling (kept from original config)
 LspDiagnosticsFloatingError = {fg = color1, bg = none, style = "bold"}
 LspDiagnosticsFloatingWarning = {fg = color2, bg = none, style = "bold"}
 LspDiagnosticsFloatingInformation = {fg = color3, bg = none, style = "italic"}
 LspDiagnosticsFloatingHint = {fg = color4, bg = none, style = "italic"}
-
--- Server setups
--- require "lspconfig".volar.setup({})
 
 -- Config for the diagnostic window
 vim.diagnostic.config(

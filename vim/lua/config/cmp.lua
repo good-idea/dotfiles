@@ -2,6 +2,10 @@ vim.o.completeopt = "menuone,noselect"
 local cmp = require "cmp"
 local luasnip = require "luasnip"
 
+-- Configure LSP capabilities for all servers
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+vim.lsp.config('*', { capabilities = capabilities })
+
 cmp.setup(
   {
     completion = {},
