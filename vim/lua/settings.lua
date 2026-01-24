@@ -52,59 +52,50 @@ opt.expandtab = true
 -- Autocommands
 -- *******************
 
--- auto reload a buffer on file change
+-- Auto reload a buffer on file change
 opt.autoread = true
-vim.cmd(
-  [[
-  autocmd FileChangedShellPost *
-  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
-]]
-)
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+  pattern = "*",
+  callback = function()
+    vim.api.nvim_echo({
+      { "File changed on disk. Buffer reloaded.", "WarningMsg" }
+    }, false, {})
+  end,
+  desc = "Notify when file is reloaded after external change"
+})
 
--- typescript syntax
+-- TypeScript syntax highlighting
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { "*.ts", "*.tsx" },
+  callback = function()
+    vim.bo.syntax = "typescript"
+  end,
+  desc = "Set TypeScript syntax for .ts and .tsx files"
+})
 
--- augroup {
---   'ts-syntax',
---   {
---     { 'BufNewFile,BufRead', '*.ts', 'set', 'syntax=typescript' },
---     { 'BufNewFile,BufRead', '*.tsx', 'set', 'syntax=typescript' }
---   }
--- }
-vim.cmd(
-  [[
-  augroup TsSyntax
-    autocmd!
-    autocmd BufNewFile,BufRead *.ts,*.tsx set syntax=typescript
-  augroup END
+-- Open :help in a vertical split
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*.txt",
+  callback = function()
+    if vim.bo.buftype == "help" then
+      vim.cmd("wincmd L")
+    end
+  end,
+  desc = "Open help windows in vertical split"
+})
 
-]]
-)
+-- vim-pencil setup for markdown and text files
+vim.cmd([[set nocompatible]])
+vim.cmd([[filetype plugin on]])
+vim.g['pencil#wrapModeDefault'] = 'soft'
 
--- open :help in a vertical split
-vim.cmd(
-  [[
-augroup vimrc_help
-  autocmd!
-  autocmd BufEnter *.txt if &buftype == 'help' | wincmd L | endif
-augroup END
-]]
-)
-
-
-
-vim.cmd [[
-  set nocompatible
-  filetype plugin on       " may already be in your .vimrc
-  let g:pencil#wrapModeDefault = 'soft'   " default is 'hard'
-
-  augroup pencil
-    autocmd!
-    autocmd FileType markdown,mkd call pencil#init()
-    autocmd FileType text         call pencil#init()
-  augroup END
-]]
-
--- ]]
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "mkd", "text" },
+  callback = function()
+    vim.fn['pencil#init']()
+  end,
+  desc = "Initialize vim-pencil for markdown and text files"
+})
 
 -- return to the same line when re-opening a file
 -- augroup {
