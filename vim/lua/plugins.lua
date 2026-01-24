@@ -105,7 +105,12 @@ return packer.startup {
     -- use "christoomey/vim-tmux-navigator" -- Commented out: test if needed
     use "tpope/vim-unimpaired"
     use "tpope/vim-surround" -- surround commands
-    use "tpope/vim-commentary" -- use gcc to comment selected lines
+    use {
+      "numToStr/Comment.nvim",
+      config = function()
+        require("Comment").setup()
+      end
+    }
 
     -- TODO Learn these!
     -- use { 'tpope/vim-dispatch', cmd = { 'Dispatch', 'Make', 'Focus', 'Start' } }
