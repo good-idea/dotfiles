@@ -44,7 +44,7 @@ map("n", "<leader>ag", "<cmd>Telescope live_grep<CR>", { desc = "Live grep" })
 
 -- File navigation
 map("n", "-", "<cmd>Oil<CR>", { desc = "Open parent directory" })
-map("n", "<leader>cG", "<cmd>CopyGitRelPath<CR>", { desc = "Copy git-relative path" })
+map("n", "<C-g>", "<cmd>CopyGitRelPath<CR>", { desc = "Copy git-relative path" })
 
 -- Git
 map("n", "<leader>vpr", "<cmd>GHSearchPRs<CR>is:open", { desc = "Search open PRs" })
@@ -60,7 +60,6 @@ map("n", "<leader>}", "ysiw}", { desc = "Surround word with braces", remap = tru
 -- Misc
 map("n", "<leader>yw", "yiww", { desc = "Yank inner word" })
 map("v", "<leader>yw", "yiww", { desc = "Yank inner word" })
-map("n", "<leader>rc", ':so $MYVIMRC | echo "Reloaded config!"<CR>', { desc = "Reload config" })
 map("n", "Q", "@q", { desc = "Apply macro q" })
 map("v", "Q", ":norm @q<CR>", { desc = "Apply macro q to selection" })
 map("n", "<S-l>", "gt", { desc = "Next tab" })
