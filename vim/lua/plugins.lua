@@ -1,248 +1,233 @@
--- Only required if you have packer configured as `opt`
--- vim.cmd [[packadd packer.nvim]]
-local fn = vim.fn
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap =
-    fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path})
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
 end
+vim.opt.rtp:prepend(lazypath)
 
-vim.cmd(
-  [[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
-  augroup end
-]]
-)
+-- Configure lazy.nvim
+require("lazy").setup({
+  -- Treesitter: Advanced syntax highlighting
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    config = function()
+      require('config.treesitter')
+    end,
+  },
 
-local packer = require("packer")
-
-return packer.startup {
-  function(use)
-    -- Packer can manage itself
-    use "wbthomason/packer.nvim"
-    -- Commands
-    -- use {
-    --   "folke/which-key.nvim",
-    --   config = [[ require('config/which-key') ]]
-    -- }
-
-    -- Highlights
-    use {
-      "nvim-treesitter/nvim-treesitter",
-      config = [[require('config.treesitter')]]
-      -- run = ":TSUpdate"
-    }
-
-    -- LSP & language stuff
-    use {
+  -- LSP & Language Support
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
       "mason-org/mason.nvim",
       "mason-org/mason-lspconfig.nvim",
-      "neovim/nvim-lspconfig"
-    }
-    use {"davidosomething/format-ts-errors.nvim"}
+      "davidosomething/format-ts-errors.nvim",
+    },
+    config = function()
+      require('config.lsp_config')
+    end,
+  },
 
-    -- Automatically create & rename open/close tags
-    -- Before        Input         After
-    -- ------------------------------------
-    -- <div           >              <div></div>
-    -- <div></div>    ciwspan<esc>   <span></span>
-    -- ------------------------------------
-    use {
-      "windwp/nvim-ts-autotag",
-      config = function()
-        require("nvim-ts-autotag").setup()
-      end
-    }
+  -- Auto-close and rename HTML/JSX tags
+  {
+    "windwp/nvim-ts-autotag",
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end,
+  },
 
-    -- Use ,tw to view CSS values from TW classnames
-    use "MaximilianLloyd/tw-values.nvim"
-    -- use :TSC to get workspace typescript diagnostics
-    use {
-      "dmmulroy/tsc.nvim",
-      config = [[ require('tsc').setup() ]]
-    }
+  -- Tailwind CSS utilities
+  { "MaximilianLloyd/tw-values.nvim" },
 
-    use {
-      "nvim-lualine/lualine.nvim",
-      requires = {"kyazdani42/nvim-web-devicons", opt = true},
-      config = [[ require('config/lualine') ]]
-    }
-    use "nvim-lua/popup.nvim"
+  -- TypeScript compiler diagnostics
+  {
+    "dmmulroy/tsc.nvim",
+    config = function()
+      require('tsc').setup()
+    end,
+  },
 
-    -- Syntax Highlighting
-    use "eloyesp/vim-liquid"
-    use "jidn/vim-dbml"
+  -- Statusline
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "kyazdani42/nvim-web-devicons" },
+    config = function()
+      require('config.lualine')
+    end,
+  },
 
-    -- Git
-    use {
-      "kdheepak/lazygit.nvim",
-      requires = {
-        "nvim-lua/plenary.nvim"
-      }
-    }
+  -- Popup library (dependency for other plugins)
+  { "nvim-lua/popup.nvim" },
 
-    -- use "sindrets/diffview.nvim"
-    use {
-      "lewis6991/gitsigns.nvim",
-      requires = {
-        "nvim-lua/plenary.nvim"
+  -- Syntax Highlighting
+  { "eloyesp/vim-liquid" },
+  { "jidn/vim-dbml" },
+
+  -- Git Integration
+  {
+    "kdheepak/lazygit.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    cmd = "LazyGit",
+  },
+
+  {
+    "lewis6991/gitsigns.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require('config.gitsigns')
+    end,
+  },
+
+  -- GitHub PR reviews
+  {
+    "ldelossa/gh.nvim",
+    dependencies = { "ldelossa/litee.nvim" },
+    config = function()
+      require('config.ghnvim')
+    end,
+  },
+
+  -- Editing Utilities
+  { "reedes/vim-pencil" },
+  { "chrisbra/recover.vim" },
+  -- { "christoomey/vim-tmux-navigator" }, -- Commented out: test if needed
+  { "tpope/vim-unimpaired" },
+  { "tpope/vim-surround" },
+  {
+    "numToStr/Comment.nvim",
+    config = function()
+      require("Comment").setup()
+    end,
+  },
+
+  -- Themes
+  { "sainnhe/edge" },
+  { "rebelot/kanagawa.nvim" },
+  { "catppuccin/nvim", name = "catppuccin" },
+  { "olivercederborg/poimandres.nvim" },
+  { "neanias/everforest-nvim" },
+
+  -- Completion & Snippets
+  {
+    "windwp/nvim-autopairs",
+    config = function()
+      require('config.autopairs')
+    end,
+  },
+
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-nvim-lua",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-calc",
+      "saadparwaiz1/cmp_luasnip",
+    },
+    config = function()
+      require('config.cmp')
+    end,
+  },
+
+  {
+    "L3MON4D3/LuaSnip",
+    config = function()
+      require('config.luasnip')
+    end,
+  },
+
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
       },
-      config = [[ require('config/gitsigns') ]]
-    }
+    },
+  },
 
-    -- Github PR reviews
-    use {
-      "ldelossa/gh.nvim",
-      requires = {{"ldelossa/litee.nvim"}},
-      config = [[ require('config/ghnvim') ]]
-    }
+  -- Search & Navigation
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require('config.telescope')
+    end,
+  },
 
-    -- Misc
-    use "reedes/vim-pencil" -- nicer markdown settings
-    use "chrisbra/recover.vim" -- add "compare" option when a swap file is found
-    -- use "christoomey/vim-tmux-navigator" -- Commented out: test if needed
-    use "tpope/vim-unimpaired"
-    use "tpope/vim-surround" -- surround commands
-    use {
-      "numToStr/Comment.nvim",
-      config = function()
-        require("Comment").setup()
-      end
-    }
+  { "nvim-telescope/telescope-ui-select.nvim" },
+  { "nvim-telescope/telescope-frecency.nvim" },
 
-    -- TODO Learn these!
-    -- use { 'tpope/vim-dispatch', cmd = { 'Dispatch', 'Make', 'Focus', 'Start' } }
+  -- File Navigation
+  {
+    "stevearc/oil.nvim",
+    config = function()
+      require('config.oil')
+    end,
+  },
 
-    -- Themes
-    use "sainnhe/edge"
-    -- use "yorik1984/newpaper.nvim"
-    use "rebelot/kanagawa.nvim"
-    use {"catppuccin/nvim", as = "catppuccin"}
-    use "olivercederborg/poimandres.nvim"
-    use "neanias/everforest-nvim"
+  -- Template String Conversion
+  {
+    "axelvc/template-string.nvim",
+    config = function()
+      require('config.template_string')
+    end,
+  },
 
-    -- Completion
-    use {
-      -- A super powerful autopairs for Neovim. It support multiple character.
-      "windwp/nvim-autopairs",
-      config = [[ require('config/autopairs') ]]
-    }
+  -- Formatting
+  {
+    "stevearc/conform.nvim",
+    config = function()
+      require('config.conform')
+    end,
+  },
 
-    use {
-      -- A completion plugin for neovim coded in Lua.
-      "hrsh7th/nvim-cmp",
-      requires = {
-        "hrsh7th/cmp-nvim-lsp", -- nvim-cmp source for neovim builtin LSP client
-        "hrsh7th/cmp-nvim-lua", -- nvim-cmp source for nvim lua
-        "hrsh7th/cmp-buffer", -- nvim-cmp source for buffer words.
-        "hrsh7th/cmp-path", -- nvim-cmp source for filesystem paths.
-        "hrsh7th/cmp-calc", -- nvim-cmp source for math calculation.
-        "saadparwaiz1/cmp_luasnip" -- luasnip completion source for nvim-cmp
+  -- Time Tracking
+  { "wakatime/vim-wakatime" },
+}, {
+  -- Lazy.nvim configuration options
+  ui = {
+    border = "rounded",
+    icons = {
+      cmd = "⌘",
+      config = "🛠",
+      event = "📅",
+      ft = "📂",
+      init = "⚙",
+      keys = "🗝",
+      plugin = "🔌",
+      runtime = "💻",
+      require = "🌙",
+      source = "📄",
+      start = "🚀",
+      task = "📌",
+      lazy = "💤 ",
+    },
+  },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "matchparen",
+        "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
       },
-      config = [[ require('config/cmp') ]]
-    }
-
-    use {
-      -- Snippet Engine for Neovim written in Lua.
-      "L3MON4D3/LuaSnip",
-      -- requires = {
-      --   "rafamadriz/friendly-snippets" -- Snippets collection for a set of different programming languages for faster development.
-      -- },
-      config = [[ require('config/luasnip') ]]
-    }
-
-    use {
-      "folke/lazydev.nvim",
-      ft = "lua",
-      opts = {
-        library = {
-          { path = "${3rd}/luv/library", words = { "vim%.uv" } }
-        }
-      }
-    }
-
-    -- Search & Navigation
-    use {
-      "nvim-telescope/telescope.nvim",
-      requires = {
-        "nvim-lua/plenary.nvim"
-        -- Not sure if this is necessary anymore?
-        -- "BurntSushi/ripgrep",
-      },
-      config = [[require('config.telescope')]]
-    }
-    use {
-      "nvim-telescope/telescope-ui-select.nvim"
-    }
-    use {
-      "nvim-telescope/telescope-frecency.nvim"
-    }
-
-    use {
-      "stevearc/oil.nvim",
-      config = [[ require('config/oil') ]]
-    }
-
-    -- OpenAI
-    -- use(
-    --   {
-    --     "jackMort/ChatGPT.nvim",
-    --     config = [[ require('config/chatgpt') ]],
-    --     requires = {
-    --       "MunifTanjim/nui.nvim",
-    --       "nvim-lua/plenary.nvim"
-    --       -- "nvim-telescope/telescope.nvim"
-    --     }
-    --   }
-    -- )
-
-    use {
-      "axelvc/template-string.nvim",
-      config = [[require('config.template-string')]]
-    }
-
-    --
-    -- use {
-    --   "lukas-reineke/indent-blankline.nvim",
-    --   config = [[ require('plugins/blankline') ]]
-    -- }
-    --
-    -- use {
-    --   -- UNIX commands in vim, i.e. :Mkdir
-    --   "tpope/vim-eunuch"
-    -- }
-    --
-    --
-    --
-    --
-    -- use {
-    --   "folke/zen-mode.nvim",
-    --   config = [[ require('plugins/zen-mode') ]]
-    -- }
-    --
-    -- use {
-    --   "ThePrimeagen/git-worktree.nvim",
-    --   config = [[ require('plugins/git-worktree') ]]
-    -- }
-    --
-    use {
-      "stevearc/conform.nvim",
-      config = [[ require('config/conform') ]]
-    }
-
-    -- time tracking
-    use "wakatime/vim-wakatime"
-    --
-    -- use {
-    --   "kmonad/kmonad-vim"
-    -- }
-
-    -- Automatically set up your configuration after cloning packer.nvim
-    -- Put this at the end after all plugins
-    if packer_bootstrap then
-      require("packer").sync()
-    end
-  end
-}
+    },
+  },
+})
