@@ -3,6 +3,7 @@ local telescope = require "telescope"
 
 telescope.setup {
   defaults = {
+    disable_devicons = true,
     file_ignore_patterns = { "node_modules", ".git", "dist", "_next", ".elixir-tools", "deps" },
     layout_strategy = "vertical",
     scroll_strategy = "cycle",
@@ -18,7 +19,8 @@ telescope.setup {
     frecency = {
       matcher = "fuzzy",
       db_safe_mode = false,
-      default_workspace = "CWD"
+      default_workspace = "CWD",
+      disable_devicons = true
     },
     ["ui-select"] = {
       layout_config = { width = 0.4, height = 0.3 },
