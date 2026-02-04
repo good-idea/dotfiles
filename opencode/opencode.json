@@ -4,6 +4,7 @@
   "theme": "opencode",
   "model": "anthropic/claude-sonnet-4-5",
   "autoupdate": true,
+  "plugin": ["opencode-wakatime"],
   "keybinds": {
     "leader": "ctrl+x",
     "app_exit": "ctrl+c,ctrl+d,<leader>q",
@@ -84,5 +85,5 @@
     "history_previous": "up",
     "history_next": "down",
     "terminal_suspend": "ctrl+z"
-  },
+  }
 }
