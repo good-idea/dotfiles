@@ -4,7 +4,7 @@ if not status_ok then
 end
 
 treesitter_configs.setup {
-  ensure_installed = {"html", "javascript", "typescript", "elixir", "heex", "eex", "lua", "vim", "vimdoc", "query"},
+  ensure_installed = {"html", "javascript", "typescript", "tsx", "elixir", "heex", "eex", "lua", "vim", "vimdoc", "query"},
   highlight = {enable = true},
   indent = {enable = true},
   auto_install = true,

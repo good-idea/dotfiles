@@ -1,4 +1,4 @@
-local filteredLspNames = { "tailwindcss", "eslint" }
+local filteredLspNames = { "tailwindcss", "eslint", "cssmodules_ls" }
 
 require("lualine").setup {
   options = {

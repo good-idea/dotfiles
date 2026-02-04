@@ -37,6 +37,8 @@ require("lazy").setup({
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    lazy = false,
+    priority = 1000,
     config = function()
       require('config.treesitter')
     end,
@@ -249,7 +251,14 @@ require("lazy").setup({
   { "rebelot/kanagawa.nvim" },
   { "catppuccin/nvim",                name = "catppuccin" },
   { "olivercederborg/poimandres.nvim" },
-  { "neanias/everforest-nvim" },
+  {
+    "neanias/everforest-nvim",
+    lazy = false,
+    priority = 999,
+    config = function()
+      require("everforest").setup()
+    end,
+  },
 
   ---------------------
   -- Miscellaneous

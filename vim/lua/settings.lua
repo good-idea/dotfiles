@@ -63,15 +63,6 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
   desc = "Notify when file is reloaded after external change"
 })
 
--- TypeScript syntax highlighting
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-  pattern = { "*.ts", "*.tsx" },
-  callback = function()
-    vim.bo.syntax = "typescript"
-  end,
-  desc = "Set TypeScript syntax for .ts and .tsx files"
-})
-
 -- Open :help in a vertical split
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*.txt",
