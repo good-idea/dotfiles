@@ -107,6 +107,12 @@ autoload -Uz compinit && compinit
 # Environtmenv Variables
 eval "$(direnv hook zsh)"
 
+# Zoxide - smarter cd command (replaces cd)
+# Usage: cd <partial-path> jumps to best match, cdi for interactive picker
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh --cmd cd)"
+fi
+
 # initialise completions with ZSH's compinit
 # autoload -Uz compinit
 # compinit
