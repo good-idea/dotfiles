@@ -4,36 +4,36 @@
 require("conform").setup({
   formatters_by_ft = {
     -- JavaScript/TypeScript family
-    javascript = { "prettier" },
-    javascriptreact = { "prettier" },
-    typescript = { "prettier" },
-    typescriptreact = { "prettier" },
-    vue = { "prettier" },
+    javascript = { "prettierd" },
+    javascriptreact = { "prettierd" },
+    typescript = { "prettierd" },
+    typescriptreact = { "prettierd" },
+    vue = { "prettierd" },
 
     -- Web languages
-    html = { "prettier" },
-    css = { "prettier" },
-    scss = { "prettier" },
-    json = { "prettier" },
-    liquid = { "prettier" },
+    html = { "prettierd" },
+    css = { "prettierd" },
+    scss = { "prettierd" },
+    json = { "prettierd" },
+    liquid = { "prettierd" },
 
     -- Markdown
-    markdown = { "prettier" },
+    markdown = { "prettierd" },
 
     -- Elixir
-    elixir = { "prettier" },
-    eelixir = { "prettier" },
-    heex = { "prettier" },
+    elixir = { "prettierd" },
+    eelixir = { "prettierd" },
+    heex = { "prettierd" },
 
     -- Shell scripts
-    sh = { "prettier" },
-    bash = { "prettier" },
-    zsh = { "prettier" },
+    sh = { "prettierd" },
+    bash = { "prettierd" },
+    zsh = { "prettierd" },
 
     -- Other languages
-    sql = { "prettier" },
-    java = { "prettier" },
-    rust = { "prettier" },
+    sql = { "prettierd" },
+    java = { "prettierd" },
+    rust = { "prettierd" },
 
     -- Go (multiple formatters run in sequence)
     go = { "goimports", "gofmt" },
@@ -51,7 +51,7 @@ require("conform").setup({
   -- Format on save
   format_on_save = {
     -- These options will be passed to conform.format()
-    timeout_ms = 500,
+    timeout_ms = 2000,
     lsp_fallback = true,
   },
 
