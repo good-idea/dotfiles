@@ -5,7 +5,7 @@ description: Validates OpenCode configuration files for correctness and best pra
 
 # OpenCode Configuration Validation
 
-This skill provides comprehensive validation rules for OpenCode configurations.
+This skill provides comprehensive validation rules for OpenCode configurations and an executable validation script.
 
 ## Overview
 
@@ -19,6 +19,31 @@ Load this skill when:
 - Validating existing configurations
 - Checking for naming convention compliance
 - Ensuring configuration completeness
+
+## Running Validation
+
+Use the included validation script:
+
+```bash
+# Validate all configurations
+~/.opencode/skill/opencode-config-validation/validate.sh
+
+# Validate specific types
+~/.opencode/skill/opencode-config-validation/validate.sh agents
+~/.opencode/skill/opencode-config-validation/validate.sh skills
+~/.opencode/skill/opencode-config-validation/validate.sh commands
+
+# Validate a specific file
+~/.opencode/skill/opencode-config-validation/validate.sh file ~/.opencode/agent/my-agent.md
+```
+
+The script will:
+
+- For **agents**: Run `opencode agent list` which validates all agent configs
+- For **skills**: Check frontmatter, naming conventions, and required fields
+- For **commands**: Verify structure and naming
+
+## Validation Rules
 
 ## Agent Validation
 
