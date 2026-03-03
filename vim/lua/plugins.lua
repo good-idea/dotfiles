@@ -160,6 +160,15 @@ require("lazy").setup({
     end,
   },
 
+  -- Markdown outline view in a side panel
+  {
+    "hedyhli/outline.nvim",
+    ft = "markdown",
+    config = function()
+      require("config.outline")
+    end,
+  },
+
   ---------------------
   -- Git Integration
   ---------------------
