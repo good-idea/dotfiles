@@ -36,7 +36,8 @@ export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
 # Ruby
 export PATH=$PATH:$HOME/.gem/ruby/3.0.0/bin
 
-
+# opencode
+export PATH=/Users/joseph/.opencode/bin:$PATH
 
 
 # Settings
