@@ -2,9 +2,12 @@
   "$schema": "https://opencode.ai/config.json",
   // Theme configuration
   "theme": "opencode",
-  "model": "anthropic/claude-sonnet-4-5",
+  "model": "opencode/claude-haiku-4-5",
   "autoupdate": true,
-  "plugin": ["opencode-wakatime"],
+  "plugin": [
+    "opencode-wakatime",
+    "@franlol/opencode-md-table-formatter@latest"
+  ],
   "keybinds": {
     "leader": "ctrl+x",
     "app_exit": "ctrl+c,ctrl+d,<leader>q",
