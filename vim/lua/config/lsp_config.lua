@@ -13,7 +13,7 @@ require("mason").setup(
 
 require("mason-lspconfig").setup(
   {
-    ensure_installed = { "tailwindcss", "ts_ls", "eslint", "lua_ls", "elixirls" },
+    ensure_installed = { "tailwindcss", "ts_ls", "eslint", "lua_ls", "elixirls", "astro" },
     automatic_enable = true -- Automatically enable installed servers
   }
 )
@@ -130,6 +130,15 @@ vim.lsp.config('ts_ls', {
 vim.lsp.config('elixirls', {
   cmd = { "elixir-ls" },
   filetypes = { "elixir", "eelixir", "heex" }
+})
+
+-- Astro language server
+vim.lsp.config('astro', {
+  init_options = {
+    typescript = {
+      tsdk = vim.fn.getcwd() .. "/node_modules/typescript/lib"
+    }
+  }
 })
 
 -- Auto-format on save for Elixir files

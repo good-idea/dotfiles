@@ -16,6 +16,7 @@ require("conform").setup({
     scss = { "prettierd" },
     json = { "prettierd" },
     liquid = { "prettierd" },
+    astro = { "prettierd" },
 
     -- Markdown
     markdown = { "prettierd" },
