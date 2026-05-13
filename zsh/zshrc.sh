@@ -6,7 +6,6 @@ SAVEHIST=1000
 setopt inc_append_history # To save every command before it is executed
 setopt share_history # setopt inc_append_history
 
-export EDITOR="nvim"
 
 # git
 git config --global push.default current
@@ -41,7 +40,8 @@ export PATH=/Users/joseph/.opencode/bin:$PATH
 
 
 # Settings
-export VISUAL=vim
+export VISUAL="nvim"
+export EDITOR="nvim"
 
 
 # # For vim mappings:
