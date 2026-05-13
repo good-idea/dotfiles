@@ -13,7 +13,7 @@ require("mason").setup(
 
 require("mason-lspconfig").setup(
   {
-    ensure_installed = { "tailwindcss", "ts_ls", "eslint", "lua_ls", "elixirls", "astro" },
+    ensure_installed = { "tailwindcss", "ts_ls", "eslint", "lua_ls", "elixirls", "astro", "bashls" },
     automatic_enable = true -- Automatically enable installed servers
   }
 )
