@@ -9,6 +9,9 @@ macos-titlebar-style = hidden
 window-padding-x = 8
 window-padding-y = 0,0
 
+# let tmux handle scrolling
+scrollback-limit = 0
+
 # shell = bin/zsh
 
 # command = "tmux attach || tmux new"
