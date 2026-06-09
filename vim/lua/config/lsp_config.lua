@@ -13,7 +13,7 @@ require("mason").setup(
 
 require("mason-lspconfig").setup(
   {
-    ensure_installed = { "tailwindcss", "ts_ls", "eslint", "lua_ls", "elixirls", "astro", "bashls" },
+    ensure_installed = { "tailwindcss", "ts_ls", "eslint", "lua_ls", "elixirls", "astro", "bashls", "vue_ls" },
     automatic_enable = true -- Automatically enable installed servers
   }
 )
@@ -63,9 +63,33 @@ vim.lsp.config('lua_ls', {
   }
 })
 
+-- Vue language server (Volar)
+vim.lsp.config('vue_ls', {})
+
 -- TypeScript with custom handlers for diagnostics and definitions
+-- Vue support requires ts_ls to attach to .vue files with Vue's TypeScript plugin.
+local vue_language_server_path = vim.fn.stdpath('data') .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
+local vue_plugin = {
+  name = '@vue/typescript-plugin',
+  location = vue_language_server_path,
+  languages = { 'vue' },
+}
+
 vim.lsp.config('ts_ls', {
   root_markers = { 'tsconfig.json', 'package.json', 'jsconfig.json', '.git' },
+  filetypes = {
+    'javascript',
+    'javascriptreact',
+    'javascript.jsx',
+    'typescript',
+    'typescriptreact',
+    'typescript.tsx',
+    'vue',
+  },
+  init_options = {
+    hostInfo = 'neovim',
+    plugins = { vue_plugin },
+  },
   settings = {
     codeAction = {
       applyRefactoring = { enabled = false }
