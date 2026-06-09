@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh
+# , <description>  -> AI-suggested shell command, copied to clipboard
+local desc="$*"
+if [[ -z "$desc" ]]; then
+  echo "usage: , <what you want to do>" >&2
+  exit 1
+fi
+
+local command
+command=$(pi --print -p --no-tools --thinking off \
+  --model openai-codex/gpt-5.4-mini \
+  --system-prompt "output exactly one shell command —
+  the best one — with no numbering, no explanation,
+  no markdown, no backticks. Just the raw command
+  on a single line." "$desc" 2>/dev/null)
+
+# strip stray backticks/whitespace just in case
+command="${command//\`/}"
+command="${command#"${command%%[![:space:]]*}"}"
+command="${command%"${command##*[![:space:]]}"}"
+
+echo -n "$command" | pbcopy
+echo "$command"

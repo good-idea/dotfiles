@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+# q <question>  -> quick pi answer with narrow toolset
+local question="$*"
+if [[ -z "$question" ]]; then
+  echo "usage: q <question>" >&2
+  exit 1
+fi
+
+pi --print -p \
+  --model openai-codex/gpt-5.5 \
+  --system-prompt "You are a helpful, concise assistant
+  running in a macOS terminal. Answer clearly and accurately.
+  You can read files from disk and search the web — use those
+  when you need current or file-specific information." \
+  --tools "read,web_search,url_extract,web_fetch,batch_web_fetch" \
+  "$question"
