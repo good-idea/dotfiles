@@ -4,7 +4,7 @@ local telescope = require "telescope"
 telescope.setup {
   defaults = {
     disable_devicons = true,
-    file_ignore_patterns = { "node_modules", ".git", "dist", "_next", ".elixir-tools", "deps" },
+    file_ignore_patterns = { "node_modules", ".git", "dist", "_next", ".elixir-tools", "deps", "__snapshots__/", "report%-assets/" },
     layout_strategy = "vertical",
     scroll_strategy = "cycle",
     mappings = {
