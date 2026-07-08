@@ -9,6 +9,11 @@
 	excludesfile = /Users/joseph/.gitignore
 	editor = nvim
 	pager = delta --side-by-side
+[delta]
+  # minus-style = syntax "#3a2020"
+  # minus-emph-style = syntax "#5a2828"
+  # plus-style = syntax "#013b00"
+  # plus-emph-style = syntax "#285a28"
 [github]
 	user = good-idea
 [ghi]
