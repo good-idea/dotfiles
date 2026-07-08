@@ -4,37 +4,37 @@
 require("conform").setup({
   formatters_by_ft = {
     -- JavaScript/TypeScript family
-    javascript = { "prettierd" },
-    javascriptreact = { "prettierd" },
-    typescript = { "prettierd" },
-    typescriptreact = { "prettierd" },
-    vue = { "prettierd" },
+    javascript = { "prettierd", "prettier", stop_after_first = true },
+    javascriptreact = { "prettierd", "prettier", stop_after_first = true },
+    typescript = { "prettierd", "prettier", stop_after_first = true },
+    typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+    vue = { "prettierd", "prettier", stop_after_first = true },
 
     -- Web languages
-    html = { "prettierd" },
-    css = { "prettierd" },
-    scss = { "prettierd" },
-    json = { "prettierd" },
-    liquid = { "prettierd" },
-    astro = { "prettierd" },
+    html = { "prettierd", "prettier", stop_after_first = true },
+    css = { "prettierd", "prettier", stop_after_first = true },
+    scss = { "prettierd", "prettier", stop_after_first = true },
+    json = { "prettierd", "prettier", stop_after_first = true },
+    liquid = { "prettierd", "prettier", stop_after_first = true },
+    astro = { "prettierd", "prettier", stop_after_first = true },
 
     -- Markdown
-    markdown = { "prettierd" },
+    markdown = { "prettierd", "prettier", stop_after_first = true },
 
     -- Elixir
-    elixir = { "prettierd" },
-    eelixir = { "prettierd" },
-    heex = { "prettierd" },
+    elixir = { "prettierd", "prettier", stop_after_first = true },
+    eelixir = { "prettierd", "prettier", stop_after_first = true },
+    heex = { "prettierd", "prettier", stop_after_first = true },
 
     -- Shell scripts
-    sh = { "prettierd" },
-    bash = { "prettierd" },
-    zsh = { "prettierd" },
+    sh = { "prettierd", "prettier", stop_after_first = true },
+    bash = { "prettierd", "prettier", stop_after_first = true },
+    zsh = { "prettierd", "prettier", stop_after_first = true },
 
     -- Other languages
-    sql = { "prettierd" },
-    java = { "prettierd" },
-    rust = { "prettierd" },
+    sql = { "prettierd", "prettier", stop_after_first = true },
+    java = { "prettierd", "prettier", stop_after_first = true },
+    rust = { "prettierd", "prettier", stop_after_first = true },
 
     -- Go (multiple formatters run in sequence)
     go = { "goimports", "gofmt" },
@@ -53,7 +53,7 @@ require("conform").setup({
   format_on_save = {
     -- These options will be passed to conform.format()
     timeout_ms = 2000,
-    lsp_fallback = true,
+    lsp_format = "fallback",
   },
 
   -- Customize formatters

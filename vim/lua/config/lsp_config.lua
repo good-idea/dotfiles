@@ -1,4 +1,4 @@
--- Mason setup
+-- Mason setuplsp_config.lua
 require("mason").setup(
   {
     ui = {
@@ -31,8 +31,18 @@ vim.lsp.config('tailwindcss', {
   }
 })
 
--- ESLint - use default config from nvim-lspconfig
-vim.lsp.config('eslint', {})
+-- ESLint - include Vue single-file components
+vim.lsp.config('eslint', {
+  filetypes = {
+    'javascript',
+    'javascriptreact',
+    'javascript.jsx',
+    'typescript',
+    'typescriptreact',
+    'typescript.tsx',
+    'vue',
+  },
+})
 
 -- Lua LS with custom settings
 -- Note: lazydev.nvim handles most Lua config automatically, but we keep this for reference
@@ -68,7 +78,8 @@ vim.lsp.config('vue_ls', {})
 
 -- TypeScript with custom handlers for diagnostics and definitions
 -- Vue support requires ts_ls to attach to .vue files with Vue's TypeScript plugin.
-local vue_language_server_path = vim.fn.stdpath('data') .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
+local vue_language_server_path = vim.fn.stdpath('data') ..
+"/mason/packages/vue-language-server/node_modules/@vue/language-server"
 local vue_plugin = {
   name = '@vue/typescript-plugin',
   location = vue_language_server_path,
@@ -207,23 +218,23 @@ vim.diagnostic.config(
   }
 )
 
-vim.lsp.handlers["textDocument/hover"] =
-    vim.lsp.with(
-      vim.lsp.handlers.hover,
-      {
-        border = "single"
-      }
-    )
+-- vim.lsp.handlers["textDocument/hover"] =
+--     vim.lsp.with(
+--       vim.lsp.handlers.hover,
+--       {
+--         border = "single"
+--       }
+--     )
 
 -- config for the signature window
-vim.lsp.handlers["textDocument/signatureHelp"] =
-    vim.lsp.with(
-      vim.lsp.handlers.signature_help,
-      {
-        silent = true,
-        focusable = false
-      }
-    )
+-- vim.lsp.handlers["textDocument/signatureHelp"] =
+--     vim.lsp.with(
+--       vim.lsp.handlers.signature_help,
+--       {
+--         silent = true,
+--         focusable = false
+--       }
+--     )
 
 -- Diagnostic sign icons (Neovim 0.11+ style)
 vim.diagnostic.config({

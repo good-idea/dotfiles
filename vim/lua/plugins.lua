@@ -265,7 +265,7 @@ require("lazy").setup({
     lazy = false,
     priority = 999,
     config = function()
-      require("everforest").setup()
+      require("everforest").setup({})
     end,
   },
 
