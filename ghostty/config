@@ -1,6 +1,11 @@
 # font-family = CaskaydiaCove Nerd Font
-font-family = Atkinson Hyperlegible Mono
-font-style = Medium
+#
+# font-family = Atkinson Hyperlegible Mono
+# font-style = Medium
+
+font-family = Input Mono
+font-style = Regular
+
 font-size = 15
 
 macos-window-buttons = hidden
