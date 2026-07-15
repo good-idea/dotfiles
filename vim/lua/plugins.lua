@@ -213,7 +213,24 @@ require("lazy").setup({
   {
     "numToStr/Comment.nvim",
     config = function()
-      require("Comment").setup()
+      require("Comment").setup({
+        -- Prefer Neovim's filetype-provided commentstring. Comment.nvim's
+        -- treesitter fallback currently trips on some parsers and reports the
+        -- unhelpful warning `[Comment.nvim] nil`.
+        pre_hook = function()
+          local commentstring = vim.bo.commentstring
+          if type(commentstring) == "string" and commentstring:find("%%s") then
+            return commentstring
+          end
+
+          error({
+            msg = string.format(
+              "No commentstring for filetype '%s' (set :setfiletype or vim.bo.commentstring)",
+              vim.bo.filetype ~= "" and vim.bo.filetype or "<empty>"
+            ),
+          })
+        end,
+      })
     end,
   },
 
