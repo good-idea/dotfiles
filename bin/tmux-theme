@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Switch the tmux server's authoritative light/dark theme.
+set -euo pipefail
+
+usage() {
+  echo "usage: tmux-theme {light|dark|toggle}" >&2
+  exit 2
+}
+
+current=$(tmux show-option -gv @dotfiles_theme 2>/dev/null || printf 'dark')
+case "${1:-}" in
+  light|dark)
+    theme=$1
+    ;;
+  toggle)
+    [[ "$current" == "light" ]] && theme=dark || theme=light
+    ;;
+  *)
+    usage
+    ;;
+esac
+
+config="$HOME/.dotfiles/tmux/theme-${theme}.conf"
+[[ -f "$config" ]] || {
+  echo "tmux-theme: missing theme file: $config" >&2
+  exit 1
+}
+
+tmux set-option -g @dotfiles_theme "$theme"
+tmux source-file "$config"
+# These need a current client, so keep the command useful from a non-tmux shell too.
+tmux refresh-client -S 2>/dev/null || true
+tmux display-message "tmux theme: $theme" 2>/dev/null || true

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# delta-themed: wraps delta, injecting --dark or --light based on the tmux
+# @dotfiles_theme option — the same authoritative source used by Neovim and tmux.
+# Falls back to dark if tmux is unavailable.
+theme=$(tmux show-option -gv @dotfiles_theme 2>/dev/null || echo "dark")
+if [[ "$theme" == "light" ]]; then
+  exec delta --light "$@"
+else
+  exec delta --dark "$@"
+fi
