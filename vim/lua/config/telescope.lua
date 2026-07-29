@@ -4,6 +4,13 @@ local telescope = require "telescope"
 telescope.setup {
   defaults = {
     disable_devicons = true,
+    path_display = function(opts, path)
+      -- Make absolute paths relative to cwd first (needed for frecency)
+      local rel = vim.fn.fnamemodify(path, ":.")
+      -- Strip leading 'project-name/' only when cwd is a parent of the project
+      local cwd_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+      return rel:match("^" .. vim.pesc(cwd_name) .. "/(.+)$") or rel
+    end,
     file_ignore_patterns = { "node_modules", ".git", "dist", "_next", ".elixir-tools", "deps", "__snapshots__/", "report%-assets/" },
     layout_strategy = "vertical",
     scroll_strategy = "cycle",

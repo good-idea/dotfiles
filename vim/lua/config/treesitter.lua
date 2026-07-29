@@ -1,3 +1,12 @@
+-- PICO-8 source uses the p8 filetype for LSP routing, but its syntax is Lua.
+vim.treesitter.language.register("lua", "p8")
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "p8",
+  callback = function(args)
+    vim.treesitter.start(args.buf, "lua")
+  end,
+})
+
 local status_ok, treesitter_configs = pcall(require, "nvim-treesitter.configs")
 if not status_ok then
   return

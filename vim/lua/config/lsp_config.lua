@@ -1,4 +1,12 @@
 -- Mason setuplsp_config.lua
+
+-- Treat PICO-8 Lua source as its own filetype so pico8_ls attaches instead of lua_ls.
+vim.filetype.add({
+  pattern = {
+    [".*%.p8%.lua"] = "p8",
+  },
+})
+
 require("mason").setup(
   {
     ui = {
@@ -76,10 +84,15 @@ vim.lsp.config('lua_ls', {
 -- Vue language server (Volar)
 vim.lsp.config('vue_ls', {})
 
+vim.lsp.config("pico8_ls", {
+  filetypes = { "p8" },
+})
+
+
 -- TypeScript with custom handlers for diagnostics and definitions
 -- Vue support requires ts_ls to attach to .vue files with Vue's TypeScript plugin.
 local vue_language_server_path = vim.fn.stdpath('data') ..
-"/mason/packages/vue-language-server/node_modules/@vue/language-server"
+    "/mason/packages/vue-language-server/node_modules/@vue/language-server"
 local vue_plugin = {
   name = '@vue/typescript-plugin',
   location = vue_language_server_path,
