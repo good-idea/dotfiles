@@ -122,7 +122,22 @@ pi() {
 
     if [[ "$dir" != "$HOME" && ( -d "$dir/.pi" || -d "$dir/.agents" || -d "$dir/.git" ) ]]; then
       cd -- "$dir" || return
-      ASDF_NODEJS_VERSION=24.16.0 command pi "$@"
+
+      # Match Pi's initial theme to tmux's workspace theme. `--use-theme`
+      # affects only this invocation, so Pi's saved preference stays untouched.
+      local pi_theme
+      if [[ -n ${TMUX:-} ]]; then
+        case "$(tmux show-option -gv @dotfiles_theme 2>/dev/null)" in
+          light) pi_theme="kanagawa-lotus" ;;
+          dark) pi_theme="dark" ;;
+        esac
+      fi
+
+      if [[ -n ${pi_theme:-} ]]; then
+        ASDF_NODEJS_VERSION=24.16.0 command pi --use-theme "$pi_theme" "$@"
+      else
+        ASDF_NODEJS_VERSION=24.16.0 command pi "$@"
+      fi
       return
     fi
 
