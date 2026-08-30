@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+# Open a file in the first Neovim instance in this tmux session whose working
+# directory belongs to the same Git worktree. If none exists, split the current
+# tmux window and start Neovim there.
+set -euo pipefail
+
+if (( $# != 1 )); then
+  printf 'Usage: %s <file>\n' "${0##*/}" >&2
+  exit 2
+fi
+
+file=$1
+file_dir=$(cd -P "$(dirname "$file")" && pwd)
+file="$file_dir/$(basename "$file")"
+
+repo_root() {
+  git -C "$1" rev-parse --show-toplevel 2>/dev/null
+}
+
+root=$(repo_root "$file_dir") || {
+  printf '%s: %s is not inside a Git worktree\n' "${0##*/}" "$file" >&2
+  exit 1
+}
+
+nvim_server() {
+  lsof -a -p "$1" -U -Fn 2>/dev/null |
+    awk '/^n\// && /\/nvim\./ { sub(/^n/, ""); print; exit }'
+}
+
+# Print the first Neovim server socket below a pane's process tree. tmux's pane
+# PID is normally the shell which launched Neovim. With this Neovim build the
+# socket can also belong to a child `nvim --embed` process, so inspect every
+# descendant rather than only the visible `nvim` process.
+find_nvim_server() {
+  local pid=$1 child server
+
+  server=$(nvim_server "$pid")
+  if [[ -n $server ]]; then
+    printf '%s\n' "$server"
+    return 0
+  fi
+
+  while IFS= read -r child; do
+    [[ -n $child ]] || continue
+    if find_nvim_server "$child"; then
+      return 0
+    fi
+  done < <(pgrep -P "$pid" 2>/dev/null || true)
+
+  return 1
+}
+
+if [[ -n ${TMUX:-} ]]; then
+  session=$(tmux display-message -p -F '#S')
+
+  # list-panes order is deterministic; the first matching pane wins.
+  while IFS=$'\t' read -r _pane _command pane_cwd pane_pid; do
+    [[ $_command == nvim ]] || continue
+
+    pane_root=$(repo_root "$pane_cwd") || continue
+    [[ $pane_root == "$root" ]] || continue
+
+    server=$(find_nvim_server "$pane_pid") || continue
+
+    # Check the Neovim process's actual cwd too, rather than relying only on
+    # tmux's remembered pane cwd. This keeps separate worktrees distinct.
+    nvim_cwd=$(nvim --server "$server" --remote-expr 'getcwd()' 2>/dev/null) || continue
+    nvim_root=$(repo_root "$nvim_cwd") || continue
+    [[ $nvim_root == "$root" ]] || continue
+
+    nvim --server "$server" --remote-tab-silent -- "$file"
+    tmux select-pane -t "$_pane"
+    exit 0
+  done < <(tmux list-panes -t "$session" -F '#{pane_id}\t#{pane_current_command}\t#{pane_current_path}\t#{pane_pid}')
+
+  exec tmux split-window -v -c "$root" "exec nvim -- $(printf '%q' "$file")"
+fi
+
+# A pane cannot be created outside tmux, but the command remains useful there.
+exec nvim -- "$file"

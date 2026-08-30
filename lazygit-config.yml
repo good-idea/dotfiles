@@ -6,7 +6,12 @@
 git:
   pagers:
     - colorArg: always
-      pager: delta --dark --paging=never
+      pager: delta-themed --paging=never
+# `o` opens the selected file through this command. It reuses a Neovim in the
+# current tmux session only when that instance belongs to this exact worktree.
+os:
+  open: '~/.dotfiles/bin/tmux-nvim-open {{filename}}'
+
 keybinding:
   files:
     toggleStagedAll: '<c-a>'
