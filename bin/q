@@ -6,7 +6,7 @@ if [[ -z "$question" ]]; then
   exit 1
 fi
 
-pi --print -p \
+ASDF_NODEJS_VERSION=24.16.0 command pi --print -p \
   --model openai-codex/gpt-5.5 \
   --system-prompt "You are a helpful, concise assistant
   running in a macOS terminal. Answer clearly and accurately.
