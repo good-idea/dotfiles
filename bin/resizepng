@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Usage: resizepng <file.png> --width <number>
+# Preserve aspect ratio and write <name>-resized.png; keep the original.
+set -euo pipefail
+
+usage() {
+  printf 'Usage: resizepng <file.png> --width <positive integer>\n' >&2
+  exit 1
+}
+
+file=''
+width=''
+while (( $# )); do
+  case "$1" in
+    --width)
+      (( $# >= 2 )) || usage
+      width=$2
+      shift 2
+      ;;
+    -*) usage ;;
+    *)
+      [[ -z "$file" ]] || usage
+      file=$1
+      shift
+      ;;
+  esac
+done
+
+[[ -n "$file" && "$width" =~ ^[0-9]+$ && "$width" =~ [1-9] ]] || usage
+[[ -f "$file" ]] || { printf 'resizepng: no such file: %s\n' "$file" >&2; exit 1; }
+# Absolute paths also protect filenames from being parsed as tool options.
+[[ "$file" = /* ]] || file="$PWD/$file"
+[[ $(magick identify -format '%m' "$file") = PNG ]] || {
+  printf 'resizepng: input must be a PNG\n' >&2
+  exit 1
+}
+out="${file%.*}-resized.png"
+[[ ! -e "$out" ]] || { printf 'resizepng: output already exists: %s\n' "$out" >&2; exit 1; }
+
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+magick "$file" -resize "${width}x" "$tmp/resized.png"
+# PNG has no JPEG-style quality knob; pngquant uses a perceptual quality range.
+pngquant --quality=0-70 --output "$out" -- "$tmp/resized.png"
+printf 'Wrote %s\n' "$out"
