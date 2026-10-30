@@ -189,27 +189,6 @@ vim.lsp.config('astro', {
   }
 })
 
--- Auto-format on save for Elixir files
-vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    local bufnr = args.buf
-
-    if client.name == 'elixirls' and client.server_capabilities.documentFormattingProvider then
-      vim.api.nvim_create_autocmd(
-        "BufWritePre",
-        {
-          group = vim.api.nvim_create_augroup("FormatElixir", { clear = true }),
-          buffer = bufnr,
-          callback = function()
-            vim.lsp.buf.format({ async = false })
-          end
-        }
-      )
-    end
-  end
-})
-
 -- Diagnostic sign styling (kept from original config)
 LspDiagnosticsFloatingError = { fg = color1, bg = none, style = "bold" }
 LspDiagnosticsFloatingWarning = { fg = color2, bg = none, style = "bold" }

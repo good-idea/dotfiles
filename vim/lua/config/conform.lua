@@ -1,6 +1,30 @@
 -- conform.nvim configuration
 -- Modern async formatter with better error handling
 
+-- Enabled by default; use :FormatOnSave disable to opt out for this session.
+local format_on_save_enabled = true
+
+vim.api.nvim_create_user_command("FormatOnSave", function(opts)
+  if opts.args == "enable" then
+    format_on_save_enabled = true
+  elseif opts.args == "disable" then
+    format_on_save_enabled = false
+  else
+    vim.notify("Usage: :FormatOnSave enable|disable", vim.log.levels.ERROR)
+    return
+  end
+
+  vim.notify("Format on save " .. (format_on_save_enabled and "enabled" or "disabled"))
+end, {
+  nargs = 1,
+  desc = "Enable or disable Conform formatting on save for this session",
+  complete = function(arg_lead)
+    return vim.tbl_filter(function(value)
+      return value:sub(1, #arg_lead) == arg_lead
+    end, { "enable", "disable" })
+  end,
+})
+
 require("conform").setup({
   formatters_by_ft = {
     -- JavaScript/TypeScript family
@@ -21,10 +45,10 @@ require("conform").setup({
     -- Markdown
     markdown = { "prettierd", "prettier", stop_after_first = true },
 
-    -- Elixir
-    elixir = { "prettierd", "prettier", stop_after_first = true },
-    eelixir = { "prettierd", "prettier", stop_after_first = true },
-    heex = { "prettierd", "prettier", stop_after_first = true },
+    -- Elixir: let Conform delegate formatting to ElixirLS.
+    elixir = { lsp_format = "prefer" },
+    eelixir = { lsp_format = "prefer" },
+    heex = { lsp_format = "prefer" },
 
     -- Shell scripts
     sh = { "prettierd", "prettier", stop_after_first = true },
@@ -49,12 +73,16 @@ require("conform").setup({
     tex = { "latexindent" },
   },
 
-  -- Format on save
-  format_on_save = {
-    -- These options will be passed to conform.format()
-    timeout_ms = 2000,
-    lsp_format = "fallback",
-  },
+  format_on_save = function()
+    if not format_on_save_enabled then
+      return
+    end
+
+    return {
+      timeout_ms = 2000,
+      lsp_format = "fallback",
+    }
+  end,
 
   -- Customize formatters
   formatters = {
