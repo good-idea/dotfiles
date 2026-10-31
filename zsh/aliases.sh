@@ -11,7 +11,6 @@ alias y="yarn"
 alias ys="yarn start"
 alias lg="lazygit"
 alias localip="ipconfig getifaddr en0"
-alias whatsize="du -h -d 1 . | sort -hr"
 # Kill processes matched by pgrep or using a port and report each result. Unlike
 # macOS's built-in `pkill`, this leaves `pkill` unchanged and always prints
 # feedback. A sole numeric target or :<port> targets that port; all other
