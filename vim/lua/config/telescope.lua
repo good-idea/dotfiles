@@ -11,7 +11,7 @@ telescope.setup {
       local cwd_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
       return rel:match("^" .. vim.pesc(cwd_name) .. "/(.+)$") or rel
     end,
-    file_ignore_patterns = { "node_modules", ".git", "dist", "_next", ".elixir-tools", "deps", "__snapshots__/", "report%-assets/" },
+    file_ignore_patterns = { "node_modules", "%.git/", "dist", "_next", ".elixir-tools", "deps", "__snapshots__/", "report%-assets/" },
     layout_strategy = "vertical",
     scroll_strategy = "cycle",
     mappings = {
