@@ -30,7 +30,7 @@ export PATH=$HOME/.cargo/bin:$PATH
 export PATH=$PATH:/Applications/Ghostty.app/Contents/MacOS
 
 # Python
-export PATH=$Home/.local/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 
 # PHP
 export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
