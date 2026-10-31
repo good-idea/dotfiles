@@ -23,6 +23,9 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+# Rust
+export PATH=$HOME/.cargo/bin:$PATH
+
 # Ghostty CLI
 export PATH=$PATH:/Applications/Ghostty.app/Contents/MacOS
 
