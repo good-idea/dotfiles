@@ -1,0 +1,6 @@
+# Track configuration and helpers, not local approvals, backups, or runtime state.
+*
+!.gitignore
+!config.toml
+!session.py
+!test-session.py
