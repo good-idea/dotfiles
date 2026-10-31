@@ -9,11 +9,20 @@ vim.api.nvim_create_autocmd("FileType", {
 
 local status_ok, treesitter_configs = pcall(require, "nvim-treesitter.configs")
 if not status_ok then
+  -- The newer Treesitter API no longer provides nvim-treesitter.configs.
+  require('nvim-treesitter').install({ 'markdown', 'markdown_inline' })
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'markdown',
+    callback = function(args)
+      vim.treesitter.start(args.buf)
+    end,
+    desc = 'Enable Treesitter highlighting for Markdown',
+  })
   return
 end
 
 treesitter_configs.setup {
-  ensure_installed = {"html", "javascript", "typescript", "tsx", "elixir", "heex", "eex", "lua", "vim", "vimdoc", "query"},
+  ensure_installed = {"html", "javascript", "typescript", "tsx", "elixir", "heex", "eex", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline"},
   highlight = {enable = true},
   indent = {enable = true},
   auto_install = true,

@@ -160,6 +160,16 @@ require("lazy").setup({
     end,
   },
 
+  -- Render Markdown tables in-buffer (other renderers disabled in config)
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    ft = "markdown",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("config.render-markdown")
+    end,
+  },
+
   -- Markdown outline view in a side panel
   {
     "hedyhli/outline.nvim",
