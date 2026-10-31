@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+# Show the processes currently using a TCP or UDP port.
+# Usage: plist 3000
+port=$1
+
+if (( $# != 1 )) || [[ ! $port == <-> ]] || (( port < 1 || port > 65535 )); then
+  print -u2 -r -- "Usage: plist <port (1-65535)>"
+  exit 2
+fi
+
+output=$(command lsof -nP -i ":$port" 2>/dev/null)
+result=$?
+if (( result == 0 )); then
+  print -r -- "Processes using port $port:"
+  print -r -- "$output"
+elif (( result == 1 )); then
+  print -r -- "plist: no processes are using port $port"
+else
+  print -u2 -r -- "plist: could not inspect port $port (exit status $result)"
+fi
+
+exit $result
