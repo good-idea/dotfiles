@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+# Start Pi at the nearest Git root, or in the launch directory if none exists.
+dir=$PWD
+while true; do
+  if [[ -e "$dir/.git" ]]; then
+    cd -- "$dir" || exit 1
+    break
+  fi
+  [[ $dir == / ]] && break
+  dir=${dir:h}
+done
+
+# Resolve through asdf directly so PATH cannot recurse into this wrapper.
+ASDF_NODEJS_VERSION=24.16.0 exec asdf exec pi "$@"

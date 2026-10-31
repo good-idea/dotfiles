@@ -96,10 +96,11 @@ manydots-magic
 # Aliases
 
 export PATH=$PATH:$HOME/.dotfiles/utils
-export PATH=$PATH:$HOME/.dotfiles/bin
 
 # ASDF
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+# Custom commands (including the pinned pi wrapper) must precede asdf shims.
+export PATH="$HOME/.dotfiles/bin:$PATH"
 # append completions to fpath
 fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
 # initialise completions with ZSH's compinit
