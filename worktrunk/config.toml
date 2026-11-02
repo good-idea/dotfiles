@@ -28,7 +28,7 @@
 #
 # Default — sibling directory (`~/code/myproject.feature-auth`):
 #
-worktree-path = "{{ repo_path }}/../{{ repo }}.{{ branch | sanitize }}"
+worktree-path = "{{ repo_path }}/worktrees/{{ branch | sanitize }}"
 #
 # Inside the repository (`~/code/myproject/.worktrees/feature-auth`):
 #
@@ -416,12 +416,13 @@ worktree-path = "{{ repo_path }}/../{{ repo }}.{{ branch | sanitize }}"
 # See `wt hook` (https://worktrunk.dev/hook/) for hook types, execution order, template variables, and examples. User hooks apply to all projects; project hooks (https://worktrunk.dev/config/#project-hooks) apply only to that repository.
 
 # Personal foreground tmux/Pi workflow. Shared setup stays in project pre-start.
-[switch]
-cd = false
-
 [aliases]
 new = 'exec "$HOME/.config/worktrunk/session.py" new {{ args }}'
 session = 'exec "$HOME/.config/worktrunk/session.py" session {{ args }}'
 
 [projects."github.com/good-idea/meljac-na"]
+worktree-path = "{{ repo_path }}/worktrees/{{ branch | sanitize }}"
+switch.cd = false
+
+[projects."github.com/aliceyuanzhang/plot-app"]
 worktree-path = "{{ repo_path }}/worktrees/{{ branch | sanitize }}"
