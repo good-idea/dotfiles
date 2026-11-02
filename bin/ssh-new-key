@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Usage: ssh-new-key <name>
+# Create a passphrase-protected key, add it to macOS Keychain, and copy its public key.
+set -euo pipefail
+
+usage() {
+  printf 'Usage: ssh-new-key <name>\nExample: ssh-new-key digitalocean\n'
+}
+
+if [[ $# -eq 1 && ( "$1" == --help || "$1" == -h ) ]]; then
+  usage
+  exit 0
+fi
+
+if [[ $# -ne 1 ]]; then
+  usage >&2
+  exit 1
+fi
+
+if [[ ! "$1" =~ ^[a-zA-Z0-9][a-zA-Z0-9_-]*$ ]]; then
+  printf 'Name must start with a letter or number and contain only letters, numbers, underscores, or hyphens.\n' >&2
+  exit 1
+fi
+
+key="$HOME/.ssh/id_ed25519_$1"
+if [[ -e "$key" || -L "$key" || -e "$key.pub" || -L "$key.pub" ]]; then
+  printf 'Refusing to overwrite an existing key: %s\n' "$key" >&2
+  exit 1
+fi
+
+umask 077
+mkdir -p "$HOME/.ssh"
+chmod 700 "$HOME/.ssh"
+
+printf 'Choose a strong passphrase when prompted.\n'
+/usr/bin/ssh-keygen -t ed25519 -f "$key" -C "$1"
+printf 'Key created: %s\n' "$key"
+
+if ! /usr/bin/ssh-add --apple-use-keychain "$key"; then
+  printf 'Key was created, but could not be added to Keychain. Retry with:\n  /usr/bin/ssh-add --apple-use-keychain "%s"\n' "$key" >&2
+  exit 1
+fi
+
+pbcopy < "$key.pub"
+printf 'Public key copied to clipboard: %s.pub\nUpload only this public key to your service.\n' "$key"
+printf 'Next, set IdentityFile %s and IdentitiesOnly yes for the host in ~/.ssh/config.\n' "$key"
