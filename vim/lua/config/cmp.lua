@@ -73,3 +73,8 @@ cmp.setup({
     ghost_text = true
   }
 })
+
+-- Keep completion available on demand without suggesting words while writing prose.
+cmp.setup.filetype('markdown', {
+  completion = { autocomplete = false },
+})
